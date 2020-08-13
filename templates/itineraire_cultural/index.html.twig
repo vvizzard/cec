@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ItineraireCulturalController!{% endblock %}
+
+{% block body %}
+
+<h1>Itineraire Cultural</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(base_form) }}
+
+    <label for="foreign">Systeme: </label>
+    <select name="foreign" id="foreign" class="form-control">
+        <option></option>
+    {% for foreign in foreigns %}
+        <option value="{{ foreign.id }}">{{ foreign.nom }}</option>
+    {% endfor %}
+    </select>
+
+    {{ form_widget(base_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(base_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Culture</th>
+        {# <th>Description</th> #}
+        <th>riz</th>
+        <th>vivrierHors</th>
+        <th>rmme</th>
+        <th>pcEnPure</th>
+        <th>couvertureCultureRente</th>
+        <th>reforestation</th>
+        <th>cultureRente</th>
+        <th>pcAssocie</th>
+    </tr>
+    {% for base in bases %}
+    <tr>
+        <td>{{ base.nom }}</td>
+        <td>
+            {% if base.systeme is not null %}
+                {{ base.systeme.nom }}
+            {% endif %}
+        </td>
+        <td>{{ base.riz }}</td>
+        <td>{{ base.vivrierHors }}</td>
+        <td>{{ base.rmme }}</td>
+        <td>{{ base.pcEnPure }}</td>
+        <td>{{ base.couvertureCultureRente }}</td>
+        <td>{{ base.reforestation }}</td>
+        <td>{{ base.cultureRente }}</td>
+        <td>{{ base.pcAssocie }}</td>
+        {# <td>{{ base.description }}</td> #}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

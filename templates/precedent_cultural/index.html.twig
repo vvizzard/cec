@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PrecedentCulturalController!{% endblock %}
+
+{% block body %}
+
+<h1>precedentCultural</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(precedentCultural_form) }}
+
+    {{ form_widget(precedentCultural_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(precedentCultural_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Installe sur pdt</th>
+        <th>Description</th>
+    </tr>
+    {% for precedentCultural in precedentCulturals %}
+    <tr>
+        <td>{{ precedentCultural.nom }}</td>
+        <td>{{ precedentCultural.installeSurPDT }}</td>
+        <td>{{ precedentCultural.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

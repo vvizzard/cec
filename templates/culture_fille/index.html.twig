@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CultureFilleController!{% endblock %}
+
+{% block body %}
+
+<h1>Cultures</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(base_form) }}
+
+    <label for="culture">Culture mere: </label>
+    <select name="culture" id="culture" class="form-control">
+    {% for culture in cultures %}
+        <option value="{{ culture.id }}">{{ culture.id }}</option>
+    {% endfor %}
+    <label for="plante">Plante: </label>
+    <select name="plante" id="plante" class="form-control">
+    {% for plante in plantes %}
+        <option value="{{ plante.id }}">{{ plante.nom }}</option>
+    {% endfor %}
+    </select>
+    <label for="variete">Variete: </label>
+    <select name="variete" id="variete" class="form-control">
+        <option></option>
+    {% for variete in varietes %}
+        <option value="{{ variete.id }}">{{ variete.nom }}</option>
+    {% endfor %}
+    </select>
+    <label for="age">Age: </label>
+    <select name="age" id="age" class="form-control">
+    {% for age in ages %}
+        <option value="{{ age.id }}">{{ age.nom }}</option>
+    {% endfor %}
+    </select>
+
+    {{ form_widget(base_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(base_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Plante</th>
+        <th>Variete</th>
+        <th>Age</th>
+        <th>datePlantation</th>
+        <th>QteSemence</th>
+        <th>production</th>
+        <th>rdt</th>
+    </tr>
+    {% for culture in cultures %}
+    <tr>
+        <td>
+            {% if culture.plante is not null %}
+                {{ culture.plante.nom }}
+            {% endif %}
+        </td>
+        <td>
+            {% if culture.variete is not null %}
+                {{ culture.variete.nom }}
+            {% endif %}
+        </td>
+        <td>
+            {% if culture.agePlant is not null %}
+                {{ culture.agePlant.nom }}
+            {% endif %}
+        </td>
+        <td>{{ culture.datePlantation | date("m/d/Y") }}</td>
+        <td>{{ culture.QteSemence }}</td>
+        <td>{{ culture.production }}</td>
+        <td>{{ culture.rdt }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

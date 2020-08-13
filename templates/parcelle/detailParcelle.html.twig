@@ -1,0 +1,353 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CEC: Parcelle {% endblock %}
+
+{% block body %}
+<div class="row">
+    <h1>{{ parcelle.agriculteur.nom }} {{ parcelle.agriculteur.prenom }}</h1>
+</div>
+
+<div class="row bkg-white">
+    <h2>Information de base</h2>
+    <table class="table table-hover table-fit">
+
+        <tr>
+            <td>Parecelle_id</td>
+            <td>{{ parcelle.id }}</td>
+        </tr>
+        <tr>
+            <td>Surface</td>
+            <td>{{ parcelle.surface }}</td>
+        </tr>
+        
+        <tr>
+            <td>Type : </td>
+            <td>
+                {% if parcelle.type is not null %}
+                    {{ parcelle.type.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Type de sol : </td>
+            <td>
+                {% if parcelle.typeSol is not null %}
+                    {{ parcelle.typeSol.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Mode de faire valoir : </td>
+            <td>
+                {% if parcelle.modeFaireValoir is not null %}
+                    {{ parcelle.modeFaireValoir.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Localisation : </td>
+            <td>
+                {% if parcelle.localisation is not null %}
+                    {{ parcelle.localisation.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Milieu : </td>
+            <td>
+                {% if parcelle.milieu is not null %}
+                    {{ parcelle.milieu.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Irrigation</td>
+            <td>{{ parcelle.irrigation }}</td>
+        </tr>
+        <tr>
+            <td>Compaction</td>
+            <td>{{ parcelle.compaction }}</td>
+        </tr>
+        <tr>
+            <td>Contre saison</td>
+            <td>{{ parcelle.contreSaison }}</td>
+        </tr>
+        <tr>
+            <td>Zone erodible</td>
+            <td>{{ parcelle.zoneErodible }}</td>
+        </tr>
+        <tr>
+            <td>Longitude</td>
+            <td>{{ parcelle.longitude }}</td>
+        </tr>
+        <tr>
+            <td>Latitude</td>
+            <td>{{ parcelle.latitude }}</td>
+        </tr>
+        <tr>
+            <td>Observation</td>
+            <td>{{ parcelle.observation }}</td>
+        </tr>
+        <tr>
+            <td>RisqueInnondation</td>
+            <td>{{ parcelle.risqueInnondation }}</td>
+        </tr>
+        <tr>
+            <td>AncienCodeParcelle</td>
+            <td>{{ parcelle.ancienCodeParcelle }}</td>
+        </tr>
+
+        <tr>
+            <td>Anciennete : </td>
+            <td>
+                {% if parcelle.anciennete is not null %}
+                    {{ parcelle.anciennete.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>ZC 2010 : </td>
+            <td>
+                {% if parcelle.zc is not null %}
+                    {{ parcelle.zc.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Emplacement PI : </td>
+            <td>
+                {% if parcelle.emplacementPI is not null %}
+                    {{ parcelle.emplacementPI.nom }}
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
+<br>
+<div class="row bkg-white fit">
+    <h2>Cultures</h2>
+    <table class="table table-fit table-hover">
+        <tr>
+            <th>Culture_id</th>
+            <th>Nouvelle plantation</th>
+            <th>Surface cultivée</th>
+            <th>MO preparation sol</th>
+            <th>MO Installation Culture</th>
+            <th>MO Entretien1</th>
+            <th>MO Entretien2</th>
+            <th>MO Entretien3</th>
+            <th>MO Recolte</th>
+            <th>MO Ext Preparation Sol</th>
+            <th>MO Ext Installation Culture</th>
+            <th>MO Ext Entretien1</th>
+            <th>MO Ext Entretien2</th>
+            <th>MO Ext Entretien3</th>
+            <th>MO Ext Recolte</th>
+            <th>Date de Plantation</th>
+            <th>Age de Plantation</th>
+            <th>Qte de fumure Organique</th>
+            <th>Qte Insecticide</th>
+            <th>Mis en cloture</th>
+            <th>Nbr sarclage</th>
+            <th>Utilisation de PC Fourage</th>
+            <th>Mis en culture</th>
+            <th>Utilisation de PC paillage sur d'autre parcelle</th>
+            <th>Utilisation de PC Compost</th>
+            <th>Basket Compost</th>
+            <th>Rente</th>
+            <th>Ecobuage</th>
+            <th>Sondage rendement</th>
+            <th>PMG</th>
+            <th>Remarque AVSF</th>
+            <th>Annee agricole AVSF</th>
+            <th>Cycle Agricole</th>
+            <th>Precedent Cultural</th>
+            <th>Systeme Cultural</th>
+            <th>Itineraire Cultural</th>
+            <th>État PC</th>
+            <th>État Mulch</th>
+            <th>Preparation parcelle</th>
+            <th>Controlle Biomas</th>
+            <th>Mode d'installation</th>
+            <th>Type de pépiniere</th>
+            <th>mode de repiquage</th>
+            <th>Type de sarclage</th>
+            <th>Dégat Cyclonique</th>
+            <th>Sondage Qualitatif</th>
+
+            {% for fumure in fumures %}
+                <th>{{ fumure.nom }}</th>
+            {% endfor %}
+
+            {% for insecticide in insecticides %}
+                <th>{{ insecticide.nom }}</th>
+            {% endfor %}
+
+        </tr>
+        {% for culture in parcelle.cultureMeres %}
+        <tr>
+            <td>
+                <a class="" href="{{ path('detail_culture_mere', 
+                        {'id': parcelle.id}) }}">
+                    {{ culture.id }}
+                </a>
+            </td>
+            <td>{{ culture.nouvellePlantation }}</td>
+            <td>{{ culture.surfaceCultive }}</td>
+            <td>{{ culture.moPreparationSol }}</td>
+            <td>{{ culture.moInstallationCulture }}</td>
+            <td>{{ culture.moEntretien1 }}</td>
+            <td>{{ culture.moEntretien2 }}</td>
+            <td>{{ culture.moEntretien3 }}</td>
+            <td>{{ culture.moRecolte }}</td>
+            <td>{{ culture.moExtPreparationSol }}</td>
+            <td>{{ culture.moExtInstallationCulture }}</td>
+            <td>{{ culture.moExtEntretien1 }}</td>
+            <td>{{ culture.moExtEntretien2 }}</td>
+            <td>{{ culture.moExtEntretien3 }}</td>
+            <td>{{ culture.moExtRecolte }}</td>
+            <td>{{ culture.datePlantation | date("m/d/Y") }}</td>
+            <td>{{ culture.agePlantation }}</td>
+            <td>{{ culture.qteFumureOrganique }}</td>
+            <td>{{ culture.qteInsecticide }}</td>
+            <td>{{ culture.misEnCloture }}</td>
+            <td>{{ culture.nbrSarclage }}</td>
+            <td>{{ culture.utilisationPcFourage }}</td>
+            <td>{{ culture.misEnCulture }}</td>
+            <td>{{ culture.UtilisationPcPaillageSurAutreParcelle }}</td>
+            <td>{{ culture.utilisationPcCompost }}</td>
+            <td>{{ culture.basketCompost }}</td>
+            <td>{{ culture.rente }}</td>
+            <td>{{ culture.ecobuage }}</td>
+            <td>{{ culture.sondageRendement }}</td>
+            <td>{{ culture.pmg }}</td>
+            <td>{{ culture.remarqueAVSF }}</td>
+            <td>{{ culture.anneeAgricoleAVSF }}</td>
+
+            <td>
+                {% if culture.cycleAgricole is not null %}
+                    {{ culture.cycleAgricole.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.precedentCultural is not null %}
+                    {{ culture.precedentCultural.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.systemeCultural is not null %}
+                    {{ culture.systemeCultural.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.itineraireCultural is not null %}
+                    {{ culture.itineraireCultural.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.etatPc is not null %}
+                    {{ culture.etatPc.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.etatMulch is not null %}
+                    {{ culture.etatMulch.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.preparationParcelle is not null %}
+                    {{ culture.preparationParcelle.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.controlleBiomas is not null %}
+                    {{ culture.controlleBiomas.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.modeInstallation is not null %}
+                    {{ culture.modeInstallation.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.typePepiniere is not null %}
+                    {{ culture.typePepiniere.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.modeRepiquage is not null %}
+                    {{ culture.modeRepiquage.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.typeSarclage is not null %}
+                    {{ culture.typeSarclage.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.degatCyclonique is not null %}
+                    {{ culture.degatCyclonique.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.sondageQualitatif is not null %}
+                    {{ culture.sondageQualitatif.nom }}
+                {% endif %}
+            </td>
+
+
+            {% for fumure in fumures %}
+                <td>
+                {% for eq in culture.nbrFumureCultureMs %}
+                    {% if fumure.id == eq.fumure.id %}
+                        {{ eq.nbr }}
+                    {% endif %}
+                {% endfor %}
+                </td>
+            {% endfor %}
+
+            {% for insecticide in insecticides %}
+                <td>
+                {% for eq in culture.nbrInsecticideCultureMs %}
+                    {% if insecticide.id == eq.insecticide.id %}
+                        {{ eq.nbr }}
+                    {% endif %}
+                {% endfor %}
+                </td>
+            {% endfor %}
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="row bkg-white">
+    <hr>
+
+    <a class="" href="{{ path('culture_mere_add_from_parcelle', {'parcelleId': parcelle.id}) }}">
+        <button class="btn btn-primary">Ajouter une parcelle</button>
+    </a>
+
+    <hr>
+</div>
+
+{% endblock %}

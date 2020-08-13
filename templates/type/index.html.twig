@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TypeController!{% endblock %}
+
+{% block body %}
+
+<h1>TYPE</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(type_form) }}
+
+    {{ form_widget(type_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(type_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for type in types %}
+    <tr>
+        <td>{{ type.nom }}</td>
+        <td>{{ type.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

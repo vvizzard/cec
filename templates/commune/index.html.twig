@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CommuneController!{% endblock %}
+
+{% block body %}
+
+<h1>COMMUNE</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(commune_form) }}
+
+    {{ form_widget(commune_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(commune_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for commune in communes %}
+    <tr>
+        <td>{{ commune.nom }}</td>
+        <td>{{ commune.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TypeSolController!{% endblock %}
+
+{% block body %}
+
+<h1>TYPE DE SOL</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(typeSol_form) }}
+
+    {{ form_widget(typeSol_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(typeSol_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for typeSol in typeSols %}
+    <tr>
+        <td>{{ typeSol.nom }}</td>
+        <td>{{ typeSol.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

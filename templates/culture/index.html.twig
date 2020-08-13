@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CultureController!{% endblock %}
+
+{% block body %}
+
+<h1>Culture</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(culture_form) }}
+
+    {{ form_widget(culture_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(culture_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Rente</th>
+        <th>Description</th>
+    </tr>
+    {% for culture in cultures %}
+    <tr>
+        <td>{{ culture.nom }}</td>
+        <td>{{ culture.rente }}</td>
+        <td>{{ culture.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

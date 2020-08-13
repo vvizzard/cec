@@ -1,0 +1,337 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CEC:Ajout d'un agriculteur{% endblock %}
+
+{% block body %}
+<h1>Ajout d'un nouvel agriculteur</h1>
+<hr>
+<div class="">
+    {# <form action="" class="row">
+        <div class="col-md-6">
+            <h2>Information de base</h2>
+            <label for="nom_agriculteur">Nom:</label>
+            <input type="text" id="nom_agriculteur" class="form-control">
+            <label for="prenom_agriculteur">Prenom:</label>
+            <input type="text" id="prenom_agriculteur" class="form-control">
+            <label for="genre_agriculteur">Genre</label>
+            <select name="" id="genre_agriculteur" class="form-control">
+                <option value="Homme">Homme</option>
+                <option value="Femme">Femme</option>
+            </select>
+            <label for="age_agriculteur">Age:</label>
+            <input type="number" id="age_agriculteur" class="form-control">
+            <label for="statut_agriculteur">Statut au niveau de la famille:</label>
+            <input type="text" id="statut_agriculteur" class="form-control">
+            <label for="anciennete_agriculteur">Ancienneté</label>
+            <select name="" id="anciennete_agriculteur" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4 et plus</option>
+            </select>
+            <label for="typologie_agriculteur">Typologie</label>
+            <select name="" id="typologie_agriculteur" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5 et 6</option>
+            </select>
+            <label for="lot_agriculteur">Lot:</label>
+            <input type="text" id="lot_agriculteur" class="form-control">
+            <label for="region_agriculteur">Région</label>
+            <select name="" id="region_agriculteur" class="form-control">
+                <option value="Analamanga">Analamanga</option>
+                <option value="Atsinanana">Atsinanana</option>
+                <option value="Atsimo andrefana">Atsimo andrefana</option>
+                <option value="Diana">Diana</option>
+                <option value="Itasy">Itasy</option>
+            </select>
+            <label for="sous_region_agriculteur">Sous région</label>
+            <select name="" id="sous_region_agriculteur" class="form-control">
+                <option value="Analamanga">Manakara</option>
+                <option value="Atsinanana">Vohipeno</option>
+            </select>
+            <label for="district_agriculteur">District</label>
+            <select name="" id="district_agriculteur" class="form-control">
+                <option value="test">test</option>
+            </select>
+            <label for="zone_technicien_agriculteur">Zone technicien</label>
+            <select name="" id="zone_technicien_agriculteur" class="form-control">
+                <option value="Basse matitanana">Basse matitanana</option>
+            </select>
+            <label for="bvpi_agriculteur">BVPI</label>
+            <select name="" id="bvpi_agriculteur" class="form-control">
+                <option value="Ambatoabo analatelo">Ambatoabo analatelo</option>
+            </select>
+            <label for="terroir_agriculteur">Terroir</label>
+            <select name="" id="terroir_agriculteur" class="form-control">
+                <option value="Ambatofotsiloha">Ambatofotsiloha</option>
+            </select>
+            <label for="commune_agriculteur">Commune</label>
+            <select name="" id="commune_agriculteur" class="form-control">
+                <option value="Ambila">Ambila</option>
+            </select>
+            <label for="village_agriculteur">Village</label>
+            <select name="" id="village_agriculteur" class="form-control">
+                <option value="Agnalalava">Agnalalava</option>
+            </select>
+            <div class="form-group">
+                {# <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="is_op_agricole">
+                    <label class="custom-control-label" for="is_op_agricole">
+                        OP
+                    </label>
+                </div><br> #}{#
+                <label for="op_agriculteur">OP</label>
+                <select name="" id="op_agriculteur" class="form-control">
+                    <option value="0">Non OP</option>
+                    <option value="AFA">AFA</option>
+                </select>
+            </div>
+            <label for="champ_ecole_agriculteur">Champ école</label>
+            <select name="" id="champ_ecole_agriculteur" class="form-control">
+                <option value="Test">Test</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <h2>Donnée d'exploitation</h2>
+            <label for="surface_total_exploite">Surface totale exploitee (Ha)</label>
+            <input type="number" id="surface_total_exploite" class="form-control">
+            <label for="surface_total_riziere">Surface totale riziere (Ha)</label>
+            <input type="number" id="surface_total_riziere" class="form-control">
+            <label for="surface_parcelle_louee">Surface parcelle louée</label>
+            <input type="number" id="surface_parcelle_louee" class="form-control">
+            <label for="surface_parcelle_location">Surface parcelle en location</label>
+            <input type="number" id="surface_parcelle_location" class="form-control">
+            <label for="nbr_pers_menage">Nombre de personne dans le menage</label>
+            <input type="number" id="nbr_pers_menage" class="form-control">
+            <label for="nbr_actif">Nombre d'actifs</label>
+            <input type="number" id="nbr_actif" class="form-control">
+            <label for="nbr_mois_autossuffisance_riz">Nombre de mois autossuffisance en riz</label>
+            <input type="number" id="nbr_mois_autossuffisance_riz" class="form-control">
+            <label for="acces_riziere">Acces a des rizieres</label>
+            <select name="" id="acces_riziere" class="form-control">
+                <option value="api">Bas fond</option>
+                <option value="vol">Permetre irrigue</option>
+            </select>
+            <label for="nbr_boeuf_trait">Nombre de boeufs de trait</label>
+            <input type="number" id="nbr_boeufs_trait" class="form-control">
+            <label for="nbr_zebu">Nombre de zebus</label>
+            <input type="number" id="nbr_zebu" class="form-control">
+            <label for="nbr_vache">Nombre de vache laitere</label>
+            <input type="number" id="nbr_vache" class="form-control">
+            <br>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="equipement_agricole">
+                    <label class="custom-control-label" for="equipement_agricole">
+                        Equipement agricole
+                    </label>
+                </div><br>
+                <label for="nbr_pulverisateur">Nombre de pulvérisateurs</label>
+                <input type="number" value="0" id="nbr_pulverisateur" class="form-control">
+                <label for="nbr_brouette">Nombre de brouettes</label>
+                <input type="number" value="0" id="nbr_brouette" class="form-control">
+                <label for="nbr_arrosoir">Nombre d'arrosoirs</label>
+                <input type="number" value="0" id="nbr_arrosoir" class="form-control">
+                <label for="nbr_herse">Nombre de herses</label>
+                <input type="number" value="0" id="nbr_herse" class="form-control">
+                <label for="nbr_bicyclette">Nombre de bicyclettes</label>
+                <input type="number" value="0" id="nbr_bicyclette" class="form-control">
+                <label for="nbr_angady">Nombre de Angady</label>
+                <input type="number" value="0" id="nbr_angady" class="form-control">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="activite_non_agricole">
+                    <label class="custom-control-label" for="activite_non_agricole">
+                        Pratique d'une activité agricole
+                    </label>
+                </div><br>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="elevage_rente">
+                    <label class="custom-control-label" for="elevage_rente">
+                        Pratique d'un élevage rente
+                    </label>
+                </div><br>
+                <label for="elevage_prioritaire">Type d'elevage prioritaire</label>
+                <select name="" id="elevage_prioritaire" class="form-control">
+                    <option value="api">api</option>
+                    <option value="vol">vol</option>
+                    <option value="bovin">bovin</option>
+                </select><br>
+
+                {# <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="culture_rente">
+                    <label class="custom-control-label" for="culture_rente">
+                        Pratique d'une culture rente
+                    </label>
+                </div><br> #}{#
+                <label for="culture_rente_prioritaire">Culture de rente prioritaire</label>
+                <select name="" id="culture_rente_prioritaire" class="form-control">
+                    <option value="0">Ne pratique pas de culture rente</option>
+                    <option value="Cafe">Café</option>
+                    <option value="Vanille">Vanille</option>
+                    <option value="Poivre">Poivre</option>
+                    <option value="Girofle">Girofle</option>
+                </select>
+                <label for="nbr_caffe">Nombre de pieds de caféiers</label>
+                <input type="number" id="nbr_caffe" class="form-control">
+                <label for="nbr_girofle">Nombre de pieds de girofliers</label>
+                <input type="number" id="nbr_girofle" class="form-control">
+                <label for="nbr_vanille">Nombre de pieds de vanilliers</label>
+                <input type="number" id="nbr_vanille" class="form-control">
+                <label for="nbr_poivre">Nombre de pieds de poivriers</label>
+                <input type="number" id="nbr_poivre" class="form-control">
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="activite_non_agricole">
+                        <label class="custom-control-label" for="activite_non_agricole">
+                            Pratique d'un activité non agricole
+                        </label>
+                    </div><br>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="peche">
+                        <label class="custom-control-label" for="peche">
+                            Pratique de pêche
+                        </label>
+                    </div><br>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="autre_projet">
+                        <label class="custom-control-label" for="autre_projet">
+                            Actif dans d'autres projets et programme
+                        </label>
+                    </div>
+                </div>
+                <label for="nbr_mois_soudure">Nombre de mois de soudure</label>
+                <input type="number" id="nbr_mois_soudure" class="form-control">
+            </div>
+        </div>
+        <button class="btn btn-success">Enregistrer</button>
+    </form> #}
+
+    {{ form_start(form_agriculteur) }}
+
+    {{ form_widget(form_agriculteur) }}
+
+    <label for="village">Village: </label>
+    <select name="village" id="village" class="form-control">
+    <option></option>
+    {% for village in villages %}
+        <option value="{{ village.id }}">{{ village.nom }}</option>
+    {% endfor %}
+    </select>
+    
+    <label for="terroir">Terroir: </label>
+    <select name="terroir" id="terroir" class="form-control">
+    <option></option>
+    {% for terroir in terroirs %}
+        <option value="{{ terroir.id }}">{{ terroir.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="sousRegion">Sous region: </label>
+    <select name="sousRegion" id="sousRegion" class="form-control">
+    <option></option>
+    {% for sousRegion in sousRegions %}
+        <option value="{{ sousRegion.id }}">{{ sousRegion.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="region">Region: </label>
+    <select name="region" id="region" class="form-control">
+    <option></option>
+    {% for region in regions %}
+        <option value="{{ region.id }}">{{ region.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="commune">Commune: </label>
+    <select name="commune" id="commune" class="form-control">
+    <option></option>
+    {% for commune in communes %}
+        <option value="{{ commune.id }}">{{ commune.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="anciennete">Anciennete: </label>
+    <select name="anciennete" id="anciennete" class="form-control">
+    <option></option>
+    {% for anciennete in anciennetes %}
+        <option value="{{ anciennete.id }}">{{ anciennete.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="bvpi">BVPI: </label>
+    <select name="bvpi" id="bvpi" class="form-control">
+    {% for bvpi in bvpis %}
+        <option value="{{ bvpi.id }}">{{ bvpi.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="ce">Champ ecole: </label>
+    <select name="ce" id="ce" class="form-control">
+    {% for ce in ces %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select>
+
+    {# <label for="culture">Cultures: </label>
+    <select name="culture" id="culture" class="form-control">
+    {% for culture in cultures %}
+        <option value="{{ culture.id }}">{{ culture.nom }}</option>
+    {% endfor %}
+    </select> #}
+    {% for culture in cultures %}
+        <label for="nbr_{{ culture.nom }}">Nbr de pieds {{ culture.nom }}</label>
+        <input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" class="form-control">
+    {% endfor %}
+
+    {# <label for="elevage">Elevage: </label>
+    <select name="elevage" id="elevage" class="form-control">
+    {% for elevage in elevages %}
+        <option value="{{ elevage.id }}">{{ elevage.nom }}</option>
+    {% endfor %}
+    </select> #}
+    {% for elevage in elevages %}
+        <label for="nbr_{{ elevage.nom }}">Nbr de {{ elevage.nom }}</label>
+        <input type="number" name="elevage_{{ elevage.id }}" id="nbr_{{ elevage.nom }}" class="form-control">
+    {% endfor %}
+
+    {% for equipement in equipements %}
+        <label for="nbr_{{ equipement.nom }}">Nbr de {{ equipement.nom }}</label>
+        <input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" 
+                class="form-control">
+    {% endfor %}
+
+    <label for="op">OP: </label>
+    <select name="op" id="op" class="form-control">
+    {% for op in ops %}
+        <option value="{{ op.id }}">{{ op.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="typologie">Typologie: </label>
+    <select name="typologie" id="typologie" class="form-control">
+    {% for typologie in typologies %}
+        <option value="{{ typologie.id }}">{{ typologie.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="zone_technicien">Zone technicien: </label>
+    <select name="zone_technicien" id="zone_technicien" class="form-control">
+    {% for zoneTechnicien in zoneTechniciens %}
+        <option value="{{ zoneTechnicien.id }}">{{ zoneTechnicien.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <hr>
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+
+    <hr>
+
+    {{ form_end(form_agriculteur) }}
+
+</div>
+
+{% endblock %}

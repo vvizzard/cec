@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CEC:Ajout d'un parcelle{% endblock %}
+
+{% block body %}
+<h1>Ajout d'un nouvel parcelle</h1>
+<div class="">
+
+    {{ form_start(form_parcelle) }}
+
+    {{ form_widget(form_parcelle) }}
+
+    {# <label for="bvpi">BVPI: </label>
+    <select name="bvpi" id="bvpi" class="form-control">
+    {% for bvpi in bvpis %}
+        <option value="{{ bvpi.id }}">{{ bvpi.nom }}</option>
+    {% endfor %}
+    </select>#}
+
+    <label for="agriculteur">Agriculteur: </label>
+    <select name="agriculteur" id="agriculteur" class="form-control">
+    {% for ce in agriculteurs %}
+        <option value="{{ ce.id }}">{{ ce.nom }} {{ ce.prenom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="type">Type: </label>
+    <select name="type" id="type" class="form-control">
+    {% for ce in types %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="typeSol">Type de sol: </label>
+    <select name="typeSol" id="typeSol" class="form-control">
+    {% for ce in typeSols %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select> 
+
+    <label for="modeFaireValoirs">Mode de faire valoir: </label>
+    <select name="modeFaireValoir" id="modeFaireValoirs" class="form-control">
+    {% for ce in modeFaireValoirs %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select> 
+
+    <label for="localisations">Localisation: </label>
+    <select name="localisation" id="localisations" class="form-control">
+    {% for ce in localisations %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select> 
+
+    <label for="milieux">Milieu: </label>
+    <select name="milieu" id="milieux" class="form-control">
+    {% for ce in milieux %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select> 
+
+    <label for="anciennetes">Anciennetée parcelle: </label>
+    <select name="anciennete" id="anciennetes" class="form-control">
+    {% for ce in anciennetes %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select> 
+
+    <label for="zCs">ZC 2010: </label>
+    <select name="zc" id="zCs" class="form-control">
+    <option value=""></option>
+    {% for ce in zCs %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select> 
+
+    <label for="emplacements">Emplacement PI: </label>
+    <select name="emplacement" id="emplacements" class="form-control">
+    {% for ce in emplacements %}
+        <option value="{{ ce.id }}">{{ ce.nom }}</option>
+    {% endfor %}
+    </select> 
+
+    
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+
+    {{ form_end(form_parcelle) }}
+
+</div>
+
+{% endblock %}

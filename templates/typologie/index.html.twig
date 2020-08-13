@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TypologieController!{% endblock %}
+
+{% block body %}
+
+<h1>TYPOLOGIE</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(typologie_form) }}
+
+    {{ form_widget(typologie_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(typologie_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for typologie in typologies %}
+    <tr>
+        <td>{{ typologie.nom }}</td>
+        <td>{{ typologie.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

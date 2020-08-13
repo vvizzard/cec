@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/litera/bootstrap.min.css">
+        {# <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"> #}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">CEC</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+                    </li>
+                    {# <li class="nav-item">
+                        <a class="nav-link" href="#">Agriculteurs</a>
+                    </li> #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+                                role="button" aria-haspopup="true" aria-expanded="false">Agriculteur</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('add_agriculteur') }}">
+                                Ajouter
+                            </a>
+                            <a class="dropdown-item" href="{{ path('agriculteurs') }}">
+                                Liste des agriculteurs
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+                                role="button" aria-haspopup="true" aria-expanded="false">Parcelle</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('add_parcelle') }}">
+                                Ajouter
+                            </a>
+                            <a class="dropdown-item" href="{{ path('parcelle') }}">
+                                Liste des parcelles
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+                                role="button" aria-haspopup="true" aria-expanded="false">Culture</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('culture_mere_add') }}">
+                                Ajouter
+                            </a>
+                            <a class="dropdown-item" href="{{ path('culture_meres') }}">
+                                Liste des cultures
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+                                role="button" aria-haspopup="true" aria-expanded="false">
+                            Configuration agriculteur
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('village') }}">
+                                Village
+                            </a>
+                            <a class="dropdown-item" href="{{ path('terroir') }}">
+                                Terroir
+                            </a>
+                            <a class="dropdown-item" href="{{ path('sous_Region') }}">
+                                Sous région
+                            </a>
+                            <a class="dropdown-item" href="{{ path('commune') }}">
+                                Commune
+                            </a>
+                            <a class="dropdown-item" href="{{ path('ancienneteAgriculteur') }}">
+                                Anciennete Agriculteur
+                            </a>
+                            <a class="dropdown-item" href="{{ path('bvpi') }}">
+                                BVPI
+                            </a>
+                            <a class="dropdown-item" href="{{ path('ce') }}">
+                                Champ école
+                            </a>
+                            <a class="dropdown-item" href="{{ path('op') }}">
+                                OP
+                            </a>
+                            <a class="dropdown-item" href="{{ path('typologie') }}">
+                                Typologie
+                            </a>
+                            <a class="dropdown-item" href="{{ path('zone_technicien') }}">
+                                Zone techincien
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+                                role="button" aria-haspopup="true" aria-expanded="false">
+                            Configuration parcelle
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('type') }}">
+                                Type de parcelle
+                            </a>
+                            <a class="dropdown-item" href="{{ path('type_sol') }}">
+                                Type de sol
+                            </a>
+                            <a class="dropdown-item" href="{{ path('mode_faire_valoir') }}">
+                                Mode de faire valoir
+                            </a>
+                            <a class="dropdown-item" href="{{ path('localisation') }}">
+                                Localisation
+                            </a>
+                            <a class="dropdown-item" href="{{ path('milieu') }}">
+                                Milieu
+                            </a>
+                            <a class="dropdown-item" href="{{ path('anciennete') }}">
+                                Anciennete Parcelle
+                            </a>
+                            <a class="dropdown-item" href="{{ path('zc') }}">
+                                ZC 2010
+                            </a>
+                            <a class="dropdown-item" href="{{ path('emplacement_p_i') }}">
+                                Emplacement PI
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+                                role="button" aria-haspopup="true" aria-expanded="false">
+                            Configuration Culture
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('cycle_agricole') }}">
+                                Cycle agricole
+                            </a>
+                            <a class="dropdown-item" href="{{ path('precedent_cultural') }}">
+                                Précédent cultural
+                            </a>
+                            <a class="dropdown-item" href="{{ path('systeme_cultural') }}">
+                                Système cultural
+                            </a>
+                            <a class="dropdown-item" href="{{ path('itineraire_cultural') }}">
+                                Itinéraire cultural
+                            </a>
+                            <a class="dropdown-item" href="{{ path('etat_pc') }}">
+                                État PC
+                            </a>
+                            <a class="dropdown-item" href="{{ path('etat_mulch') }}">
+                                État Mulch
+                            </a>
+                            <a class="dropdown-item" href="{{ path('preparation_parcelle') }}">
+                                Préparation parcelle
+                            </a>
+                            <a class="dropdown-item" href="{{ path('controlle_biomas') }}">
+                                Controlle Biomas
+                            </a>
+                            <a class="dropdown-item" href="{{ path('mode_installation') }}">
+                                Mode Installation
+                            </a>
+                            <a class="dropdown-item" href="{{ path('type_pepiniere') }}">
+                                Type pépinière
+                            </a>
+                            <a class="dropdown-item" href="{{ path('mode_repiquage') }}">
+                                Mode repiquage
+                            </a>
+                            <a class="dropdown-item" href="{{ path('type_sarclage') }}">
+                                Type sarclage
+                            </a>
+                            <a class="dropdown-item" href="{{ path('degat_cyclonique') }}">
+                                Dégats cyclonique
+                            </a>
+                            <a class="dropdown-item" href="{{ path('sondage_qualitatif') }}">
+                                Sondage qualitatif
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <!--<form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form> -->
+            </div>
+        </nav>
+
+        <div class="container start-body">
+            {% block body %}{% endblock %}
+            {% block javascripts %}{% endblock %}
+        </div>
+
+    </body>
+</html>

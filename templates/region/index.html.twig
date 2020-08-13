@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RegionController!{% endblock %}
+
+{% block body %}
+
+<h1>REGION</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(region_form) }}
+
+    {{ form_widget(region_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(region_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for region in regions %}
+    <tr>
+        <td>{{ region.nom }}</td>
+        <td>{{ region.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello VarieteController!{% endblock %}
+
+{% block body %}
+
+<h1>Variete</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(base_form) }}
+
+    <label for="foreign">Culture: </label>
+    <select name="foreign" id="foreign" class="form-control">
+        <option></option>
+    {% for foreign in foreigns %}
+        <option value="{{ foreign.id }}">{{ foreign.nom }}</option>
+    {% endfor %}
+    </select>
+
+    {{ form_widget(base_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(base_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Culture</th>
+        <th>Description</th>
+    </tr>
+    {% for base in bases %}
+    <tr>
+        <td>{{ base.nom }}</td>
+        <td>
+            {% if base.culture is not null %}
+                {{ base.culture.nom }}
+            {% endif %}
+        </td>
+        <td>{{ base.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

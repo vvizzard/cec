@@ -1,0 +1,89 @@
+/* Header */
+.bg-primary {
+    background: url('../img/bk_header_tab.jpg') repeat !important;
+}
+
+/* Form */
+
+.form-control {
+    margin-bottom: 5px !important;
+}
+
+/* global */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.start-body {
+    margin-top: 75px;
+}
+
+.bkg-white {
+    background-color: white;
+    padding: 10px;
+}
+
+body {
+    /* background: url('../img/bk_body.jpg') repeat-x; */
+    background: #e8dbb9 url('../img/bk_bottom.jpg') repeat-x bottom;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 28px;
+    color: #000;
+    margin: 0 0 20px 0;
+    padding: 5px 0;
+    font-weight: normal;
+}
+
+h2 {
+    font-size: 22px;
+    color: #000;
+    margin: 0 0 10px 0;
+    padding: 0 0 5px 0;
+    font-weight: normal;
+}
+
+.btn-primary {
+    background-color: #795548;
+    border-color: #795548;
+}
+
+.btn-primary:hover {
+    background-color: #271914;
+}
+
+.table-cec-header, .table-cec-header>th, .table-cec-header>td {
+    background-color: #3b281a;  
+    color: white;
+}
+
+/* Liste */
+
+.fit {
+    overflow: auto;
+}
+
+/* .table-cec td,
+.table-cec th {
+    text-align: right;
+} */
+
+.table-cec-header:hover {
+    background-color: #3b281a!important;
+    color: white;
+}
+
+.fit {
+    background-color: white;
+}
+
+.table-fit td, 
+.table-fit th {
+    white-space: nowrap;
+    width: 1%;
+}

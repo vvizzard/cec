@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CEC:Ajout d'un agriculteur{% endblock %}
+
+{% block body %}
+<h1>Ajout d'un nouvel agriculteur</h1>
+<div class="">
+
+    {{ form_start(base_form) }}
+
+    <label for="parcelle"> Parcelle: </label>
+    <select name="parcelle" id="parcelle" class="form-control">
+    <option></option>
+    {% for parcelle in parcelles %}
+        <option value="{{ parcelle.id }}">{{ parcelle.id }}</option>
+    {% endfor %}
+    </select>
+
+    {{ form_widget(base_form) }}
+
+    <label for="cycleAgricole"> cycleAgricole: </label>
+    <select name="cycleAgricole" id="cycleAgricole" class="form-control">
+    <option></option>
+    {% for cycleAgricole in cycleAgricoles %}
+        <option value="{{ cycleAgricole.id }}">{{ cycleAgricole.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="precedentCultural"> precedentCultural: </label>
+    <select name="precedentCultural" id="precedentCultural" class="form-control">
+    <option></option>
+    {% for precedentCultural in precedentCulturals %}
+        <option value="{{ precedentCultural.id }}">{{ precedentCultural.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="systemeCultural"> systemeCultural: </label>
+    <select name="systemeCultural" id="systemeCultural" class="form-control">
+    <option></option>
+    {% for systemeCultural in systemeCulturals %}
+        <option value="{{ systemeCultural.id }}">{{ systemeCultural.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="itineraireCultural"> itineraireCultural: </label>
+    <select name="itineraireCultural" id="itineraireCultural" class="form-control">
+    <option></option>
+    {% for itineraireCultural in itineraireCulturals %}
+        <option value="{{ itineraireCultural.id }}">{{ itineraireCultural.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="etatPc"> etatPc: </label>
+    <select name="etatPc" id="etatPc" class="form-control">
+    <option></option>
+    {% for etatPc in etatPcs %}
+        <option value="{{ etatPc.id }}">{{ etatPc.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="etatMulch"> etatMulch: </label>
+    <select name="etatMulch" id="etatMulch" class="form-control">
+    <option></option>
+    {% for etatMulch in etatMulchs %}
+        <option value="{{ etatMulch.id }}">{{ etatMulch.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="preparationParcelle"> preparationParcelle: </label>
+    <select name="preparationParcelle" id="preparationParcelle" class="form-control">
+    <option></option>
+    {% for preparationParcelle in preparationParcelles %}
+        <option value="{{ preparationParcelle.id }}">{{ preparationParcelle.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="controlleBiomas"> controlleBiomas: </label>
+    <select name="controlleBiomas" id="controlleBiomas" class="form-control">
+    <option></option>
+    {% for controlleBiomas in controlleBiomass %}
+        <option value="{{ controlleBiomas.id }}">{{ controlleBiomas.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="modeInstallation"> modeInstallation: </label>
+    <select name="modeInstallation" id="modeInstallation" class="form-control">
+    <option></option>
+    {% for modeInstallation in modeInstallations %}
+        <option value="{{ modeInstallation.id }}">{{ modeInstallation.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="typePepiniere"> typePepiniere: </label>
+    <select name="typePepiniere" id="typePepiniere" class="form-control">
+    <option></option>
+    {% for typePepiniere in typePepinieres %}
+        <option value="{{ typePepiniere.id }}">{{ typePepiniere.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="modeRepiquage"> modeRepiquage: </label>
+    <select name="modeRepiquage" id="modeRepiquage" class="form-control">
+    <option></option>
+    {% for modeRepiquage in modeRepiquages %}
+        <option value="{{ modeRepiquage.id }}">{{ modeRepiquage.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="typeSarclage"> typeSarclage: </label>
+    <select name="typeSarclage" id="typeSarclage" class="form-control">
+    <option></option>
+    {% for typeSarclage in typeSarclages %}
+        <option value="{{ typeSarclage.id }}">{{ typeSarclage.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="degatCyclonique"> degatCyclonique: </label>
+    <select name="degatCyclonique" id="degatCyclonique" class="form-control">
+    <option></option>
+    {% for degatCyclonique in degatCycloniques %}
+        <option value="{{ degatCyclonique.id }}">{{ degatCyclonique.nom }}</option>
+    {% endfor %}
+    </select>
+
+    <label for="sondageQualitatif"> sondageQualitatif: </label>
+    <select name="sondageQualitatif" id="sondageQualitatif" class="form-control">
+    <option></option>
+    {% for sondageQualitatif in sondageQualitatifs %}
+        <option value="{{ sondageQualitatif.id }}">{{ sondageQualitatif.nom }}</option>
+    {% endfor %}
+    </select>
+
+
+    {% for fumure in fumures %}
+        <label for="nbr_{{ fumure.nom }}"> {{ fumure.nom }}</label>
+        <input type="number" name="fumure_{{ fumure.id }}" id="nbr_{{ fumure.nom }}" class="form-control">
+    {% endfor %}
+
+    {% for insecticide in insecticides %}
+        <label for="nbr_{{ insecticide.nom }}"> {{ insecticide.nom }}</label>
+        <input type="number" name="insecticide_{{ insecticide.id }}" id="nbr_{{ insecticide.nom }}" class="form-control">
+    {% endfor %}
+
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+
+    {{ form_end(base_form) }}
+
+</div>
+
+{% endblock %}

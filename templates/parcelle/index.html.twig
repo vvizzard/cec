@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ParcelleController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>ancienCodeParcelle</th>
+                <th>agriculteur</th>
+                <th>surface</th>
+                <th>type</th>
+                <th>TypeSol</th>
+                <th>modeFaireValoir</th>
+                <th>localisation</th>
+                <th>milieu</th>
+                <th>irrigation</th>
+                <th>compaction</th>
+                <th>contreSaison</th>
+                <th>zoneErodible</th>
+                <th>longitude</th>
+                <th>latitude</th>
+                <th>observation</th>
+                <th>risqueInnondation</th>
+                <th>anciennete</th>
+                <th>zc</th>
+                <th>emplacementPI</th>
+            </tr>
+
+            {% for parcelle in parcelles %}
+                <tr>
+                    <td>
+                        <a class="" href="{{ path('detail_parcelle', 
+                                {'id': parcelle.id}) }}">
+                            {{ parcelle.id }}
+                        </a>
+                    </td>
+                    <td>{{ parcelle.ancienCodeParcelle }}</td>
+                    <td>{{ parcelle.agriculteur.nom }} {{ parcelle.agriculteur.prenom }}</td>
+                    <td>{{ parcelle.surface }}</td>
+                    <td>{% if parcelle.type is not null %} {{ parcelle.type.nom }} {% endif %}</td>
+                    <td>{% if parcelle.TypeSol is not null %} {{ parcelle.TypeSol.nom }} {% endif %}</td>
+                    <td>
+                        {% if parcelle.modeFaireValoir is not null %} 
+                            {{ parcelle.modeFaireValoir.nom }} 
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if parcelle.localisation is not null %} 
+                            {{ parcelle.localisation.nom }} 
+                        {% endif %}
+                    </td>
+                    <td>{% if parcelle.milieu is not null %} {{ parcelle.milieu.nom }} {% endif %}</td>
+                    <td>{{ parcelle.irrigation }}</td>
+                    <td>{{ parcelle.compaction }}</td>
+                    <td>{{ parcelle.contreSaison }}</td>
+                    <td>{{ parcelle.zoneErodible }}</td>
+                    <td>{{ parcelle.longitude }}</td>
+                    <td>{{ parcelle.latitude }}</td>
+                    <td>{{ parcelle.observation }}</td>
+                    <td>{{ parcelle.risqueInnondation }}</td>
+                    <td>
+                        {% if parcelle.anciennete is not null %} 
+                            {{ parcelle.anciennete.nom }} 
+                        {% endif %}
+                    </td>
+                    <td>{% if parcelle.zc is not null %} {{ parcelle.zc.nom }} {% endif %}</td>
+                    <td>
+                        {% if parcelle.emplacementPI is not null %} 
+                            {{ parcelle.emplacementPI.nom }} 
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

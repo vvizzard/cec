@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BvpiController!{% endblock %}
+
+{% block body %}
+
+<h1>BVPI</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(bvpi_form) }}
+
+    {{ form_widget(bvpi_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(bvpi_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Numero</th>
+        <th>Description</th>
+    </tr>
+    {% for bvpi in bvpis %}
+    <tr>
+        <td>{{ bvpi.nom }}</td>
+        <td>{{ bvpi.numero }}</td>
+        <td>{{ bvpi.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EquipementAgricoleController!{% endblock %}
+
+{% block body %}
+
+<h1>Equipement agricole</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(equipementAgricole_form) }}
+
+    {{ form_widget(equipementAgricole_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(equipementAgricole_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for equipementAgricole in equipementAgricoles %}
+    <tr>
+        <td>{{ equipementAgricole.nom }}</td>
+        <td>{{ equipementAgricole.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

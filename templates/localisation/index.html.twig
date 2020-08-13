@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LocalisationController!{% endblock %}
+
+{% block body %}
+
+<h1>LOCALISATION</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(localisation_form) }}
+
+    {{ form_widget(localisation_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(localisation_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for localisation in localisations %}
+    <tr>
+        <td>{{ localisation.nom }}</td>
+        <td>{{ localisation.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

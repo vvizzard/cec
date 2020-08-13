@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TerroirController!{% endblock %}
+
+{% block body %}
+
+<h1>TERROIR</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(terroir_form) }}
+
+    {{ form_widget(terroir_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(terroir_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for terroir in terroirs %}
+    <tr>
+        <td>{{ terroir.nom }}</td>
+        <td>{{ terroir.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

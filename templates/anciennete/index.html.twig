@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AncienneteController!{% endblock %}
+
+{% block body %}
+
+<h1>ANCIENNETE</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(anciennete_form) }}
+
+    {{ form_widget(anciennete_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(anciennete_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for anciennete in anciennetes %}
+    <tr>
+        <td>{{ anciennete.nom }}</td>
+        <td>{{ anciennete.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

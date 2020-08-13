@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OpController!{% endblock %}
+
+{% block body %}
+
+<h1>OP</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(op_form) }}
+
+    {{ form_widget(op_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(op_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for op in ops %}
+    <tr>
+        <td>{{ op.nom }}</td>
+        <td>{{ op.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

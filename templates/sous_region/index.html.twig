@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SousRegionController!{% endblock %}
+
+{% block body %}
+
+<h1>SOUS REGION</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(sousRegion_form) }}
+
+    <label for="region">Region: </label>
+    <select name="region" id="region" class="form-control">
+        <option></option>
+    {% for region in regions %}
+        <option value="{{ region.id }}">{{ region.nom }}</option>
+    {% endfor %}
+    </select>
+
+    {{ form_widget(sousRegion_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(sousRegion_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Region</th>
+        <th>Description</th>
+    </tr>
+    {% for sousRegion in sousRegions %}
+    <tr>
+        <td>{{ sousRegion.nom }}</td>
+        <td>
+            {% if sousRegion.region is not null %}
+                {{ sousRegion.region.nom }}
+            {% endif %}
+        </td>
+        <td>{{ sousRegion.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

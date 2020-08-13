@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ZcController!{% endblock %}
+
+{% block body %}
+
+<h1>ZC</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(zC_form) }}
+
+    {{ form_widget(zC_form) }}
+
+    <button type="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(zC_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for zC in zCs %}
+    <tr>
+        <td>{{ zC.nom }}</td>
+        <td>{{ zC.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

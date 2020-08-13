@@ -1,0 +1,297 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CEC: Agriculteur {% endblock %}
+
+{% block body %}
+<div class="row">
+    <h1>{{ agriculteur.nom }} {{ agriculteur.prenom }}</h1>
+</div>
+
+<div class="row bkg-white">
+    <h2>Information de base</h2>
+    <table class="table table-hover table-fit">
+        <tr>
+            <td>Genre : </td>
+            <td>{{ agriculteur.genre }}</td>
+        </tr>
+        <tr>
+            <td>Age : </td>
+            <td>{{ agriculteur.age }}</td>
+        </tr>
+        <tr>
+            <td>Statut au sein de la Famille : </td>
+            <td>{{ agriculteur.statutFamille }}</td>
+        </tr>
+        <tr>
+            <td>Lot : </td>
+            <td>{{ agriculteur.lot }}</td>
+        </tr>
+        <tr>
+            <td>District : </td>
+            <td>{{ agriculteur.district }}</td>
+        </tr>
+        <tr>
+            <td>Surface totale exploitée : </td>
+            <td>{{ agriculteur.surfaceTotaleExploitee }}</td>
+        </tr>
+        <tr>
+            <td>Surface totale de riziere : </td>
+            <td>{{ agriculteur.surfaceTotaleRiziere }}</td>
+        </tr>
+        <tr>
+            <td>Surface de parcelle louée : </td>
+            <td>{{ agriculteur.surfaceParcelleLouee }}</td>
+        </tr>
+        <tr>
+            <td>Surface de parcelle en location : </td>
+            <td>{{ agriculteur.surfaceParcelleEnLocation }}</td>
+        </tr>
+        <tr>
+            <td>Nombre de ménage : </td>
+            <td>{{ agriculteur.nbrMenage }}</td>
+        </tr>
+        <tr>
+            <td>Nombre d'actif : </td>
+            <td>{{ agriculteur.nbrActif }}</td>
+        </tr>
+        <tr>
+            <td>Nombre en mois d'autosuffisance en riz : </td>
+            <td>{{ agriculteur.nbrMoisAutosuffisanceRiz }}</td>
+        </tr>
+        <tr>
+            <td>Acces riziere : </td><!---->
+            <td>{{ agriculteur.accesRiziere }}</td>
+        </tr>
+        <tr>
+            <td>Equipement agricole : </td><!---->
+            <td>{{ agriculteur.equipementAgricole }}</td>
+        </tr>
+        <tr>
+            <td>Pratique d'activité agricole : </td><!---->
+            <td>{{ agriculteur.pratiqueActiviteAgricole }}</td>
+        </tr>
+        <tr>
+            <td>Pratique d'élevage rente : </td><!---->
+            <td>{{ agriculteur.pratiqueElevageRente }}</td>
+        </tr>
+        <tr>
+            <td>Pratique d'activité non agricole : </td><!---->
+            <td>{{ agriculteur.pratiqueActiviteNonAgricole }}</td>
+        </tr>
+        <tr>
+            <td>Pratique de pêche : </td><!---->
+            <td>{{ agriculteur.pratiquePeche }}</td>
+        </tr>
+        <tr>
+            <td>Actif dans d'autre projet et programme : </td><!---->
+            <td>{{ agriculteur.autreProgramme }}</td>
+        </tr>
+        <tr>
+            <td>Nombre de soudure en mois : </td>
+            <td>{{ agriculteur.nbrMoisSoudure }}</td>
+        </tr>
+
+        <tr>
+            <td>Typologie : </td>
+            <td>
+                {% if agriculteur.typologie is not null %}
+                    {{ agriculteur.typologie.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        
+        <tr>
+            <td>BVPI : </td>
+            <td>
+                {% if agriculteur.bvpi is not null %}
+                    {{ agriculteur.bvpi.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Zone Technicien : </td>
+            <td>
+                {% if agriculteur.zoneTechnicien is not null %}
+                    {{ agriculteur.zoneTechnicien.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>OP : </td>
+            <td>
+                {% if agriculteur.op is not null %}
+                    {{ agriculteur.op.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Champ école : </td>
+            <td>
+                {% if agriculteur.ce is not null %}
+                    {{ agriculteur.ce.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        
+        {% for nbrCulture in agriculteur.nbrCultureAgriculteur %}
+            <tr>
+                <td>Nombre de pieds de {{ nbrCulture.culture.nom }} : </td>
+                <td>{{ nbrCulture.nbr }}</td>
+            </tr>
+        {% endfor %}
+        {% for nbrElevage in agriculteur.nbrElevageAgriculteurs %}
+            <tr>
+                <td>Nombre de {{ nbrElevage.elevage.nom }} : </td>
+                <td>{{ nbrElevage.nbr }}</td>
+            </tr>
+        {% endfor %}
+        {% for nbrEquipementAgricole in agriculteur.nbrEquipementAgricoleAgriculteur %}
+            <tr>
+                <td>Nombre de {{ nbrEquipementAgricole.equipementAgricole.nom }} : </td>
+                <td>{{ nbrEquipementAgricole.nbr }}</td>
+            </tr>
+        {% endfor %}
+
+<!---->        {# <tr>
+            <td>parcelles : </td>
+            <td>{{ agriculteur.parcelles }}</td>
+        </tr> #}
+        
+        <tr>
+            <td>Village : </td>
+            <td>
+                {% if agriculteur.village is not null %}
+                    {{ agriculteur.village.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Terroir : </td>
+            <td>
+                {% if agriculteur.terroir is not null %}
+                    {{ agriculteur.terroir.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Sous région : </td>
+            <td>
+                {% if agriculteur.sousRegion is not null %}
+                    {{ agriculteur.sousRegion.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Région : </td>
+            <td>
+                {% if agriculteur.region is not null %}
+                    {{ agriculteur.region.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Commune : </td>
+            <td>
+                {% if agriculteur.commune is not null %}
+                    {{ agriculteur.commune.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Anciennete : </td>
+            <td>
+                {% if agriculteur.anciennete is not null %}
+                    {{ agriculteur.anciennete.nom }}
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
+<br>
+<div class="row bkg-white fit">
+    <h2>Parcelles</h2>
+    <table class="table table-fit table-hover">
+        <tr>
+            <th>Id</th>
+            <th>Ancien code parcelle</th>
+            <th>Surface</th>
+            <th>Type</th>
+            <th>Type du sol</th>
+            <th>Mode de faire valoir</th>
+            <th>Localisation</th>
+            <th>Milieu</th>
+            <th>Irrigation</th>
+            <th>Compaction</th>
+            <th>Contre saison</th>
+            <th>Zone érodible</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
+            <th>Observation</th>
+            <th>Risque d'innondation</th>
+            <th>Ancienneté</th>
+            <th>ZC 2010</th>
+            <th>Emplacement PI</th>
+        </tr>
+
+        {% for parcelle in agriculteur.parcelles %}
+            <tr>
+                <td>
+                    <a class="" href="{{ path('detail_parcelle', 
+                            {'id': parcelle.id}) }}">
+                        {{ parcelle.id }}
+                    </a>
+                </td>
+                <td>
+                    <a class="" href="{{ path('detail_parcelle', 
+                            {'id': parcelle.id}) }}">
+                        {{ parcelle.ancienCodeParcelle }}
+                    </a>
+                </td>
+                <td>{{ parcelle.surface }}</td>
+                <td>{% if parcelle.type is not null %} {{ parcelle.type.nom }} {% endif %}</td>
+                <td>{% if parcelle.TypeSol is not null %} {{ parcelle.TypeSol.nom }} {% endif %}</td>
+                <td>
+                    {% if parcelle.modeFaireValoir is not null %} 
+                        {{ parcelle.modeFaireValoir.nom }} 
+                    {% endif %}
+                </td>
+                <td>
+                    {% if parcelle.localisation is not null %} 
+                        {{ parcelle.localisation.nom }} 
+                    {% endif %}
+                </td>
+                <td>{% if parcelle.milieu is not null %} {{ parcelle.milieu.nom }} {% endif %}</td>
+                <td>{{ parcelle.irrigation }}</td>
+                <td>{{ parcelle.compaction }}</td>
+                <td>{{ parcelle.contreSaison }}</td>
+                <td>{{ parcelle.zoneErodible }}</td>
+                <td>{{ parcelle.longitude }}</td>
+                <td>{{ parcelle.latitude }}</td>
+                <td>{{ parcelle.observation }}</td>
+                <td>{{ parcelle.risqueInnondation }}</td>
+                <td>
+                    {% if parcelle.anciennete is not null %} 
+                        {{ parcelle.anciennete.nom }} 
+                    {% endif %}
+                </td>
+                <td>{% if parcelle.zc is not null %} {{ parcelle.zc.nom }} {% endif %}</td>
+                <td>
+                    {% if parcelle.emplacementPI is not null %} 
+                        {{ parcelle.emplacementPI.nom }} 
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="row bkg-white">
+    <hr>
+
+    <a class="" href="{{ path('add_parcelle_from_agriculteur', {'idAgriculteur': agriculteur.id}) }}">
+        <button class="btn btn-primary">Ajouter une culture</button>
+    </a>
+
+    <hr>
+</div>
+
+{% endblock %}
