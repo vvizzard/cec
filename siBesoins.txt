@@ -1,0 +1,9 @@
+composer update
+composer require symfony/maker-bundle --dev
+composer require orm
+composer require twig
+composer require symfony/asset
+composer require symfony/form
+composer require annotation
+
+config>services.yaml => Doctrine\Common\Persistence\ObjectManager: '@doctrine.orm.default_entity_manager'
