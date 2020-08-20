@@ -4,20 +4,68 @@
 
 {% block body %}
 <div class="row">
-    <h1>Parcelle_id : {{ culture.parcelle.id }}</h1>
+    <h1>Culture_id : CL_{{ culture.parcelle.id }}</h1>
 </div>
 
 <div class="row bkg-white">
     <h2>Information de base</h2>
     <table class="table table-hover table-fit">
-
         <tr>
-            <td>Nouvelle Plantation</td>
-            <td>{{ culture.nouvellePlantation }}</td>
+            <td>Id_parcelle</td>
+            <td>
+                <a class="" href="{{ path('detail_parcelle', 
+                        {'id': culture.parcelle.id}) }}">
+                    PL_{{ culture.parcelle.id }}
+                </a>
+            </td>
         </tr>
         <tr>
-            <td>Surface Cultive</td>
+            <td>Nouvelle Plantation</td>
+            <td>
+                {% if culture.nouvellePlantation == true %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Cycle Agricole : </td>
+            <td>
+                {% if culture.cycleAgricole is not null %}
+                    {{ culture.cycleAgricole.nom }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Surface Cultivée</td>
             <td>{{ culture.surfaceCultive }}</td>
+        </tr>
+        <tr>
+            <td>Precedent Cultural : </td>
+            <td>
+                {% if culture.precedentCultural is not null %}
+                    {{ culture.precedentCultural.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Systeme Cultural : </td>
+            <td>
+                {% if culture.systemeCultural is not null %}
+                    {{ culture.systemeCultural.nom }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Itineraire Cultural : </td>
+            <td>
+                {% if culture.itineraireCultural is not null %}
+                    {{ culture.itineraireCultural.nom }}
+                {% endif %}
+            </td>
         </tr>
         <tr>
             <td>MO Preparation Sol</td>
@@ -69,42 +117,6 @@
         </tr>
         
         <tr>
-            <td>Cycle Agricole : </td>
-            <td>
-                {% if culture.cycleAgricole is not null %}
-                    {{ culture.cycleAgricole.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Precedent Cultural : </td>
-            <td>
-                {% if culture.precedentCultural is not null %}
-                    {{ culture.precedentCultural.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Systeme Cultural : </td>
-            <td>
-                {% if culture.systemeCultural is not null %}
-                    {{ culture.systemeCultural.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Itineraire Cultural : </td>
-            <td>
-                {% if culture.itineraireCultural is not null %}
-                    {{ culture.itineraireCultural.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
             <td>Date de Plantation</td>
             <td>{{ culture.datePlantation | date("m/d/Y")  }}</td>
         </tr>
@@ -118,155 +130,6 @@
             <td>Qte Fumure Organique</td>
             <td>{{ culture.qteFumureOrganique }}</td>
         </tr>
-        <tr>
-            <td>Qte Insecticide</td>
-            <td>{{ culture.qteInsecticide }}</td>
-        </tr>
-        <tr>
-            <td>Mis en Cloture</td>
-            <td>{{ culture.misEnCloture }}</td>
-        </tr>
-
-        <tr>
-            <td>Etat PC : </td>
-            <td>
-                {% if culture.etatPc is not null %}
-                    {{ culture.etatPc.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Etat Mulch : </td>
-            <td>
-                {% if culture.etatMulch is not null %}
-                    {{ culture.etatMulch.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Preparation Parcelle : </td>
-            <td>
-                {% if culture.preparationParcelle is not null %}
-                    {{ culture.preparationParcelle.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Controlle Biomas : </td>
-            <td>
-                {% if culture.controlleBiomas is not null %}
-                    {{ culture.controlleBiomas.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Mode Installation : </td>
-            <td>
-                {% if culture.modeInstallation is not null %}
-                    {{ culture.modeInstallation.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Type Pepiniere : </td>
-            <td>
-                {% if culture.typePepiniere is not null %}
-                    {{ culture.typePepiniere.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Mode Repiquage : </td>
-            <td>
-                {% if culture.modeRepiquage is not null %}
-                    {{ culture.modeRepiquage.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Nbr Sarclage</td>
-            <td>{{ culture.nbrSarclage }}</td>
-        </tr>
-
-        <tr>
-            <td>Type Sarclage : </td>
-            <td>
-                {% if culture.typeSarclage is not null %}
-                    {{ culture.typeSarclage.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Degat Cyclonique : </td>
-            <td>
-                {% if culture.degatCyclonique is not null %}
-                    {{ culture.degatCyclonique.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Utilisation PC Fourage</td>
-            <td>{{ culture.utilisationPcFourage }}</td>
-        </tr>
-        <tr>
-            <td>Mis en culture</td>
-            <td>{{ culture.misEnCulture }}</td>
-        </tr>
-        <tr>
-            <td>Utilisation PC paillage sur d'autre parcelle</td>
-            <td>{{ culture.UtilisationPcPaillageSurAutreParcelle }}</td>
-        </tr>
-        <tr>
-            <td>Utilisation PC Compost</td>
-            <td>{{ culture.utilisationPcCompost }}</td>
-        </tr>
-        <tr>
-            <td>Basket Compost</td>
-            <td>{{ culture.basketCompost }}</td>
-        </tr>
-        <tr>
-            <td>Rente</td>
-            <td>{{ culture.rente }}</td>
-        </tr>
-        <tr>
-            <td>Ecobuage</td>
-            <td>{{ culture.ecobuage }}</td>
-        </tr>
-        <tr>
-            <td>Sondage Rendement</td>
-            <td>{{ culture.sondageRendement }}</td>
-        </tr>
-        <tr>
-            <td>PMG</td>
-            <td>{{ culture.pmg }}</td>
-        </tr>
-
-        <tr>
-            <td>Sondage Qualitatif : </td>
-            <td>
-                {% if culture.sondageQualitatif is not null %}
-                    {{ culture.sondageQualitatif.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Remarque AVSF</td>
-            <td>{{ culture.remarqueAVSF }}</td>
-        </tr>
-        <tr>
-            <td>Annee Agricole AVSF</td>
-            <td>{{ culture.anneeAgricoleAVSF }}</td>
-        </tr>
 
         {% for fumure in culture.nbrFumureCultureMs %}
             <tr>
@@ -274,13 +137,28 @@
                 <td>{{ fumure.nbr }}</td>
             </tr>
         {% endfor %}
-        
+
+        <tr>
+            <td>Qte Insecticide</td>
+            <td>{{ culture.qteInsecticide }}</td>
+        </tr>
         {% for insecticide in culture.nbrInsecticideCultureMs %}
             <tr>
                 <td>{{ insecticide.insecticide.nom }} : </td>
                 <td>{{ insecticide.nbr }}</td>
             </tr>
         {% endfor %}
+        
+        <tr>
+            <td>Mis en Cloture</td>
+            <td>
+                {% if culture.misEnCloture == true %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+            </td>
+        </tr>
 
     </table>
 </div>
@@ -290,12 +168,10 @@
     <table class="table table-fit table-hover">
         <tr>
             <th>Plante</th>
-            <th>Variete</th>
-            <th>Age</th>
-            <th>Date plantation</th>
-            <th>Qte Semence</th>
+            <th>Variété</th>
+            <th>Date de plantation</th>
+            <th>Qté de semence</th>
             <th>Production</th>
-            <th>Rdt</th>
         </tr>
         {% for cle in culture.cultureFilles %}
         <tr>
@@ -309,15 +185,9 @@
                     {{ cle.variete.nom }}
                 {% endif %}
             </td>
-            <td>
-                {% if cle.agePlant is not null %}
-                    {{ cle.agePlant.nom }}
-                {% endif %}
-            </td>
             <td>{{ cle.datePlantation | date("m/d/Y") }}</td>
             <td>{{ cle.QteSemence }}</td>
             <td>{{ cle.production }}</td>
-            <td>{{ cle.rdt }}</td>
         </tr>
         {% endfor %}
     </table>

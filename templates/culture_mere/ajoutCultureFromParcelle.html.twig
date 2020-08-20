@@ -8,9 +8,11 @@
 
     {{ form_start(base_form) }}
 
-    {{ form_widget(base_form) }}
+    <div class="form-group">
+        {{ form_widget(base_form.nouvellePlantation) }}
+    </div>
 
-    <label for="cycleAgricole"> cycleAgricole: </label>
+    <label for="cycleAgricole"> Cycle agricole: </label>
     <select name="cycleAgricole" id="cycleAgricole" class="form-control">
     <option></option>
     {% for cycleAgricole in cycleAgricoles %}
@@ -18,7 +20,12 @@
     {% endfor %}
     </select>
 
-    <label for="precedentCultural"> precedentCultural: </label>
+    <div class="form-group">
+        <label for="form_nom" class="required">Surface cultivée (ha)</label>
+        {{ form_widget(base_form.surfaceCultive, {'attr': {'placeholder': 'Taper ici la surface cultivé en ha'}}) }}
+    </div>
+
+    <label for="precedentCultural"> Précédent cultural: </label>
     <select name="precedentCultural" id="precedentCultural" class="form-control">
     <option></option>
     {% for precedentCultural in precedentCulturals %}
@@ -26,7 +33,7 @@
     {% endfor %}
     </select>
 
-    <label for="systemeCultural"> systemeCultural: </label>
+    <label for="systemeCultural"> Système cultural: </label>
     <select name="systemeCultural" id="systemeCultural" class="form-control">
     <option></option>
     {% for systemeCultural in systemeCulturals %}
@@ -34,7 +41,7 @@
     {% endfor %}
     </select>
 
-    <label for="itineraireCultural"> itineraireCultural: </label>
+    <label for="itineraireCultural"> Itinéraire cultural: </label>
     <select name="itineraireCultural" id="itineraireCultural" class="form-control">
     <option></option>
     {% for itineraireCultural in itineraireCulturals %}
@@ -42,97 +49,87 @@
     {% endfor %}
     </select>
 
-    <label for="etatPc"> etatPc: </label>
-    <select name="etatPc" id="etatPc" class="form-control">
-    <option></option>
-    {% for etatPc in etatPcs %}
-        <option value="{{ etatPc.id }}">{{ etatPc.nom }}</option>
-    {% endfor %}
-    </select>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO préparation du sol</label>
+        {{ form_widget(base_form.moPreparationSol, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO installation culture</label>
+        {{ form_widget(base_form.moInstallationCulture, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO entretien 1</label>
+        {{ form_widget(base_form.moEntretien1, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO entretien 2</label>
+        {{ form_widget(base_form.moEntretien2, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO entretien 3</label>
+        {{ form_widget(base_form.moEntretien3, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO récolte</label>
+        {{ form_widget(base_form.moRecolte, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO Exté préparation du sol</label>
+        {{ form_widget(base_form.moExtPreparationSol, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO Exté installation culture</label>
+        {{ form_widget(base_form.moExtInstallationCulture, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO Exté entretien 1</label>
+        {{ form_widget(base_form.moExtEntretien1, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO Exté entretien 2</label>
+        {{ form_widget(base_form.moExtEntretien2, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO Exté entretien 3</label>
+        {{ form_widget(base_form.moExtEntretien3, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">MO Exté récolte</label>
+        {{ form_widget(base_form.moExtRecolte, {'attr': {'placeholder': ''}}) }}
+    </div>
 
-    <label for="etatMulch"> etatMulch: </label>
-    <select name="etatMulch" id="etatMulch" class="form-control">
-    <option></option>
-    {% for etatMulch in etatMulchs %}
-        <option value="{{ etatMulch.id }}">{{ etatMulch.nom }}</option>
-    {% endfor %}
-    </select>
 
-    <label for="preparationParcelle"> preparationParcelle: </label>
-    <select name="preparationParcelle" id="preparationParcelle" class="form-control">
-    <option></option>
-    {% for preparationParcelle in preparationParcelles %}
-        <option value="{{ preparationParcelle.id }}">{{ preparationParcelle.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="controlleBiomas"> controlleBiomas: </label>
-    <select name="controlleBiomas" id="controlleBiomas" class="form-control">
-    <option></option>
-    {% for controlleBiomas in controlleBiomass %}
-        <option value="{{ controlleBiomas.id }}">{{ controlleBiomas.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="modeInstallation"> modeInstallation: </label>
-    <select name="modeInstallation" id="modeInstallation" class="form-control">
-    <option></option>
-    {% for modeInstallation in modeInstallations %}
-        <option value="{{ modeInstallation.id }}">{{ modeInstallation.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="typePepiniere"> typePepiniere: </label>
-    <select name="typePepiniere" id="typePepiniere" class="form-control">
-    <option></option>
-    {% for typePepiniere in typePepinieres %}
-        <option value="{{ typePepiniere.id }}">{{ typePepiniere.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="modeRepiquage"> modeRepiquage: </label>
-    <select name="modeRepiquage" id="modeRepiquage" class="form-control">
-    <option></option>
-    {% for modeRepiquage in modeRepiquages %}
-        <option value="{{ modeRepiquage.id }}">{{ modeRepiquage.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="typeSarclage"> typeSarclage: </label>
-    <select name="typeSarclage" id="typeSarclage" class="form-control">
-    <option></option>
-    {% for typeSarclage in typeSarclages %}
-        <option value="{{ typeSarclage.id }}">{{ typeSarclage.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="degatCyclonique"> degatCyclonique: </label>
-    <select name="degatCyclonique" id="degatCyclonique" class="form-control">
-    <option></option>
-    {% for degatCyclonique in degatCycloniques %}
-        <option value="{{ degatCyclonique.id }}">{{ degatCyclonique.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="sondageQualitatif"> sondageQualitatif: </label>
-    <select name="sondageQualitatif" id="sondageQualitatif" class="form-control">
-    <option></option>
-    {% for sondageQualitatif in sondageQualitatifs %}
-        <option value="{{ sondageQualitatif.id }}">{{ sondageQualitatif.nom }}</option>
-    {% endfor %}
-    </select>
-
+    <div class="form-group">
+        <label for="form_nom" class="required">Date de plantation</label>
+        {{ form_widget(base_form.datePlantation, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">Age de plantation</label>
+        {{ form_widget(base_form.agePlantation, {'attr': {'placeholder': ''}}) }}
+    </div>
+    <div class="form-group">
+        <label for="form_nom" class="required">Qté fumure organique</label>
+        {{ form_widget(base_form.qteFumureOrganique, {'attr': {'placeholder': ''}}) }}
+    </div>
 
     {% for fumure in fumures %}
         <label for="nbr_{{ fumure.nom }}"> {{ fumure.nom }}</label>
         <input type="number" name="fumure_{{ fumure.id }}" id="nbr_{{ fumure.nom }}" class="form-control">
     {% endfor %}
 
+    <div class="form-group">
+        <label for="form_nom" class="required">Qté insecticides</label>
+        {{ form_widget(base_form.qteInsecticide, {'attr': {'placeholder': ''}}) }}
+    </div>
+
     {% for insecticide in insecticides %}
         <label for="nbr_{{ insecticide.nom }}"> {{ insecticide.nom }}</label>
         <input type="number" name="insecticide_{{ insecticide.id }}" id="nbr_{{ insecticide.nom }}" class="form-control">
     {% endfor %}
 
+    <div class="form-group">
+        {{ form_widget(base_form.misEnCloture) }}
+    </div>
 
     <button type="submit" class="btn btn-success">Enregistrer</button>
 

@@ -18,6 +18,7 @@ use App\Repository\TypeSolRepository;
 use App\Repository\ZCRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -38,13 +39,16 @@ class ParcelleController extends AbstractController
     /**
      * @Route("/parcelle/add", name="add_parcelle")
      */
-    public function add(Request $request, ObjectManager $objectManager,
-            TypeRepository $typeRepository, TypeSolRepository $typeSolRepository,
-            ModeFaireValoirRepository $modeFaireValoirRepository, 
-            LocalisationRepository $localisationRepository, MilieuRepository $milieuRepository,
-            AncienneteRepository $ancienneteRepository, ZCRepository $zCRepository,
-            EmplacementPIRepository $emplacementPIRepository, 
-            AgriculteurRepository $agriculteurRepository) {
+    public function add(
+        Request $request,
+        ObjectManager $objectManager,
+        TypeRepository $typeRepository,
+        TypeSolRepository $typeSolRepository,
+        ModeFaireValoirRepository $modeFaireValoirRepository,
+        LocalisationRepository $localisationRepository,
+        MilieuRepository $milieuRepository,
+        AgriculteurRepository $agriculteurRepository
+    ) {
 
         $parcelle = new Parcelle();
 
@@ -53,66 +57,64 @@ class ParcelleController extends AbstractController
         $modeFaireValoirs = $modeFaireValoirRepository->findAll();
         $localisations = $localisationRepository->findAll();
         $milieux = $milieuRepository->findAll();
-        $anciennetes = $ancienneteRepository->findAll();
-        $zCs = $zCRepository->findAll();
-        $emplacements = $emplacementPIRepository->findAll();
         $agriculteurs = $agriculteurRepository->findAll();
 
         $form = $this->createFormBuilder($parcelle)
-                     ->add('ancienCodeParcelle')
-                     ->add('surface')
-                     ->add('irrigation')
-                     ->add('compaction')
-                     ->add('contreSaison')
-                     ->add('zoneErodible')
-                     ->add('longitude')
-                     ->add('latitude')
-                     ->add('observation')
-                     ->add('risqueInnondation')
-                     ->getForm();
+            ->add('surface')
+            ->add('irrigation', CheckboxType::class, [
+                'label'    => 'Irrigation',
+                'required' => false,
+            ])
+            ->add('compaction', CheckboxType::class, [
+                'label'    => 'Compaction',
+                'required' => false,
+            ])
+            ->add('contreSaison', CheckboxType::class, [
+                'label'    => 'Contre saison',
+                'required' => false,
+            ])
+            ->add('zoneErodible', CheckboxType::class, [
+                'label'    => 'Zone érodible',
+                'required' => false,
+            ])
+            ->add('longitude')
+            ->add('latitude')
+            ->add('observation')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             // Complete parcelle with foreign key
-            if($request->request->get('agriculteur')) {
+            if ($request->request->get('agriculteur')) {
                 $parcelle->setAgriculteur($agriculteurRepository->find($request->request->get('agriculteur')));
             }
-            if($request->request->get('type')) {
+            if ($request->request->get('type')) {
                 $parcelle->setType($typeRepository->find($request->request->get('type')));
             }
-            if($request->request->get('typeSol')) {
+            if ($request->request->get('typeSol')) {
                 $parcelle->setTypeSol($typeSolRepository->find($request->request->get('typeSol')));
             }
-            if($request->request->get('modeFaireValoir')) {
+            if ($request->request->get('modeFaireValoir')) {
                 $parcelle->setModeFaireValoir($modeFaireValoirRepository->find(
-                        $request->request->get('modeFaireValoir')));
+                    $request->request->get('modeFaireValoir')
+                ));
             }
-            if($request->request->get('localisation')) {
+            if ($request->request->get('localisation')) {
                 $parcelle->setLocalisation($localisationRepository->find(
-                        $request->request->get('localisation')));
+                    $request->request->get('localisation')
+                ));
             }
-            if($request->request->get('milieu')) {
+            if ($request->request->get('milieu')) {
                 $parcelle->setMilieu($milieuRepository->find($request->request->get('milieu')));
             }
-            if($request->request->get('anciennete')) {
-                $parcelle->setAnciennete($ancienneteRepository->find($request
-                        ->request->get('anciennete')));
-            }
-            if($request->request->get('zc')) {
-                $parcelle->setZc($zCRepository->find($request->request->get('zc')));
-            }
-            if($request->request->get('emplacement')) {
-                $parcelle->setEmplacementPI($emplacementPIRepository->find(
-                        $request->request->get('emplacement')));
-            }
-            
+
             $objectManager->persist($parcelle);
 
             $objectManager->flush();
 
-            return $this->redirectToRoute('detail_parcelle', ['id' => $parcelle->id]);
+            return $this->redirectToRoute('detail_parcelle', ['id' => $parcelle->getId()]);
         }
 
         return $this->render('parcelle/ajoutParcelle.html.twig', [
@@ -122,39 +124,24 @@ class ParcelleController extends AbstractController
             'modeFaireValoirs' => $modeFaireValoirs,
             'localisations' => $localisations,
             'milieux' => $milieux,
-            'anciennetes' => $anciennetes,
-            'zCs' => $zCs,
-            'emplacements' => $emplacements,
             'agriculteurs' => $agriculteurs,
-        ]);
-    }
-
-    /**
-     * @Route("/parcelle/{id}", name="detail_parcelle")
-     */
-    public function detail(Parcelle $parcelle, FumureOrganiqueRepository $fumureOrganiqueRepository, 
-    InsecticideRepository $insecticideRepository)
-    {
-        $fumures = $fumureOrganiqueRepository->findAll();
-        $insecticides = $insecticideRepository->findAll();
-
-        return $this->render('parcelle/detailParcelle.html.twig', [
-            'parcelle' => $parcelle,
-            'fumures' => $fumures,
-            'insecticides' => $insecticides,
         ]);
     }
 
     /**
      * @Route("/parcelle/add/{idAgriculteur}", name="add_parcelle_from_agriculteur")
      */
-    public function addFromAgriculteur(Request $request, ObjectManager $objectManager,
-            TypeRepository $typeRepository, TypeSolRepository $typeSolRepository,
-            ModeFaireValoirRepository $modeFaireValoirRepository, 
-            LocalisationRepository $localisationRepository, MilieuRepository $milieuRepository,
-            AncienneteRepository $ancienneteRepository, ZCRepository $zCRepository,
-            EmplacementPIRepository $emplacementPIRepository, 
-            AgriculteurRepository $agriculteurRepository, $idAgriculteur) {
+    public function addFromAgriculteur(
+        Request $request,
+        ObjectManager $objectManager,
+        TypeRepository $typeRepository,
+        TypeSolRepository $typeSolRepository,
+        ModeFaireValoirRepository $modeFaireValoirRepository,
+        LocalisationRepository $localisationRepository,
+        MilieuRepository $milieuRepository,
+        AgriculteurRepository $agriculteurRepository,
+        $idAgriculteur
+    ) {
 
         $parcelle = new Parcelle();
 
@@ -163,59 +150,45 @@ class ParcelleController extends AbstractController
         $modeFaireValoirs = $modeFaireValoirRepository->findAll();
         $localisations = $localisationRepository->findAll();
         $milieux = $milieuRepository->findAll();
-        $anciennetes = $ancienneteRepository->findAll();
-        $zCs = $zCRepository->findAll();
-        $emplacements = $emplacementPIRepository->findAll();
 
         $form = $this->createFormBuilder($parcelle)
-                     ->add('ancienCodeParcelle')
-                     ->add('surface')
-                     ->add('irrigation')
-                     ->add('compaction')
-                     ->add('contreSaison')
-                     ->add('zoneErodible')
-                     ->add('longitude')
-                     ->add('latitude')
-                     ->add('observation')
-                     ->add('risqueInnondation')
-                     ->getForm();
+            ->add('surface')
+            ->add('irrigation')
+            ->add('compaction')
+            ->add('contreSaison')
+            ->add('zoneErodible')
+            ->add('longitude')
+            ->add('latitude')
+            ->add('observation')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             // Complete parcelle with foreign key
             $parcelle->setAgriculteur($agriculteurRepository->find($idAgriculteur));
 
-            if($request->request->get('type')) {
+            if ($request->request->get('type')) {
                 $parcelle->setType($typeRepository->find($request->request->get('type')));
             }
-            if($request->request->get('typeSol')) {
+            if ($request->request->get('typeSol')) {
                 $parcelle->setTypeSol($typeSolRepository->find($request->request->get('typeSol')));
             }
-            if($request->request->get('modeFaireValoir')) {
+            if ($request->request->get('modeFaireValoir')) {
                 $parcelle->setModeFaireValoir($modeFaireValoirRepository->find(
-                        $request->request->get('modeFaireValoir')));
+                    $request->request->get('modeFaireValoir')
+                ));
             }
-            if($request->request->get('localisation')) {
+            if ($request->request->get('localisation')) {
                 $parcelle->setLocalisation($localisationRepository->find(
-                        $request->request->get('localisation')));
+                    $request->request->get('localisation')
+                ));
             }
-            if($request->request->get('milieu')) {
+            if ($request->request->get('milieu')) {
                 $parcelle->setMilieu($milieuRepository->find($request->request->get('milieu')));
             }
-            if($request->request->get('anciennete')) {
-                $parcelle->setAnciennete($ancienneteRepository->find($request
-                        ->request->get('anciennete')));
-            }
-            if($request->request->get('zc')) {
-                $parcelle->setZc($zCRepository->find($request->request->get('zc')));
-            }
-            if($request->request->get('emplacement')) {
-                $parcelle->setEmplacementPI($emplacementPIRepository->find(
-                        $request->request->get('emplacement')));
-            }
-            
+
             $objectManager->persist($parcelle);
 
             $objectManager->flush();
@@ -230,9 +203,24 @@ class ParcelleController extends AbstractController
             'modeFaireValoirs' => $modeFaireValoirs,
             'localisations' => $localisations,
             'milieux' => $milieux,
-            'anciennetes' => $anciennetes,
-            'zCs' => $zCs,
-            'emplacements' => $emplacements,
+        ]);
+    }
+
+    /**
+     * @Route("/parcelle/{id}", name="detail_parcelle")
+     */
+    public function detail(
+        Parcelle $parcelle,
+        FumureOrganiqueRepository $fumureOrganiqueRepository,
+        InsecticideRepository $insecticideRepository
+    ) {
+        $fumures = $fumureOrganiqueRepository->findAll();
+        $insecticides = $insecticideRepository->findAll();
+
+        return $this->render('parcelle/detailParcelle.html.twig', [
+            'parcelle' => $parcelle,
+            'fumures' => $fumures,
+            'insecticides' => $insecticides,
         ]);
     }
 }

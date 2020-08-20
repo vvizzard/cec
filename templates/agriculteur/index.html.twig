@@ -10,14 +10,15 @@
 <div class="row fit">
     <table class="table table-fit table-cec table-hover">
         <tr class="table-cec-header">
-            <th class="text-left">Nom</th>
-            <th class="text-left">Prénom</th>
+            <th class="text-left">id</th>
+            <th class="text-left">Nom et prénom</th>
             <th class="text-center">Genre</th>
             <th class="text-right">Age</th>
-            <th class="text-right">Statut au sein de la famille</th>
-            <th class="text-center">Anciennete</th>
-            <th class="text-right">Lot</th>
-            <th class="text-left">Region</th>
+            <th class="text-center">Statut</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">District</th>
+            <th class="text-center">Commune</th>
+            <th class="text-center">Village</th>
 <!--        <th>sousRegion</th>
             <th>district</th>
             <th>terroir</th>
@@ -70,27 +71,42 @@
             <td class="text-left">
                 <a class="" href="{{ path('detail_agriculteur', 
                         {'id': agriculteur.id}) }}">
-                    {{ agriculteur.nom }}
+                    AG_{{ agriculteur.id }}
                 </a>
             </td>
             <td class="text-left">
                 <a class="" href="{{ path('detail_agriculteur', 
                         {'id': agriculteur.id}) }}">
-                    {{ agriculteur.prenom }}
+                    {{ agriculteur.nom }} {{ agriculteur.prenom }}
                 </a>
             </td>
-            <td class="text-center">{{ agriculteur.genre }}</td>
-            <td class="text-right">{{ agriculteur.age }}</td>
-            <td class="text-right">{{ agriculteur.statutFamille }}</td>
             <td class="text-center">
-                {% if agriculteur.anciennete is not null %}
-                    {{ agriculteur.anciennete.nom }}
+                {% if agriculteur.genre == 0  %}
+                    Femme
+                {% else %}
+                    Homme
                 {% endif %}
             </td>
-            <td class="text-right">{{ agriculteur.lot }}</td>
-            <td class="text-left">
-                {% if agriculteur.region is not null %}
-                    {{ agriculteur.region.nom }}
+            <td class="text-right">{{ agriculteur.age }}</td>
+            <td class="text-center">{{ agriculteur.statutFamille }}</td>
+            <td>
+                {% if agriculteur.typologie is not null %}
+                    {{ agriculteur.typologie.nom }}
+                {% endif %}
+            </td>
+            <td class="text-center">
+                {% if agriculteur.sousRegion is not null %}
+                    {{ agriculteur.sousRegion.nom }}
+                {% endif %}
+            </td>
+            <td class="text-center">
+                {% if agriculteur.commune is not null %}
+                    {{ agriculteur.commune.nom }}
+                {% endif %}
+            </td>
+            <td class="text-center">
+                {% if agriculteur.village is not null %}
+                    {{ agriculteur.village.nom }}
                 {% endif %}
             </td>
 <!--            <td>

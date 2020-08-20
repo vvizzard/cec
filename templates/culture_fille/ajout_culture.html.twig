@@ -24,12 +24,6 @@
         <option value="{{ variete.id }}">{{ variete.nom }}</option>
     {% endfor %}
     </select>
-    <label for="age">Age: </label>
-    <select name="age" id="age" class="form-control">
-    {% for age in ages %}
-        <option value="{{ age.id }}">{{ age.nom }}</option>
-    {% endfor %}
-    </select>
 
     {{ form_widget(base_form) }}
 

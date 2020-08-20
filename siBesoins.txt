@@ -1,3 +1,5 @@
+### Si update ne suffit pas, lancer les commandes suivant: ###
+
 composer update
 composer require symfony/maker-bundle --dev
 composer require orm
@@ -6,4 +8,12 @@ composer require symfony/asset
 composer require symfony/form
 composer require annotation
 
+### Faire la modification suivante pour utiliser ObjectManager ###
 config>services.yaml => Doctrine\Common\Persistence\ObjectManager: '@doctrine.orm.default_entity_manager'
+
+### Certains table et entité portent des noms inapropriés apres modification ###
+District = SousRegion
+Fokontany = Terroir
+
+### REMARQUE ###
+Certains entité et table dans la base de donnée continnent des champs obselètes

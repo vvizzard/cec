@@ -4,37 +4,35 @@ namespace App\Controller;
 
 use App\Entity\Agriculteur;
 use App\Entity\NbrCultureAgriculteur;
-use App\Entity\NbrElevageAgriculteur;
 use App\Entity\NbrEquipementAgricoleAgriculteur;
 use App\Repository\AgriculteurRepository;
-use App\Repository\AncienneteAgriculteurRepository;
-use App\Repository\BvpiRepository;
 use App\Repository\CeRepository;
 use App\Repository\CommuneRepository;
 use App\Repository\CultureRepository;
 use App\Repository\ElevageRepository;
 use App\Repository\EquipementAgricoleRepository;
-use App\Repository\OpRepository;
-use App\Repository\RegionRepository;
 use App\Repository\SousRegionRepository;
 use App\Repository\TerroirRepository;
+use App\Repository\TypeElevageRepository;
 use App\Repository\TypologieRepository;
 use App\Repository\VillageRepository;
-use App\Repository\ZoneTechnicienRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class AgriculteurController extends AbstractController
 {
     /**
      * @Route("/agriculteurs", name="agriculteurs")
      */
-    public function index(AgriculteurRepository $agriculteurRepository, 
-            CultureRepository $cultureRepository, ElevageRepository $elevageRepository,
-            EquipementAgricoleRepository $equipementAgricoleRepository)
-    {
+    public function index(
+        AgriculteurRepository $agriculteurRepository,
+        CultureRepository $cultureRepository,
+        ElevageRepository $elevageRepository,
+        EquipementAgricoleRepository $equipementAgricoleRepository
+    ) {
         $agriculteurs = $agriculteurRepository->findAll();
         $elevages = $elevageRepository->findBy([], ['id' => 'ASC']);
         $cultures = $cultureRepository->findBy([], ['id' => 'ASC']);
@@ -50,179 +48,213 @@ class AgriculteurController extends AbstractController
     /**
      * @Route("/agriculteur/add", name="add_agriculteur")
      */
-    public function add(HttpFoundationRequest $request, ObjectManager $objectManager, 
-            BvpiRepository $bvpiRepository, CeRepository $ceRepository, 
-            CultureRepository $cultureRepository, ElevageRepository $elevageRepository,
-            OpRepository $opRepository, TypologieRepository $typologieRepository, 
-            EquipementAgricoleRepository $equipementAgricoleRepository,
-            ZoneTechnicienRepository $zoneTechnicienRepository, VillageRepository $villageRepository,
-            TerroirRepository $terroirRepository, SousRegionRepository $sousRegionRepository,
-            RegionRepository $regionRepository, CommuneRepository $communeRepository,
-            AncienneteAgriculteurRepository $ancienneteAgriculteurRepository)
-    {
+    public function add(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        CeRepository $ceRepository,
+        CultureRepository $cultureRepository,
+        TypologieRepository $typologieRepository,
+        EquipementAgricoleRepository $equipementAgricoleRepository,
+        VillageRepository $villageRepository,
+        TerroirRepository $terroirRepository,
+        SousRegionRepository $sousRegionRepository,
+        CommuneRepository $communeRepository,
+        TypeElevageRepository $typeElevageRepository
+    ) {
         $agriculteur = new Agriculteur();
 
-        $elevages = $elevageRepository->findAll();
-        $cultures = $cultureRepository->findAll();
+        $cultures = $cultureRepository->findByRente(true);
         $equipements = $equipementAgricoleRepository->findAll();
         $villages = $villageRepository->findAll();
         $terroirs = $terroirRepository->findAll();
         $sousRegions = $sousRegionRepository->findAll();
-        $regions = $regionRepository->findAll();
         $communes = $communeRepository->findAll();
-        $anciennetes = $ancienneteAgriculteurRepository->findAll();
+        $typeElevages = $typeElevageRepository->findAll();
+        $ces = $ceRepository->findAll();
+        $typologies = $typologieRepository->findAll();
 
         $form = $this->createFormBuilder($agriculteur)
-                    ->add('nom')
-                    ->add('prenom')
-                    ->add('genre')
-                    ->add('age')
-                    ->add('statutFamille')
-                    // ->add('anciennete')
-                    ->add('lot')
-                    // ->add('region')
-                    // ->add('sousRegion')
-                    ->add('district')
-                    // ->add('terroir')
-                    // ->add('commune')
-                    // ->add('village')
-                    ->add('surfaceTotaleExploitee')
-                    ->add('surfaceTotaleRiziere')
-                    ->add('surfaceParcelleLouee')
-                    ->add('surfaceParcelleEnLocation')
-                    ->add('nbrMenage')
-                    ->add('nbrActif')
-                    ->add('nbrMoisAutosuffisanceRiz')
-                    ->add('accesRiziere')
-                    ->add('equipementAgricole')
-                    ->add('pratiqueActiviteAgricole')
-                    ->add('pratiqueElevageRente')
-                    ->add('pratiqueActiviteNonAgricole')
-                    ->add('pratiquePeche')
-                    ->add('autreProgramme')
-                    ->add('nbrMoisSoudure')
-                    ->getForm();
+            ->add('nom')
+            ->add('prenom')
+            // typologie
+            // ->add('genre')
+            ->add('age')
+            ->add('statutFamille')
+            ->add('nbrMenage') // ->taille de menage
+            ->add('nbrActif')
+            // ->add('district')
+            // ->add('commune')
+            // ->add('Fokontany')
+            // ->add('village')
+            // champ ecole
+            // culture de rente prioritaire
+            ->add('pratiqueElevageRente', CheckboxType::class, [
+                'label'    => 'Elevage',
+                'required' => false,
+            ]) // -> Elevage
+            // Type d'elevage prioritaire (api, vol, bov)
+            ->add('accesRiziere', CheckboxType::class, [
+                'label'    => 'Accès rizière',
+                'required' => false,
+            ]) // acces a des riziere
+            ->add('opBoolean', CheckboxType::class, [
+                'label'    => 'OP',
+                'required' => false,
+            ])
+            ->add('pratiqueActiviteNonAgricole', CheckboxType::class, [
+                'label'    => 'Pratique d\'activité non agricole',
+                'required' => false,
+            ]) // Pratique d'activite non agricole
+            ->add('pratiquePeche', CheckboxType::class, [
+                'label'    => 'Pratique de pêche',
+                'required' => false,
+            ])
+            ->add('autreProgramme', CheckboxType::class, [
+                'label'    => 'Actif dans d\'autre projet et programme',
+                'required' => false,
+            ])
+
+            ->add('surfaceTotaleExploitee')
+            ->add('surfaceTotaleRiziere')
+            ->add('surfaceParcelleLouee')
+            ->add('surfaceParcelleEnLocation')
+            //nbr pieds agriculture xD
+            //nbr equipement agricole
+            ->add('nbrMoisSoudure')
+            ->getForm();
 
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Add some attributes that was not in the form above
+            if ($request->request->get('genre') == 0 || $request->request->get('genre') == 1) {
+                $agriculteur->setGenre($request->request->get('genre'));
+            }
+            if (!is_null($request->request->get('calendrier'))) {
+                $agriculteur->setCalendrier(intval($request->request->get('calendrier')));
+            }
+            if (!is_null($request->request->get('outilAmeliore'))) {
+                $agriculteur->setOutilAmeliore(intval($request->request->get('outilAmeliore')));
+            }
+            if (!is_null($request->request->get('differenceBesoinsAlimentaire'))) {
+                $agriculteur->setDifferenceBesoinsAlimentaire(boolval($request->request->get('differenceBesoinsAlimentaire')));
+            }
+            if (!is_null($request->request->get('connaissanceDifferenceBesoinsAlimentaire'))) {
+                $agriculteur->setConnaissanceDifferenceBesoinsAlimentaire(boolval($request->request->get('connaissanceDifferenceBesoinsAlimentaire')));
+            }
+            if (!is_null($request->request->get('regimeAlimentaireVariee'))) {
+                $agriculteur->setRegimeAlimentaireVariee(boolval($request->request->get('regimeAlimentaireVariee')));
+            }
+            if (!is_null($request->request->get('assuranceProduitNecessaireAlimentation'))) {
+                $agriculteur->setAssuranceProduitNecessaireAlimentation(intval($request->request->get('assuranceProduitNecessaireAlimentation')));
+            }
+            if (!is_null($request->request->get('enregistrementMouvementArgent'))) {
+                $agriculteur->setEnregistrementMouvementArgent(boolval($request->request->get('enregistrementMouvementArgent')));
+            }
+            if (!is_null($request->request->get('enregistrementMouvementArgentWhy'))) {
+                $agriculteur->setEnregistrementMouvementArgentWhy(intval($request->request->get('enregistrementMouvementArgentWhy')));
+            }
+            if (!is_null($request->request->get('epargne'))) {
+                $agriculteur->setEpargne(intval($request->request->get('epargne')));
+            }
+            if (!is_null($request->request->get('connaissanceDemandeCoursProduitAgricole'))) {
+                $agriculteur->setConnaissanceDemandeCoursProduitAgricole(boolval($request->request->get('connaissanceDemandeCoursProduitAgricole')));
+            }
+            if (!is_null($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy'))) {
+                $agriculteur->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy'))
+                );
+            }
+            if (!is_null($request->request->get('ameliorerQualiteProduit'))) {
+                $agriculteur->setAmeliorerQualiteProduit(boolval($request->request->get('ameliorerQualiteProduit')));
+            }
+            if (!is_null($request->request->get('ameliorerQualiteProduitWhy'))) {
+                $agriculteur->setAmeliorerQualiteProduitWhy(intval($request->request->get('ameliorerQualiteProduitWhy')));
+            }
+            if (!is_null($request->request->get('groupement'))) {
+                $agriculteur->setGroupement(boolval($request->request->get('groupement')));
+            }
+            if (!is_null($request->request->get('avantageRegroupement'))) {
+                $agriculteur->setAvantageRegroupement(intval($request->request->get('avantageRegroupement')));
+            }
 
             // Complete agriculteur with foreign key
-            if($request->request->get('bvpi')) {
-                $agriculteur->setBvpi($bvpiRepository->find($request->request->get('bvpi')));
-            }
-            if($request->request->get('ce')) {
+            if ($request->request->get('ce')) {
                 $agriculteur->setCe($ceRepository->find($request->request->get('ce')));
             }
-            // if($request->request->get('culture')) {
-            //     $agriculteur->setCulture($cultureRepository->find($request->request->get('culture')));
-            // }
-            // if($request->request->get('elevage')) {
-            //     $agriculteur->setElevage($elevageRepository->find($request->request->get('elevage')));
-            // }
-            // if($request->request->get('op')) {
-            //     $agriculteur->setOP($opRepository->find($request->request->get('op')));
-            // }
+            if ($request->request->get('typeElevage')) {
+                $agriculteur->setTypeElevage($typeElevageRepository->find($request->request->get('typeElevage')));
+            }
+            if ($request->request->get('culture')) {
+                $agriculteur->setCulture($cultureRepository->find($request->request->get('culture')));
+            }
 
-            if($request->request->get('village')) {
+            if ($request->request->get('village')) {
                 $agriculteur->setVillage($villageRepository->find($request->request->get('village')));
             }
 
-            if($request->request->get('terroir')) {
+            if ($request->request->get('terroir')) {
                 $agriculteur->setTerroir($terroirRepository->find($request->request->get('terroir')));
             }
 
-            if($request->request->get('sousRegion')) {
+            if ($request->request->get('sousRegion')) {
                 $agriculteur->setSousRegion($sousRegionRepository->find($request->request
-                        ->get('sousRegion')));
+                    ->get('sousRegion')));
             }
 
-            if($request->request->get('region')) {
-                $agriculteur->setRegion($regionRepository->find($request->request->get('region')));
-            }
-
-            if($request->request->get('commune')) {
+            if ($request->request->get('commune')) {
                 $agriculteur->setCommune($communeRepository->find($request->request
-                        ->get('commune')));
+                    ->get('commune')));
             }
 
-            if($request->request->get('anciennete')) {
-                $agriculteur->setAnciennete($ancienneteAgriculteurRepository->find(
-                            $request->request->get('anciennete')));
-            }
-
-            if($request->request->get('op')) {
-                $agriculteur->setOP($opRepository->find($request->request->get('op')));
-            }
-            if($request->request->get('typologie')) {
+            if ($request->request->get('typologie')) {
                 $agriculteur->setTypologie($typologieRepository->find($request->request
-                        ->get('typologie')));
+                    ->get('typologie')));
             }
-            if($request->request->get('zone_technicien')) {
-                $agriculteur->setZoneTechnicien($zoneTechnicienRepository->find($request
-                        ->request->get('zone_technicien')));
-            }
-            
-            $objectManager->persist($agriculteur);
 
-            foreach ($elevages as $elevage) {
-                $eid = $elevage->getId();
-                if($request->request->get('elevage_'.$eid)) {
-                    $temp = new NbrElevageAgriculteur();
-                    $temp->setAgriculteur($agriculteur);
-                    $temp->setElevage($elevage);
-                    $temp->setNbr($request->request->get('elevage_'.$eid));
-                    
-                    $objectManager->persist($temp);
-                }
-            }
+            $objectManager->persist($agriculteur);
 
             foreach ($cultures as $culture) {
                 $eid = $culture->getId();
-                if($request->request->get('culture_'.$eid)) {
+                if ($request->request->get('culture_' . $eid)) {
                     $temp = new NbrCultureAgriculteur();
                     $temp->setAgriculteur($agriculteur);
                     $temp->setCulture($culture);
-                    $temp->setNbr($request->request->get('culture_'.$eid));
-                    
+                    $temp->setNbr($request->request->get('culture_' . $eid));
+
                     $objectManager->persist($temp);
                 }
             }
 
             foreach ($equipements as $equipement) {
                 $eid = $equipement->getId();
-                if($request->request->get('equipement_'.$eid)) {
+                if ($request->request->get('equipement_' . $eid)) {
                     $temp = new NbrEquipementAgricoleAgriculteur();
                     $temp->setAgriculteur($agriculteur);
                     $temp->setEquipementAgricole($equipement);
-                    $temp->setNbr($request->request->get('equipement_'.$eid));
-                    
+                    $temp->setNbr($request->request->get('equipement_' . $eid));
+
                     $objectManager->persist($temp);
                 }
             }
 
             $objectManager->flush();
 
-            return $this->redirectToRoute('detail_agriculteur', ['id'=>$agriculteur->id]);
+            return $this->redirectToRoute('detail_agriculteur', ['id' => $agriculteur->getId()]);
         }
 
         return $this->render('agriculteur/ajoutAgriculteur.html.twig', [
             'form_agriculteur' => $form->createView(),
-            'bvpis' => $bvpiRepository->findAll(),
-            'ces' => $ceRepository->findAll(),
+            'ces' => $ces,
             'cultures' => $cultures,
-            'elevages' => $elevages,
             'equipements' => $equipements,
-            'ops' => $opRepository->findAll(),
-            'typologies' => $typologieRepository->findAll(),
-            'zoneTechniciens' => $zoneTechnicienRepository->findAll(),
+            'typologies' => $typologies,
             'villages' => $villages,
             'terroirs' => $terroirs,
             'sousRegions' => $sousRegions,
-            'regions' => $regions,
             'communes' => $communes,
-            'anciennetes' => $anciennetes,
+            'typeElevages' => $typeElevages,
         ]);
     }
 

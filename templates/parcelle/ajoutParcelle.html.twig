@@ -8,21 +8,17 @@
 
     {{ form_start(form_parcelle) }}
 
-    {{ form_widget(form_parcelle) }}
-
-    {# <label for="bvpi">BVPI: </label>
-    <select name="bvpi" id="bvpi" class="form-control">
-    {% for bvpi in bvpis %}
-        <option value="{{ bvpi.id }}">{{ bvpi.nom }}</option>
-    {% endfor %}
-    </select>#}
-
     <label for="agriculteur">Agriculteur: </label>
     <select name="agriculteur" id="agriculteur" class="form-control">
     {% for ce in agriculteurs %}
-        <option value="{{ ce.id }}">{{ ce.nom }} {{ ce.prenom }}</option>
+        <option value="{{ ce.id }}">AG_{{ ce.id }} : {{ ce.nom }} {{ ce.prenom }}</option>
     {% endfor %}
     </select>
+
+    <div class="form-group">
+        <label for="form_nom" class="required">Surface (ha)</label>
+        {{ form_widget(form_parcelle.surface, {'attr': {'placeholder': 'Taper ici la surface en (ha)'}}) }}
+    </div>
 
     <label for="type">Type: </label>
     <select name="type" id="type" class="form-control">
@@ -59,29 +55,36 @@
     {% endfor %}
     </select> 
 
-    <label for="anciennetes">Anciennetée parcelle: </label>
-    <select name="anciennete" id="anciennetes" class="form-control">
-    {% for ce in anciennetes %}
-        <option value="{{ ce.id }}">{{ ce.nom }}</option>
-    {% endfor %}
-    </select> 
+    <div class="form-group">
+        {{ form_widget(form_parcelle.irrigation) }}
+    </div>
 
-    <label for="zCs">ZC 2010: </label>
-    <select name="zc" id="zCs" class="form-control">
-    <option value=""></option>
-    {% for ce in zCs %}
-        <option value="{{ ce.id }}">{{ ce.nom }}</option>
-    {% endfor %}
-    </select> 
+    <div class="form-group">
+        {{ form_widget(form_parcelle.compaction) }}
+    </div>
 
-    <label for="emplacements">Emplacement PI: </label>
-    <select name="emplacement" id="emplacements" class="form-control">
-    {% for ce in emplacements %}
-        <option value="{{ ce.id }}">{{ ce.nom }}</option>
-    {% endfor %}
-    </select> 
+    <div class="form-group">
+        {{ form_widget(form_parcelle.contreSaison) }}
+    </div>
 
-    
+    <div class="form-group">
+        {{ form_widget(form_parcelle.zoneErodible) }}
+    </div>
+
+    <div class="form-group">
+        <label for="form_nom" class="required">Longitude</label>
+        {{ form_widget(form_parcelle.longitude, {'attr': {'placeholder': 'Taper ici la longitude (ex: 47.5167)'}}) }}
+    </div>
+
+    <div class="form-group">
+        <label for="form_nom" class="required">Latitude</label>
+        {{ form_widget(form_parcelle.latitude, {'attr': {'placeholder': 'Taper ici la latitude (ex: -18.9333)'}}) }}
+    </div>
+
+    <div class="form-group">
+        <label for="form_nom" class="required">Observation</label>
+        {{ form_widget(form_parcelle.observation, {'attr': {'placeholder': 'Taper ici votre observation'}}) }}
+    </div>
 
     <button type="submit" class="btn btn-success">Enregistrer</button>
 

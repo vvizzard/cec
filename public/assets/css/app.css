@@ -26,6 +26,14 @@
     padding: 10px;
 }
 
+a {
+    color: #8f551a;
+}
+
+a:hover {
+    color: #614f3d;
+}
+
 body {
     /* background: url('../img/bk_body.jpg') repeat-x; */
     background: #e8dbb9 url('../img/bk_bottom.jpg') repeat-x bottom;

@@ -29,12 +29,6 @@
         <option value="{{ variete.id }}">{{ variete.nom }}</option>
     {% endfor %}
     </select>
-    <label for="age">Age: </label>
-    <select name="age" id="age" class="form-control">
-    {% for age in ages %}
-        <option value="{{ age.id }}">{{ age.nom }}</option>
-    {% endfor %}
-    </select>
 
     {{ form_widget(base_form) }}
 
@@ -49,11 +43,9 @@
     <tr>
         <th>Plante</th>
         <th>Variete</th>
-        <th>Age</th>
-        <th>datePlantation</th>
-        <th>QteSemence</th>
-        <th>production</th>
-        <th>rdt</th>
+        <th>Date de plantation</th>
+        <th>Qté de semence</th>
+        <th>Production</th>
     </tr>
     {% for culture in cultures %}
     <tr>
@@ -67,15 +59,9 @@
                 {{ culture.variete.nom }}
             {% endif %}
         </td>
-        <td>
-            {% if culture.agePlant is not null %}
-                {{ culture.agePlant.nom }}
-            {% endif %}
-        </td>
         <td>{{ culture.datePlantation | date("m/d/Y") }}</td>
         <td>{{ culture.QteSemence }}</td>
         <td>{{ culture.production }}</td>
-        <td>{{ culture.rdt }}</td>
     </tr>
     {% endfor %}
 </table>

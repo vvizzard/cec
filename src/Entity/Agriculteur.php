@@ -45,12 +45,7 @@ class Agriculteur
     private $statutFamille;
 
     /**
-     * @ORM\Column(type="smallint")
-     */
-    private $lot;
-
-    /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $district;
 
@@ -214,6 +209,91 @@ class Agriculteur
      */
     private $anciennete;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TypeElevage::class, inversedBy="agriculteurs")
+     */
+    private $typeElevage;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $opBoolean;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $calendrier;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $outilAmeliore;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $differenceBesoinsAlimentaire;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $connaissanceDifferenceBesoinsAlimentaire;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $regimeAlimentaireVariee;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $assuranceProduitNecessaireAlimentation;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $enregistrementMouvementArgent;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $enregistrementMouvementArgentWhy;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $epargne;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $connaissanceDemandeCoursProduitAgricole;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $connaissanceDemandeCoursProduitAgricoleWhy;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $ameliorerQualiteProduit;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $ameliorerQualiteProduitWhy;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $groupement;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $avantageRegroupement;
+
     public function __construct()
     {
         $this->nbrElevageAgriculteurs = new ArrayCollection();
@@ -283,18 +363,6 @@ class Agriculteur
     public function setStatutFamille(string $statutFamille): self
     {
         $this->statutFamille = $statutFamille;
-
-        return $this;
-    }
-
-    public function getLot(): ?int
-    {
-        return $this->lot;
-    }
-
-    public function setLot(int $lot): self
-    {
-        $this->lot = $lot;
 
         return $this;
     }
@@ -767,6 +835,210 @@ class Agriculteur
     public function setAnciennete(?AncienneteAgriculteur $anciennete): self
     {
         $this->anciennete = $anciennete;
+
+        return $this;
+    }
+
+    public function getTypeElevage(): ?TypeElevage
+    {
+        return $this->typeElevage;
+    }
+
+    public function setTypeElevage(?TypeElevage $typeElevage): self
+    {
+        $this->typeElevage = $typeElevage;
+
+        return $this;
+    }
+
+    public function getOpBoolean(): ?bool
+    {
+        return $this->opBoolean;
+    }
+
+    public function setOpBoolean(bool $opBoolean): self
+    {
+        $this->opBoolean = $opBoolean;
+
+        return $this;
+    }
+
+    public function getCalendrier(): ?int
+    {
+        return $this->calendrier;
+    }
+
+    public function setCalendrier(?int $calendrier): self
+    {
+        $this->calendrier = $calendrier;
+
+        return $this;
+    }
+
+    public function getOutilAmeliore(): ?int
+    {
+        return $this->outilAmeliore;
+    }
+
+    public function setOutilAmeliore(?int $outilAmeliore): self
+    {
+        $this->outilAmeliore = $outilAmeliore;
+
+        return $this;
+    }
+
+    public function getDifferenceBesoinsAlimentaire(): ?int
+    {
+        return $this->differenceBesoinsAlimentaire;
+    }
+
+    public function setDifferenceBesoinsAlimentaire(?int $differenceBesoinsAlimentaire): self
+    {
+        $this->differenceBesoinsAlimentaire = $differenceBesoinsAlimentaire;
+
+        return $this;
+    }
+
+    public function getConnaissanceDifferenceBesoinsAlimentaire(): ?int
+    {
+        return $this->connaissanceDifferenceBesoinsAlimentaire;
+    }
+
+    public function setConnaissanceDifferenceBesoinsAlimentaire(?int $connaissanceDifferenceBesoinsAlimentaire): self
+    {
+        $this->connaissanceDifferenceBesoinsAlimentaire = $connaissanceDifferenceBesoinsAlimentaire;
+
+        return $this;
+    }
+
+    public function getRegimeAlimentaireVariee(): ?int
+    {
+        return $this->regimeAlimentaireVariee;
+    }
+
+    public function setRegimeAlimentaireVariee(?int $regimeAlimentaireVariee): self
+    {
+        $this->regimeAlimentaireVariee = $regimeAlimentaireVariee;
+
+        return $this;
+    }
+
+    public function getAssuranceProduitNecessaireAlimentation(): ?int
+    {
+        return $this->assuranceProduitNecessaireAlimentation;
+    }
+
+    public function setAssuranceProduitNecessaireAlimentation(?int $assuranceProduitNecessaireAlimentation): self
+    {
+        $this->assuranceProduitNecessaireAlimentation = $assuranceProduitNecessaireAlimentation;
+
+        return $this;
+    }
+
+    public function getEnregistrementMouvementArgent(): ?int
+    {
+        return $this->enregistrementMouvementArgent;
+    }
+
+    public function setEnregistrementMouvementArgent(?int $enregistrementMouvementArgent): self
+    {
+        $this->enregistrementMouvementArgent = $enregistrementMouvementArgent;
+
+        return $this;
+    }
+
+    public function getEnregistrementMouvementArgentWhy(): ?int
+    {
+        return $this->enregistrementMouvementArgentWhy;
+    }
+
+    public function setEnregistrementMouvementArgentWhy(?int $enregistrementMouvementArgentWhy): self
+    {
+        $this->enregistrementMouvementArgentWhy = $enregistrementMouvementArgentWhy;
+
+        return $this;
+    }
+
+    public function getEpargne(): ?int
+    {
+        return $this->epargne;
+    }
+
+    public function setEpargne(?int $epargne): self
+    {
+        $this->epargne = $epargne;
+
+        return $this;
+    }
+
+    public function getConnaissanceDemandeCoursProduitAgricole(): ?bool
+    {
+        return $this->connaissanceDemandeCoursProduitAgricole;
+    }
+
+    public function setConnaissanceDemandeCoursProduitAgricole(?bool $connaissanceDemandeCoursProduitAgricole): self
+    {
+        $this->connaissanceDemandeCoursProduitAgricole = $connaissanceDemandeCoursProduitAgricole;
+
+        return $this;
+    }
+
+    public function getConnaissanceDemandeCoursProduitAgricoleWhy(): ?int
+    {
+        return $this->connaissanceDemandeCoursProduitAgricoleWhy;
+    }
+
+    public function setConnaissanceDemandeCoursProduitAgricoleWhy(?int $connaissanceDemandeCoursProduitAgricoleWhy): self
+    {
+        $this->connaissanceDemandeCoursProduitAgricoleWhy = $connaissanceDemandeCoursProduitAgricoleWhy;
+
+        return $this;
+    }
+
+    public function getAmeliorerQualiteProduit(): ?bool
+    {
+        return $this->ameliorerQualiteProduit;
+    }
+
+    public function setAmeliorerQualiteProduit(?bool $ameliorerQualiteProduit): self
+    {
+        $this->ameliorerQualiteProduit = $ameliorerQualiteProduit;
+
+        return $this;
+    }
+
+    public function getAmeliorerQualiteProduitWhy(): ?int
+    {
+        return $this->ameliorerQualiteProduitWhy;
+    }
+
+    public function setAmeliorerQualiteProduitWhy(?int $ameliorerQualiteProduitWhy): self
+    {
+        $this->ameliorerQualiteProduitWhy = $ameliorerQualiteProduitWhy;
+
+        return $this;
+    }
+
+    public function getGroupement(): ?bool
+    {
+        return $this->groupement;
+    }
+
+    public function setGroupement(?bool $groupement): self
+    {
+        $this->groupement = $groupement;
+
+        return $this;
+    }
+
+    public function getAvantageRegroupement(): ?int
+    {
+        return $this->avantageRegroupement;
+    }
+
+    public function setAvantageRegroupement(?int $avantageRegroupement): self
+    {
+        $this->avantageRegroupement = $avantageRegroupement;
 
         return $this;
     }

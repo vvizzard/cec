@@ -20,11 +20,8 @@
 
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    {# <li class="nav-item active">
                         <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
-                    </li>
-                    {# <li class="nav-item">
-                        <a class="nav-link" href="#">Agriculteurs</a>
                     </li> #}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
@@ -68,36 +65,39 @@
                             Configuration agriculteur
                         </a>
                         <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('type_elevage') }}">
+                                Type d'elevage
+                            </a>
                             <a class="dropdown-item" href="{{ path('village') }}">
                                 Village
                             </a>
                             <a class="dropdown-item" href="{{ path('terroir') }}">
-                                Terroir
+                                Fokontany
                             </a>
                             <a class="dropdown-item" href="{{ path('sous_Region') }}">
-                                Sous région
+                                District
                             </a>
                             <a class="dropdown-item" href="{{ path('commune') }}">
                                 Commune
                             </a>
-                            <a class="dropdown-item" href="{{ path('ancienneteAgriculteur') }}">
+                            {# <a class="dropdown-item" href="{{ path('ancienneteAgriculteur') }}">
                                 Anciennete Agriculteur
                             </a>
                             <a class="dropdown-item" href="{{ path('bvpi') }}">
                                 BVPI
-                            </a>
+                            </a> #}
                             <a class="dropdown-item" href="{{ path('ce') }}">
                                 Champ école
                             </a>
-                            <a class="dropdown-item" href="{{ path('op') }}">
+                            {# <a class="dropdown-item" href="{{ path('op') }}">
                                 OP
-                            </a>
+                            </a> #}
                             <a class="dropdown-item" href="{{ path('typologie') }}">
                                 Typologie
                             </a>
-                            <a class="dropdown-item" href="{{ path('zone_technicien') }}">
+                            {# <a class="dropdown-item" href="{{ path('zone_technicien') }}">
                                 Zone techincien
-                            </a>
+                            </a> #}
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -121,7 +121,7 @@
                             <a class="dropdown-item" href="{{ path('milieu') }}">
                                 Milieu
                             </a>
-                            <a class="dropdown-item" href="{{ path('anciennete') }}">
+                            {# <a class="dropdown-item" href="{{ path('anciennete') }}">
                                 Anciennete Parcelle
                             </a>
                             <a class="dropdown-item" href="{{ path('zc') }}">
@@ -129,7 +129,7 @@
                             </a>
                             <a class="dropdown-item" href="{{ path('emplacement_p_i') }}">
                                 Emplacement PI
-                            </a>
+                            </a> #}
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -150,7 +150,7 @@
                             <a class="dropdown-item" href="{{ path('itineraire_cultural') }}">
                                 Itinéraire cultural
                             </a>
-                            <a class="dropdown-item" href="{{ path('etat_pc') }}">
+                            {# <a class="dropdown-item" href="{{ path('etat_pc') }}">
                                 État PC
                             </a>
                             <a class="dropdown-item" href="{{ path('etat_mulch') }}">
@@ -179,7 +179,7 @@
                             </a>
                             <a class="dropdown-item" href="{{ path('sondage_qualitatif') }}">
                                 Sondage qualitatif
-                            </a>
+                            </a> #}
                         </div>
                     </li>
                 </ul>

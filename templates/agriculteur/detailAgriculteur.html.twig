@@ -1,297 +1,540 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC: Agriculteur {% endblock %}
+{% block title %}CEC: Agriculteur
+{% endblock %}
 
 {% block body %}
-<div class="row">
-    <h1>{{ agriculteur.nom }} {{ agriculteur.prenom }}</h1>
-</div>
+	<div class="row">
+		<h1>Agriculteur : AG_{{ agriculteur.id }}</h1>
+	</div>
 
-<div class="row bkg-white">
-    <h2>Information de base</h2>
-    <table class="table table-hover table-fit">
-        <tr>
-            <td>Genre : </td>
-            <td>{{ agriculteur.genre }}</td>
-        </tr>
-        <tr>
-            <td>Age : </td>
-            <td>{{ agriculteur.age }}</td>
-        </tr>
-        <tr>
-            <td>Statut au sein de la Famille : </td>
-            <td>{{ agriculteur.statutFamille }}</td>
-        </tr>
-        <tr>
-            <td>Lot : </td>
-            <td>{{ agriculteur.lot }}</td>
-        </tr>
-        <tr>
-            <td>District : </td>
-            <td>{{ agriculteur.district }}</td>
-        </tr>
-        <tr>
-            <td>Surface totale exploitée : </td>
-            <td>{{ agriculteur.surfaceTotaleExploitee }}</td>
-        </tr>
-        <tr>
-            <td>Surface totale de riziere : </td>
-            <td>{{ agriculteur.surfaceTotaleRiziere }}</td>
-        </tr>
-        <tr>
-            <td>Surface de parcelle louée : </td>
-            <td>{{ agriculteur.surfaceParcelleLouee }}</td>
-        </tr>
-        <tr>
-            <td>Surface de parcelle en location : </td>
-            <td>{{ agriculteur.surfaceParcelleEnLocation }}</td>
-        </tr>
-        <tr>
-            <td>Nombre de ménage : </td>
-            <td>{{ agriculteur.nbrMenage }}</td>
-        </tr>
-        <tr>
-            <td>Nombre d'actif : </td>
-            <td>{{ agriculteur.nbrActif }}</td>
-        </tr>
-        <tr>
-            <td>Nombre en mois d'autosuffisance en riz : </td>
-            <td>{{ agriculteur.nbrMoisAutosuffisanceRiz }}</td>
-        </tr>
-        <tr>
-            <td>Acces riziere : </td><!---->
-            <td>{{ agriculteur.accesRiziere }}</td>
-        </tr>
-        <tr>
-            <td>Equipement agricole : </td><!---->
-            <td>{{ agriculteur.equipementAgricole }}</td>
-        </tr>
-        <tr>
-            <td>Pratique d'activité agricole : </td><!---->
-            <td>{{ agriculteur.pratiqueActiviteAgricole }}</td>
-        </tr>
-        <tr>
-            <td>Pratique d'élevage rente : </td><!---->
-            <td>{{ agriculteur.pratiqueElevageRente }}</td>
-        </tr>
-        <tr>
-            <td>Pratique d'activité non agricole : </td><!---->
-            <td>{{ agriculteur.pratiqueActiviteNonAgricole }}</td>
-        </tr>
-        <tr>
-            <td>Pratique de pêche : </td><!---->
-            <td>{{ agriculteur.pratiquePeche }}</td>
-        </tr>
-        <tr>
-            <td>Actif dans d'autre projet et programme : </td><!---->
-            <td>{{ agriculteur.autreProgramme }}</td>
-        </tr>
-        <tr>
-            <td>Nombre de soudure en mois : </td>
-            <td>{{ agriculteur.nbrMoisSoudure }}</td>
-        </tr>
+	<div class="row bkg-white">
+		<h2>Information de base</h2>
+		<table class="table table-hover">
+			<tr>
+				<td>Nom et prénom :
+				</td>
+				<td>{{ agriculteur.nom }}
+					{{ agriculteur.prenom }}</td>
+			</tr>
+			<tr>
+				<td>Typologie :
+				</td>
+				<td>
+					{% if agriculteur.typologie is not null %}
+						{{ agriculteur.typologie.nom }}
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Genre :
+				</td>
+				<td>
+					{% if agriculteur.genre == 0  %}
+						Femme
+					{% else %}
+						Homme
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Age :
+				</td>
+				<td>{{ agriculteur.age }}</td>
+			</tr>
+			<tr>
+				<td>Statut au sein de la Famille :
+				</td>
+				<td>{{ agriculteur.statutFamille }}</td>
+			</tr>
+			<tr>
+				<td>Taille de ménage :
+				</td>
+				<td>{{ agriculteur.nbrMenage }}</td>
+			</tr>
+			<tr>
+				<td>Nombre d'actif :
+				</td>
+				<td>{{ agriculteur.nbrActif }}</td>
+			</tr>
+			<tr>
+				<td>District :
+				</td>
+				<td>
+					{% if agriculteur.sousRegion is not null %}
+						{{ agriculteur.sousRegion.nom }}
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Commune :
+				</td>
+				<td>
+					{% if agriculteur.commune is not null %}
+						{{ agriculteur.commune.nom }}
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Fokontany :
+				</td>
+				<td>
+					{% if agriculteur.terroir is not null %}
+						{{ agriculteur.terroir.nom }}
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Village :
+				</td>
+				<td>
+					{% if agriculteur.village is not null %}
+						{{ agriculteur.village.nom }}
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Champ école :
+				</td>
+				<td>
+					{% if agriculteur.ce is not null %}
+						{{ agriculteur.ce.nom }}
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Culture rente prioritaire :
+				</td>
+				<td>
+					{% if agriculteur.culture is not null %}
+						{{ agriculteur.culture.nom }}
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Elevage :
+				</td>
+				<td>
+					{% if agriculteur.pratiqueElevageRente == true  %}
+						oui
+					{% else %}
+						non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Type d'élevage prioritaire :
+				</td>
+				<td>
+					{% if agriculteur.typeElevage is not null %}
+						{{ agriculteur.typeElevage.nom }}
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Acces riziere :
+				</td>
+				<!---->
+				<td>
+					{% if agriculteur.accesRiziere == true  %}
+						oui
+					{% else %}
+						non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>OP :
+				</td>
+				<!---->
+				<td>
+					{% if agriculteur.opBoolean == true  %}
+						oui
+					{% else %}
+						non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Pratique d'activité non agricole :
+				</td>
+				<!---->
+				<td>
+					{% if agriculteur.pratiqueActiviteNonAgricole == true  %}
+						oui
+					{% else %}
+						non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Pratique de pêche :
+				</td>
+				<!---->
+				<td>
+					{% if agriculteur.pratiquePeche == true  %}
+						oui
+					{% else %}
+						non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Actif dans d'autre projet et programme :
+				</td>
+				<!---->
+				<td>
+					{% if agriculteur.autreProgramme == true  %}
+						oui
+					{% else %}
+						non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Surface totale exploitée (ha) :
+				</td>
+				<td>{{ agriculteur.surfaceTotaleExploitee }}</td>
+			</tr>
+			<tr>
+				<td>Surface totale de riziere (ha) :
+				</td>
+				<td>{{ agriculteur.surfaceTotaleRiziere }}</td>
+			</tr>
+			<tr>
+				<td>Surface de parcelle louée (ha) :
+				</td>
+				<td>{{ agriculteur.surfaceParcelleLouee }}</td>
+			</tr>
+			<tr>
+				<td>Surface de parcelle en location (ha) :
+				</td>
+				<td>{{ agriculteur.surfaceParcelleEnLocation }}</td>
+			</tr>
+			{% for nbrCulture in agriculteur.nbrCultureAgriculteur %}
+				<tr>
+					<td>Nombre de pieds de
+						{{ nbrCulture.culture.nom }}
+						:
+					</td>
+					<td>{{ nbrCulture.nbr }}</td>
+				</tr>
+			{% endfor %}
+			{% for nbrEquipementAgricole in agriculteur.nbrEquipementAgricoleAgriculteur %}
+				<tr>
+					<td>Nombre de
+						{{ nbrEquipementAgricole.equipementAgricole.nom }}
+						:
+					</td>
+					<td>{{ nbrEquipementAgricole.nbr }}</td>
+				</tr>
+			{% endfor %}
+			<tr>
+				<td>Nombre de soudure en mois :
+				</td>
+				<td>{{ agriculteur.nbrMoisSoudure }}</td>
+			</tr>
+			<tr>
+				<td><br></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Comment vous planifiez vos activités de production ?
+				</td>
+				<td>
+					{% if agriculteur.calendrier == 1 %}
+						1. Sur la base des pratiques ancestrales
+					{% elseif agriculteur.calendrier == 2 %}
+						2. Sur la base de la perception des conditions météorologiques
+					{% elseif agriculteur.calendrier == 3 %}
+						3. Sur la base du calendrier agricole
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Comment mesurez-vous vos parcelles et les intrants nécessaires à votre exploitation ?
+				</td>
+				<td>
+					{% if agriculteur.outilAmeliore == 1 %}
+						1. Utilisation de décamètre pour mesurer la surface et de balance pour le dosage des intrants
+					{% elseif agriculteur.outilAmeliore == 2 %}
+						2. Utilisation de corde avec un étalon de mesure et utilisation de boîte de lait concentré ou gobelet pour le dosage d’engrais
+					{% elseif agriculteur.outilAmeliore == 3 %}
+						3. Technique de mesure traditionnel, avec estimation par pas et dosage d’engrais par poignée de main
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Selon vous, les besoins en alimentation sont-ils les mêmes pour chaque membre du ménage ?
+				</td>
+				<td>
+					{% if agriculteur.differenceBesoinsAlimentaire == true %}
+						Oui
+					{% else %}
+						Non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Si non, connaissez-vous cette différence de besoin ?
+				</td>
+				<td>
+					{% if agriculteur.connaissanceDifferenceBesoinsAlimentaire == true %}
+						Oui
+					{% else %}
+						Non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Votre régime alimentaire est-il varié ?
+				</td>
+				<td>
+					{% if agriculteur.regimeAlimentaireVariee == true %}
+						Oui
+					{% else %}
+						Non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Comment assurez-vous la disponibilité des produits nécessaires à l’alimentation tout au long de l’année ?
+				</td>
+				<td>
+					{% if agriculteur.assuranceProduitNecessaireAlimentation == 1 %}
+						1. Le producteur garde une partie de sa production agricole pour assurer la disponibilité d’une nourriture variée tout au long de l’année
+					{% elseif agriculteur.assuranceProduitNecessaireAlimentation == 2 %}
+						2. Le producteur vend la totalité de sa production sur un produit et achète le même produit à une période ultérieure pour satisfaire les besoins nutritionnels
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Vous enregistrez vos entrées et sorties d’argent ?
+				</td>
+				<td>
+					{% if agriculteur.enregistrementMouvementArgent == true %}
+						Oui
+					{% else %}
+						Non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Si oui, pourquoi faire ?
+				</td>
+				<td>
+					{% if agriculteur.enregistrementMouvementArgentWhy == 1 %}
+						1. Pour évaluer le profit ou la perte
+					{% elseif agriculteur.enregistrementMouvementArgentWhy == 2 %}
+						2. Pour justifier les recettes et les dépenses
+					{% elseif agriculteur.enregistrementMouvementArgentWhy == 3 %}
+						3. Pour gérer la trésorerie
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Comment vous épargnez votre argent ?
+				</td>
+				<td>
+					{% if agriculteur.epargne == 1 %}
+						1. Le producteur garde son argent à la maison
+					{% elseif agriculteur.epargne == 2 %}
+						2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Vous connaissez la demande et le cours des produits agricoles sur le marché ?
+				</td>
+				<td>
+					{% if agriculteur.connaissanceDemandeCoursProduitAgricole == true %}
+						Oui
+					{% else %}
+						Non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Pourquoi faire ?
+				</td>
+				<td>
+					{% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 1 %}
+						1. Le prix et la demande conditionnent l’orientation vers une spéculation compte tenu des dépenses et des risques encourus
+					{% elseif agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 2 %}
+						2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Selon vous, est-il important d’améliorer la qualité de vos produits ?
+				</td>
+				<td>
+					{% if agriculteur.ameliorerQualiteProduit == true %}
+						Oui
+					{% else %}
+						Non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Si oui, pourquoi ? :
+				</td>
+				<td>
+					{% if agriculteur.ameliorerQualiteProduitWhy == 1 %}
+						1. Parce que la valeur marchande du produit peut augmenter en fonction de la qualité et de la même manière le revenu du producteur
+					{% elseif agriculteur.ameliorerQualiteProduitWhy == 2 %}
+						2. Le défaut de qualité entraine des pertes lors de la commercialisation
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Vous faites partie d’un groupement ou d’une coopérative ?
+				</td>
+				<td>
+					{% if agriculteur.groupement == true %}
+						Oui
+					{% else %}
+						Non
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>Selon vous, quels sont les avantages du regroupement ?
+				</td>
+				<td>
+					{% if agriculteur.avantageRegroupement == 1 %}
+						1.Il est plus facile de résoudre les problèmes dans le processus de production
+					{% elseif agriculteur.avantageRegroupement == 2 %}
+						2. Cela facilite la demande de services et l’intervention des prestataires
+					{% elseif agriculteur.avantageRegroupement == 3 %}
+						3. Intéressant économiquement (obtention de meilleurs prix à l’achat des intrants et à la vente de la production)
+					{% elseif agriculteur.avantageRegroupement == 4 %}
+						4. Le producteur ne comprend pas encore les avantages du regroupement
+					{% endif %}
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<div class="row bkg-white fit">
+		<h2>Parcelles</h2>
+		<table class="table table-fit table-hover">
+			<tr>
+				<th>Id</th>
+				{# <th>Ancien code parcelle</th> #}
+				<th>Surface (ha)</th>
+				<th>Type</th>
+				<th>Type du sol</th>
+				<th>Mode de faire valoir</th>
+				<th>Localisation</th>
+				<th>Milieu</th>
+				<th>Irrigation</th>
+				<th>Compaction</th>
+				<th>Contre saison</th>
+				<th>Zone érodible</th>
+				<th>Longitude</th>
+				<th>Latitude</th>
+				<th>Observation</th>
+				{# <th>Risque d'innondation</th>
+				            <th>Ancienneté</th>
+				            <th>ZC 2010</th>
+				            <th>Emplacement PI</th> #}
+			</tr>
 
-        <tr>
-            <td>Typologie : </td>
-            <td>
-                {% if agriculteur.typologie is not null %}
-                    {{ agriculteur.typologie.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        
-        <tr>
-            <td>BVPI : </td>
-            <td>
-                {% if agriculteur.bvpi is not null %}
-                    {{ agriculteur.bvpi.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Zone Technicien : </td>
-            <td>
-                {% if agriculteur.zoneTechnicien is not null %}
-                    {{ agriculteur.zoneTechnicien.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>OP : </td>
-            <td>
-                {% if agriculteur.op is not null %}
-                    {{ agriculteur.op.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Champ école : </td>
-            <td>
-                {% if agriculteur.ce is not null %}
-                    {{ agriculteur.ce.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        
-        {% for nbrCulture in agriculteur.nbrCultureAgriculteur %}
-            <tr>
-                <td>Nombre de pieds de {{ nbrCulture.culture.nom }} : </td>
-                <td>{{ nbrCulture.nbr }}</td>
-            </tr>
-        {% endfor %}
-        {% for nbrElevage in agriculteur.nbrElevageAgriculteurs %}
-            <tr>
-                <td>Nombre de {{ nbrElevage.elevage.nom }} : </td>
-                <td>{{ nbrElevage.nbr }}</td>
-            </tr>
-        {% endfor %}
-        {% for nbrEquipementAgricole in agriculteur.nbrEquipementAgricoleAgriculteur %}
-            <tr>
-                <td>Nombre de {{ nbrEquipementAgricole.equipementAgricole.nom }} : </td>
-                <td>{{ nbrEquipementAgricole.nbr }}</td>
-            </tr>
-        {% endfor %}
+			{% for parcelle in agriculteur.parcelles %}
+				<tr>
+					<td>
+						<a class="" href="{{ path('detail_parcelle', {'id': parcelle.id}) }}">
+							PL_{{ parcelle.id }}
+						</a>
+					</td>
+					{# <td>
+					                    <a class="" href="{{ path('detail_parcelle', 
+					                            {'id': parcelle.id}) }}">
+					                        {{ parcelle.ancienCodeParcelle }}
+					                    </a>
+					                </td> #}
+					<td>{{ parcelle.surface }}</td>
+					<td>
+						{% if parcelle.type is not null %}
+							{{ parcelle.type.nom }}
+						{% endif %}
+					</td>
+					<td>
+						{% if parcelle.TypeSol is not null %}
+							{{ parcelle.TypeSol.nom }}
+						{% endif %}
+					</td>
+					<td>
+						{% if parcelle.modeFaireValoir is not null %}
+							{{ parcelle.modeFaireValoir.nom }}
+						{% endif %}
+					</td>
+					<td>
+						{% if parcelle.localisation is not null %}
+							{{ parcelle.localisation.nom }}
+						{% endif %}
+					</td>
+					<td>
+						{% if parcelle.milieu is not null %}
+							{{ parcelle.milieu.nom }}
+						{% endif %}
+					</td>
+					<td>
+						{% if parcelle.irrigation == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+					<td>
+						{% if parcelle.compaction == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+					<td>
+						{% if parcelle.contreSaison == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+					<td>
+						{% if parcelle.zoneErodible == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+					<td>{{ parcelle.longitude }}</td>
+					<td>{{ parcelle.latitude }}</td>
+					<td>{{ parcelle.observation }}</td>
+					{# <td>{{ parcelle.risqueInnondation }}</td>
+					                <td>
+					                    {% if parcelle.anciennete is not null %} 
+					                        {{ parcelle.anciennete.nom }} 
+					                    {% endif %}
+					                </td>
+					                <td>{% if parcelle.zc is not null %} {{ parcelle.zc.nom }} {% endif %}</td>
+					                <td>
+					                    {% if parcelle.emplacementPI is not null %} 
+					                        {{ parcelle.emplacementPI.nom }} 
+					                    {% endif %}
+					                </td> #}
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="row bkg-white">
+		<hr>
 
-<!---->        {# <tr>
-            <td>parcelles : </td>
-            <td>{{ agriculteur.parcelles }}</td>
-        </tr> #}
-        
-        <tr>
-            <td>Village : </td>
-            <td>
-                {% if agriculteur.village is not null %}
-                    {{ agriculteur.village.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Terroir : </td>
-            <td>
-                {% if agriculteur.terroir is not null %}
-                    {{ agriculteur.terroir.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Sous région : </td>
-            <td>
-                {% if agriculteur.sousRegion is not null %}
-                    {{ agriculteur.sousRegion.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Région : </td>
-            <td>
-                {% if agriculteur.region is not null %}
-                    {{ agriculteur.region.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Commune : </td>
-            <td>
-                {% if agriculteur.commune is not null %}
-                    {{ agriculteur.commune.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Anciennete : </td>
-            <td>
-                {% if agriculteur.anciennete is not null %}
-                    {{ agriculteur.anciennete.nom }}
-                {% endif %}
-            </td>
-        </tr>
-    </table>
-</div>
-<br>
-<div class="row bkg-white fit">
-    <h2>Parcelles</h2>
-    <table class="table table-fit table-hover">
-        <tr>
-            <th>Id</th>
-            <th>Ancien code parcelle</th>
-            <th>Surface</th>
-            <th>Type</th>
-            <th>Type du sol</th>
-            <th>Mode de faire valoir</th>
-            <th>Localisation</th>
-            <th>Milieu</th>
-            <th>Irrigation</th>
-            <th>Compaction</th>
-            <th>Contre saison</th>
-            <th>Zone érodible</th>
-            <th>Longitude</th>
-            <th>Latitude</th>
-            <th>Observation</th>
-            <th>Risque d'innondation</th>
-            <th>Ancienneté</th>
-            <th>ZC 2010</th>
-            <th>Emplacement PI</th>
-        </tr>
+		<a class="" href="{{ path('add_parcelle_from_agriculteur', {'idAgriculteur': agriculteur.id}) }}">
+			<button class="btn btn-primary">Ajouter une culture</button>
+		</a>
 
-        {% for parcelle in agriculteur.parcelles %}
-            <tr>
-                <td>
-                    <a class="" href="{{ path('detail_parcelle', 
-                            {'id': parcelle.id}) }}">
-                        {{ parcelle.id }}
-                    </a>
-                </td>
-                <td>
-                    <a class="" href="{{ path('detail_parcelle', 
-                            {'id': parcelle.id}) }}">
-                        {{ parcelle.ancienCodeParcelle }}
-                    </a>
-                </td>
-                <td>{{ parcelle.surface }}</td>
-                <td>{% if parcelle.type is not null %} {{ parcelle.type.nom }} {% endif %}</td>
-                <td>{% if parcelle.TypeSol is not null %} {{ parcelle.TypeSol.nom }} {% endif %}</td>
-                <td>
-                    {% if parcelle.modeFaireValoir is not null %} 
-                        {{ parcelle.modeFaireValoir.nom }} 
-                    {% endif %}
-                </td>
-                <td>
-                    {% if parcelle.localisation is not null %} 
-                        {{ parcelle.localisation.nom }} 
-                    {% endif %}
-                </td>
-                <td>{% if parcelle.milieu is not null %} {{ parcelle.milieu.nom }} {% endif %}</td>
-                <td>{{ parcelle.irrigation }}</td>
-                <td>{{ parcelle.compaction }}</td>
-                <td>{{ parcelle.contreSaison }}</td>
-                <td>{{ parcelle.zoneErodible }}</td>
-                <td>{{ parcelle.longitude }}</td>
-                <td>{{ parcelle.latitude }}</td>
-                <td>{{ parcelle.observation }}</td>
-                <td>{{ parcelle.risqueInnondation }}</td>
-                <td>
-                    {% if parcelle.anciennete is not null %} 
-                        {{ parcelle.anciennete.nom }} 
-                    {% endif %}
-                </td>
-                <td>{% if parcelle.zc is not null %} {{ parcelle.zc.nom }} {% endif %}</td>
-                <td>
-                    {% if parcelle.emplacementPI is not null %} 
-                        {{ parcelle.emplacementPI.nom }} 
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-</div>
-<div class="row bkg-white">
-    <hr>
-
-    <a class="" href="{{ path('add_parcelle_from_agriculteur', {'idAgriculteur': agriculteur.id}) }}">
-        <button class="btn btn-primary">Ajouter une culture</button>
-    </a>
-
-    <hr>
-</div>
+		<hr>
+	</div>
 
 {% endblock %}

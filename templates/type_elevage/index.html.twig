@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TypeElevageController!{% endblock %}
+
+{% block body %}
+
+<h1>TYPE ELEVAGE</h1>
+
+<h2>Ajout</h2>
+
+<div>
+    {{ form_start(typeElevage_form) }}
+
+    {{ form_widget(typeElevage_form) }}
+
+    <button typeElevage="submit" class="btn btn-success">Ajout</button>
+
+    {{ form_end(typeElevage_form) }}
+</div>
+
+<h2>Listes</h2>
+
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    {% for typeElevage in typeElevages %}
+    <tr>
+        <td>{{ typeElevage.nom }}</td>
+        <td>{{ typeElevage.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

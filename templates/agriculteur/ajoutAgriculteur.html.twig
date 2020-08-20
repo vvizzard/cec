@@ -1,337 +1,314 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC:Ajout d'un agriculteur{% endblock %}
+{% block title %}CEC:Ajout d'un agriculteur
+{% endblock %}
 
 {% block body %}
-<h1>Ajout d'un nouvel agriculteur</h1>
-<hr>
-<div class="">
-    {# <form action="" class="row">
-        <div class="col-md-6">
-            <h2>Information de base</h2>
-            <label for="nom_agriculteur">Nom:</label>
-            <input type="text" id="nom_agriculteur" class="form-control">
-            <label for="prenom_agriculteur">Prenom:</label>
-            <input type="text" id="prenom_agriculteur" class="form-control">
-            <label for="genre_agriculteur">Genre</label>
-            <select name="" id="genre_agriculteur" class="form-control">
-                <option value="Homme">Homme</option>
-                <option value="Femme">Femme</option>
-            </select>
-            <label for="age_agriculteur">Age:</label>
-            <input type="number" id="age_agriculteur" class="form-control">
-            <label for="statut_agriculteur">Statut au niveau de la famille:</label>
-            <input type="text" id="statut_agriculteur" class="form-control">
-            <label for="anciennete_agriculteur">Ancienneté</label>
-            <select name="" id="anciennete_agriculteur" class="form-control">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4 et plus</option>
-            </select>
-            <label for="typologie_agriculteur">Typologie</label>
-            <select name="" id="typologie_agriculteur" class="form-control">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5 et 6</option>
-            </select>
-            <label for="lot_agriculteur">Lot:</label>
-            <input type="text" id="lot_agriculteur" class="form-control">
-            <label for="region_agriculteur">Région</label>
-            <select name="" id="region_agriculteur" class="form-control">
-                <option value="Analamanga">Analamanga</option>
-                <option value="Atsinanana">Atsinanana</option>
-                <option value="Atsimo andrefana">Atsimo andrefana</option>
-                <option value="Diana">Diana</option>
-                <option value="Itasy">Itasy</option>
-            </select>
-            <label for="sous_region_agriculteur">Sous région</label>
-            <select name="" id="sous_region_agriculteur" class="form-control">
-                <option value="Analamanga">Manakara</option>
-                <option value="Atsinanana">Vohipeno</option>
-            </select>
-            <label for="district_agriculteur">District</label>
-            <select name="" id="district_agriculteur" class="form-control">
-                <option value="test">test</option>
-            </select>
-            <label for="zone_technicien_agriculteur">Zone technicien</label>
-            <select name="" id="zone_technicien_agriculteur" class="form-control">
-                <option value="Basse matitanana">Basse matitanana</option>
-            </select>
-            <label for="bvpi_agriculteur">BVPI</label>
-            <select name="" id="bvpi_agriculteur" class="form-control">
-                <option value="Ambatoabo analatelo">Ambatoabo analatelo</option>
-            </select>
-            <label for="terroir_agriculteur">Terroir</label>
-            <select name="" id="terroir_agriculteur" class="form-control">
-                <option value="Ambatofotsiloha">Ambatofotsiloha</option>
-            </select>
-            <label for="commune_agriculteur">Commune</label>
-            <select name="" id="commune_agriculteur" class="form-control">
-                <option value="Ambila">Ambila</option>
-            </select>
-            <label for="village_agriculteur">Village</label>
-            <select name="" id="village_agriculteur" class="form-control">
-                <option value="Agnalalava">Agnalalava</option>
-            </select>
-            <div class="form-group">
-                {# <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="is_op_agricole">
-                    <label class="custom-control-label" for="is_op_agricole">
-                        OP
-                    </label>
-                </div><br> #}{#
-                <label for="op_agriculteur">OP</label>
-                <select name="" id="op_agriculteur" class="form-control">
-                    <option value="0">Non OP</option>
-                    <option value="AFA">AFA</option>
-                </select>
-            </div>
-            <label for="champ_ecole_agriculteur">Champ école</label>
-            <select name="" id="champ_ecole_agriculteur" class="form-control">
-                <option value="Test">Test</option>
+	<h1>Ajout d'un nouvel agriculteur</h1>
+	<hr>
+	<div class="">
+
+		{{ form_start(form_agriculteur) }}
+
+		<div class="form-group">
+			<label for="form_nom" class="required">Nom</label>
+			{{ form_widget(form_agriculteur.nom, {'attr': {'placeholder': 'Taper ici le nom de l\'agriculteur'}}) }}
+		</div>
+
+        {{ form_row(form_agriculteur.prenom) }}
+
+        <label for="typologie">Type d'agriculteur:</label>
+		<select name="typologie" id="typologie" class="form-control">
+			{% for typologie in typologies %}
+				<option value="{{ typologie.id }}">{{ typologie.nom }}</option>
+			{% endfor %}
+		</select>
+
+        <label for="genre">Genre:</label>
+		<select name="genre" id="genre" class="form-control">
+			<option value="0">Femme</option>
+			<option value="1">Homme</option>
+		</select>
+
+        {{ form_row(form_agriculteur.age) }}
+
+        <div class="form-group">
+			<label for="form_statutFamille" class="required">Statut au niveau de la famille:</label>
+			{{ form_widget(form_agriculteur.statutFamille) }}
+		</div>
+
+        <div class="form-group">
+			<label for="form_nbrMenage" class="required">Taille de ménage:</label>
+			{{ form_widget(form_agriculteur.nbrMenage) }}
+		</div>
+        
+        <div class="form-group">
+			<label for="form_nbrActif" class="required">Nombre d'actif:</label>
+			{{ form_widget(form_agriculteur.nbrActif) }}
+		</div>
+
+        <label for="sousRegion">District:
+		</label>
+		<select name="sousRegion" id="sousRegion" class="form-control">
+			<option></option>
+			{% for sousRegion in sousRegions %}
+				<option value="{{ sousRegion.id }}">{{ sousRegion.nom }}</option>
+			{% endfor %}
+		</select>
+
+        <label for="commune">Commune:
+		</label>
+		<select name="commune" id="commune" class="form-control">
+			<option></option>
+			{% for commune in communes %}
+				<option value="{{ commune.id }}">{{ commune.nom }}</option>
+			{% endfor %}
+		</select>
+
+        <label for="terroir">Fokontany:
+		</label>
+		<select name="terroir" id="terroir" class="form-control">
+			<option></option>
+			{% for terroir in terroirs %}
+				<option value="{{ terroir.id }}">{{ terroir.nom }}</option>
+			{% endfor %}
+		</select>
+
+        <label for="village">Village:
+		</label>
+		<select name="village" id="village" class="form-control">
+			<option></option>
+			{% for village in villages %}
+				<option value="{{ village.id }}">{{ village.nom }}</option>
+			{% endfor %}
+		</select>
+
+        <label for="ce">Champ ecole:
+		</label>
+		<select name="ce" id="ce" class="form-control">
+			{% for ce in ces %}
+				<option value="{{ ce.id }}">{{ ce.nom }}</option>
+			{% endfor %}
+		</select>
+
+        <label for="crente">Culture de rente prioritaire:
+		</label>
+		<select name="culture" id="crente" class="form-control">
+			{% for ce in cultures %}
+				<option value="{{ ce.id }}">{{ ce.nom }}</option>
+			{% endfor %}
+		</select>
+
+        <div class="form-group">
+			{{ form_widget(form_agriculteur.pratiqueElevageRente) }}
+		</div>
+
+        <label for="typeElevage">Type d'élevage prioritaire:
+		</label>
+		<select name="typeElevage" id="typeElevage" class="form-control">
+			{% for ce in typeElevages %}
+				<option value="{{ ce.id }}">{{ ce.nom }}</option>
+			{% endfor %}
+		</select>
+
+        <div class="form-group">
+			{{ form_widget(form_agriculteur.accesRiziere) }}
+		</div>
+
+        <div class="form-group">
+			{{ form_widget(form_agriculteur.opBoolean) }}
+		</div>
+
+        <div class="form-group">
+			{{ form_widget(form_agriculteur.pratiqueActiviteNonAgricole) }}
+		</div>
+
+        <div class="form-group">
+			{{ form_widget(form_agriculteur.pratiquePeche) }}
+		</div>
+
+        <div class="form-group">
+			{{ form_widget(form_agriculteur.autreProgramme) }}
+		</div>
+
+
+
+        <div class="form-group">
+			<label for="form_surfaceTotaleExploitee" class="required">Surface totale exploitée (ha):</label>
+			{{ form_widget(form_agriculteur.surfaceTotaleExploitee) }}
+		</div>
+
+        <div class="form-group">
+			<label for="form_surfaceTotaleRiziere" class="required">Surface totale rizière (ha):</label>
+			{{ form_widget(form_agriculteur.surfaceTotaleRiziere) }}
+		</div>
+
+        <div class="form-group">
+			<label for="form_surfaceParcelleLouee" class="required">Surface de parcelle louée (ha):</label>
+			{{ form_widget(form_agriculteur.surfaceParcelleLouee) }}
+		</div>
+
+        <div class="form-group">
+			<label for="form_surfaceParcelleEnLocation" class="required">Surface de parcelle en location (ha):</label>
+			{{ form_widget(form_agriculteur.surfaceParcelleEnLocation) }}
+		</div>
+
+
+        {% for culture in cultures %}
+			<label for="nbr_{{ culture.nom }}">Nbr de pieds
+				{{ culture.nom }}</label>
+			<input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" class="form-control">
+		{% endfor %}
+
+        {% for equipement in equipements %}
+			<label for="nbr_{{ equipement.nom }}">Nbr de
+				{{ equipement.nom }}</label>
+			<input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" class="form-control">
+		{% endfor %}
+
+        <div class="form-group">
+			<label for="form_nbrMoisSoudure" class="required">Nombre de mois de soudure:</label>
+			{{ form_widget(form_agriculteur.nbrMoisSoudure) }}
+		</div>
+
+        <hr>
+
+        <div class="form-group">
+            <label for="calendrier">Comment vous planifiez vos activités de production ?</label>
+            <select class="form-control" name="calendrier" id="calendrier">
+                <option value=""></option>
+                <option value="1">1. Sur la base des pratiques ancestrales</option>
+                <option value="2">2. Sur la base de la perception des conditions météorologiques</option>
+                <option value="3">3. Sur la base du calendrier agricole</option>
             </select>
         </div>
-        <div class="col-md-6">
-            <h2>Donnée d'exploitation</h2>
-            <label for="surface_total_exploite">Surface totale exploitee (Ha)</label>
-            <input type="number" id="surface_total_exploite" class="form-control">
-            <label for="surface_total_riziere">Surface totale riziere (Ha)</label>
-            <input type="number" id="surface_total_riziere" class="form-control">
-            <label for="surface_parcelle_louee">Surface parcelle louée</label>
-            <input type="number" id="surface_parcelle_louee" class="form-control">
-            <label for="surface_parcelle_location">Surface parcelle en location</label>
-            <input type="number" id="surface_parcelle_location" class="form-control">
-            <label for="nbr_pers_menage">Nombre de personne dans le menage</label>
-            <input type="number" id="nbr_pers_menage" class="form-control">
-            <label for="nbr_actif">Nombre d'actifs</label>
-            <input type="number" id="nbr_actif" class="form-control">
-            <label for="nbr_mois_autossuffisance_riz">Nombre de mois autossuffisance en riz</label>
-            <input type="number" id="nbr_mois_autossuffisance_riz" class="form-control">
-            <label for="acces_riziere">Acces a des rizieres</label>
-            <select name="" id="acces_riziere" class="form-control">
-                <option value="api">Bas fond</option>
-                <option value="vol">Permetre irrigue</option>
+        <div class="form-group">
+            <label for="outilAmeliore">Comment mesurez-vous vos parcelles et les intrants nécessaires à votre exploitation ?</label>
+            <select class="form-control" name="outilAmeliore" id="outilAmeliore">
+                <option value=""></option>
+                <option value="1">1. Utilisation de décamètre pour mesurer la surface et de balance pour le dosage des intrants</option>
+                <option value="2">2. Utilisation de corde avec un étalon de mesure et utilisation de boîte de lait concentré ou gobelet pour le dosage d’engrais</option>
+                <option value="3">3. Technique de mesure traditionnel, avec estimation par pas et dosage d’engrais par poignée de main</option>
             </select>
-            <label for="nbr_boeuf_trait">Nombre de boeufs de trait</label>
-            <input type="number" id="nbr_boeufs_trait" class="form-control">
-            <label for="nbr_zebu">Nombre de zebus</label>
-            <input type="number" id="nbr_zebu" class="form-control">
-            <label for="nbr_vache">Nombre de vache laitere</label>
-            <input type="number" id="nbr_vache" class="form-control">
-            <br>
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="equipement_agricole">
-                    <label class="custom-control-label" for="equipement_agricole">
-                        Equipement agricole
-                    </label>
-                </div><br>
-                <label for="nbr_pulverisateur">Nombre de pulvérisateurs</label>
-                <input type="number" value="0" id="nbr_pulverisateur" class="form-control">
-                <label for="nbr_brouette">Nombre de brouettes</label>
-                <input type="number" value="0" id="nbr_brouette" class="form-control">
-                <label for="nbr_arrosoir">Nombre d'arrosoirs</label>
-                <input type="number" value="0" id="nbr_arrosoir" class="form-control">
-                <label for="nbr_herse">Nombre de herses</label>
-                <input type="number" value="0" id="nbr_herse" class="form-control">
-                <label for="nbr_bicyclette">Nombre de bicyclettes</label>
-                <input type="number" value="0" id="nbr_bicyclette" class="form-control">
-                <label for="nbr_angady">Nombre de Angady</label>
-                <input type="number" value="0" id="nbr_angady" class="form-control">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="activite_non_agricole">
-                    <label class="custom-control-label" for="activite_non_agricole">
-                        Pratique d'une activité agricole
-                    </label>
-                </div><br>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="elevage_rente">
-                    <label class="custom-control-label" for="elevage_rente">
-                        Pratique d'un élevage rente
-                    </label>
-                </div><br>
-                <label for="elevage_prioritaire">Type d'elevage prioritaire</label>
-                <select name="" id="elevage_prioritaire" class="form-control">
-                    <option value="api">api</option>
-                    <option value="vol">vol</option>
-                    <option value="bovin">bovin</option>
-                </select><br>
-
-                {# <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="culture_rente">
-                    <label class="custom-control-label" for="culture_rente">
-                        Pratique d'une culture rente
-                    </label>
-                </div><br> #}{#
-                <label for="culture_rente_prioritaire">Culture de rente prioritaire</label>
-                <select name="" id="culture_rente_prioritaire" class="form-control">
-                    <option value="0">Ne pratique pas de culture rente</option>
-                    <option value="Cafe">Café</option>
-                    <option value="Vanille">Vanille</option>
-                    <option value="Poivre">Poivre</option>
-                    <option value="Girofle">Girofle</option>
-                </select>
-                <label for="nbr_caffe">Nombre de pieds de caféiers</label>
-                <input type="number" id="nbr_caffe" class="form-control">
-                <label for="nbr_girofle">Nombre de pieds de girofliers</label>
-                <input type="number" id="nbr_girofle" class="form-control">
-                <label for="nbr_vanille">Nombre de pieds de vanilliers</label>
-                <input type="number" id="nbr_vanille" class="form-control">
-                <label for="nbr_poivre">Nombre de pieds de poivriers</label>
-                <input type="number" id="nbr_poivre" class="form-control">
-                <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="activite_non_agricole">
-                        <label class="custom-control-label" for="activite_non_agricole">
-                            Pratique d'un activité non agricole
-                        </label>
-                    </div><br>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="peche">
-                        <label class="custom-control-label" for="peche">
-                            Pratique de pêche
-                        </label>
-                    </div><br>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="autre_projet">
-                        <label class="custom-control-label" for="autre_projet">
-                            Actif dans d'autres projets et programme
-                        </label>
-                    </div>
-                </div>
-                <label for="nbr_mois_soudure">Nombre de mois de soudure</label>
-                <input type="number" id="nbr_mois_soudure" class="form-control">
-            </div>
         </div>
-        <button class="btn btn-success">Enregistrer</button>
-    </form> #}
+        <div class="form-group">
+            <label for="differenceBesoinsAlimentaire">Selon vous, les besoins en alimentation sont-ils les mêmes pour chaque membre du ménage ?</label>
+            <select class="form-control" name="differenceBesoinsAlimentaire" id="differenceBesoinsAlimentaire">
+                <option value=""></option>
+                <option value="true">Oui</option>
+                <option value="false">Non</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="connaissanceDifferenceBesoinsAlimentaire">Si non, connaissez-vous cette différence de besoin ?</label>
+            <select class="form-control" name="connaissanceDifferenceBesoinsAlimentaire" id="connaissanceDifferenceBesoinsAlimentaire">
+                <option value=""></option>
+                <option value="true">Oui</option>
+                <option value="false">Non</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="regimeAlimentaireVariee">Votre régime alimentaire est-il varié ?</label>
+            <select class="form-control" name="regimeAlimentaireVariee" id="regimeAlimentaireVariee">
+                <option value=""></option>
+                <option value="true">Oui</option>
+                <option value="false">Non</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="assuranceProduitNecessaireAlimentation">Comment assurez-vous la disponibilité des produits nécessaires à l’alimentation tout au long de l’année ?</label>
+            <select class="form-control" name="assuranceProduitNecessaireAlimentation" id="assuranceProduitNecessaireAlimentation">
+                <option value=""></option>
+                <option value="1">1. Le producteur garde une partie de sa production agricole pour assurer la disponibilité d’une nourriture variée tout au long de l’année</option>
+                <option value="2">2. Le producteur vend la totalité de sa production sur un produit et achète le même produit à une période ultérieure pour satisfaire les besoins nutritionnels</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="enregistrementMouvementArgent">Vous enregistrez vos entrées et sorties d’argent ?</label>
+            <select class="form-control" name="enregistrementMouvementArgent" id="enregistrementMouvementArgent">
+                <option value=""></option>
+                <option value="true">Oui</option>
+                <option value="false">Non</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="enregistrementMouvementArgentWhy">Si oui, pourquoi faire ?</label>
+            <select class="form-control" name="enregistrementMouvementArgentWhy" id="enregistrementMouvementArgentWhy">
+                <option value=""></option>
+                <option value="1">1. Pour évaluer le profit ou la perte</option>
+                <option value="2">2. Pour justifier les recettes et les dépenses</option>
+                <option value="2">3. Pour gérer la trésorerie</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="epargne">Comment vous épargnez votre argent ?</label>
+            <select class="form-control" name="epargne" id="epargne">
+                <option value=""></option>
+                <option value="1">1. Le producteur garde son argent à la maison</option>
+                <option value="2">2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="connaissanceDemandeCoursProduitAgricole">Vous connaissez la demande et le cours des produits agricoles sur le marché ?</label>
+            <select class="form-control" name="connaissanceDemandeCoursProduitAgricole" id="connaissanceDemandeCoursProduitAgricole">
+                <option value=""></option>
+                <option value="true">Oui</option>
+                <option value="false">Non</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="connaissanceDemandeCoursProduitAgricoleWhy">Pourquoi faire ?</label>
+            <select class="form-control" name="connaissanceDemandeCoursProduitAgricoleWhy" id="connaissanceDemandeCoursProduitAgricoleWhy">
+                <option value=""></option>
+                <option value="1">1. Le prix et la demande conditionnent l’orientation vers une spéculation compte tenu des dépenses et des risques encourus</option>
+                <option value="2">2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ameliorerQualiteProduit">Selon vous, est-il important d’améliorer la qualité de vos produits ?</label>
+            <select class="form-control" name="ameliorerQualiteProduit" id="ameliorerQualiteProduit">
+                <option value=""></option>
+                <option value="true">Oui</option>
+                <option value="false">Non</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ameliorerQualiteProduitWhy">Si oui, pourquoi ?</label>
+            <select class="form-control" name="ameliorerQualiteProduitWhy" id="ameliorerQualiteProduitWhy">
+                <option value=""></option>
+                <option value="1">1. Parce que la valeur marchande du produit peut augmenter en fonction de la qualité et de la même manière le revenu du producteur</option>
+                <option value="2">2. Le défaut de qualité entraine des pertes lors de la commercialisation</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="groupement">Vous faites partie d’un groupement ou d’une coopérative ?</label>
+            <select class="form-control" name="groupement" id="groupement">
+                <option value=""></option>
+                <option value="true">Oui</option>
+                <option value="false">False</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="avantageRegroupement">Selon vous, quels sont les avantages du regroupement ?</label>
+            <select class="form-control" name="avantageRegroupement" id="avantageRegroupement">
+                <option value=""></option>
+                <option value="1">1.Il est plus facile de résoudre les problèmes dans le processus de production</option>
+                <option value="2">2. Cela facilite la demande de services et l’intervention des prestataires</option>
+                <option value="3">3. Intéressant économiquement (obtention de meilleurs prix à l’achat des intrants et à la vente de la production)</option>
+                <option value="4">4. Le producteur ne comprend pas encore les avantages du regroupement</option>
+            </select>
+        </div>
 
-    {{ form_start(form_agriculteur) }}
+		{{ form_widget(form_agriculteur) }}
 
-    {{ form_widget(form_agriculteur) }}
+		<hr>
 
-    <label for="village">Village: </label>
-    <select name="village" id="village" class="form-control">
-    <option></option>
-    {% for village in villages %}
-        <option value="{{ village.id }}">{{ village.nom }}</option>
-    {% endfor %}
-    </select>
-    
-    <label for="terroir">Terroir: </label>
-    <select name="terroir" id="terroir" class="form-control">
-    <option></option>
-    {% for terroir in terroirs %}
-        <option value="{{ terroir.id }}">{{ terroir.nom }}</option>
-    {% endfor %}
-    </select>
+		<button type="submit" class="btn btn-success">Enregistrer</button>
 
-    <label for="sousRegion">Sous region: </label>
-    <select name="sousRegion" id="sousRegion" class="form-control">
-    <option></option>
-    {% for sousRegion in sousRegions %}
-        <option value="{{ sousRegion.id }}">{{ sousRegion.nom }}</option>
-    {% endfor %}
-    </select>
+		<hr>
 
-    <label for="region">Region: </label>
-    <select name="region" id="region" class="form-control">
-    <option></option>
-    {% for region in regions %}
-        <option value="{{ region.id }}">{{ region.nom }}</option>
-    {% endfor %}
-    </select>
+		{{ form_end(form_agriculteur) }}
 
-    <label for="commune">Commune: </label>
-    <select name="commune" id="commune" class="form-control">
-    <option></option>
-    {% for commune in communes %}
-        <option value="{{ commune.id }}">{{ commune.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="anciennete">Anciennete: </label>
-    <select name="anciennete" id="anciennete" class="form-control">
-    <option></option>
-    {% for anciennete in anciennetes %}
-        <option value="{{ anciennete.id }}">{{ anciennete.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="bvpi">BVPI: </label>
-    <select name="bvpi" id="bvpi" class="form-control">
-    {% for bvpi in bvpis %}
-        <option value="{{ bvpi.id }}">{{ bvpi.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="ce">Champ ecole: </label>
-    <select name="ce" id="ce" class="form-control">
-    {% for ce in ces %}
-        <option value="{{ ce.id }}">{{ ce.nom }}</option>
-    {% endfor %}
-    </select>
-
-    {# <label for="culture">Cultures: </label>
-    <select name="culture" id="culture" class="form-control">
-    {% for culture in cultures %}
-        <option value="{{ culture.id }}">{{ culture.nom }}</option>
-    {% endfor %}
-    </select> #}
-    {% for culture in cultures %}
-        <label for="nbr_{{ culture.nom }}">Nbr de pieds {{ culture.nom }}</label>
-        <input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" class="form-control">
-    {% endfor %}
-
-    {# <label for="elevage">Elevage: </label>
-    <select name="elevage" id="elevage" class="form-control">
-    {% for elevage in elevages %}
-        <option value="{{ elevage.id }}">{{ elevage.nom }}</option>
-    {% endfor %}
-    </select> #}
-    {% for elevage in elevages %}
-        <label for="nbr_{{ elevage.nom }}">Nbr de {{ elevage.nom }}</label>
-        <input type="number" name="elevage_{{ elevage.id }}" id="nbr_{{ elevage.nom }}" class="form-control">
-    {% endfor %}
-
-    {% for equipement in equipements %}
-        <label for="nbr_{{ equipement.nom }}">Nbr de {{ equipement.nom }}</label>
-        <input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" 
-                class="form-control">
-    {% endfor %}
-
-    <label for="op">OP: </label>
-    <select name="op" id="op" class="form-control">
-    {% for op in ops %}
-        <option value="{{ op.id }}">{{ op.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="typologie">Typologie: </label>
-    <select name="typologie" id="typologie" class="form-control">
-    {% for typologie in typologies %}
-        <option value="{{ typologie.id }}">{{ typologie.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <label for="zone_technicien">Zone technicien: </label>
-    <select name="zone_technicien" id="zone_technicien" class="form-control">
-    {% for zoneTechnicien in zoneTechniciens %}
-        <option value="{{ zoneTechnicien.id }}">{{ zoneTechnicien.nom }}</option>
-    {% endfor %}
-    </select>
-
-    <hr>
-
-    <button type="submit" class="btn btn-success">Enregistrer</button>
-
-    <hr>
-
-    {{ form_end(form_agriculteur) }}
-
-</div>
+	</div>
 
 {% endblock %}
