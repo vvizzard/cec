@@ -7,6 +7,8 @@ composer require twig
 composer require symfony/asset
 composer require symfony/form
 composer require annotation
+composer require symfony/security-bundle
+
 
 ### Faire la modification suivante pour utiliser ObjectManager ###
 config>services.yaml => Doctrine\Common\Persistence\ObjectManager: '@doctrine.orm.default_entity_manager'
