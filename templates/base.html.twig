@@ -183,10 +183,12 @@
                         </div>
                     </li>
                 </ul>
-                <!--<form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form> -->
+                {% if app.user %}
+                <form class="form-inline my-2 my-lg-0">
+                    {# <input class="form-control mr-sm-2" type="text" placeholder="Search"> #}
+                    <a href="{{ path('security_logout') }}" class="btn btn-secondary my-2 my-sm-0">Déconnexion</a>
+                </form>
+                {% endif %}
             </div>
         </nav>
 

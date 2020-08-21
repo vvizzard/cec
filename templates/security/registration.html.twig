@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CEC:Inscription d'un nouvel utilisateur{% endblock %}
+
+{% block body %}
+
+{{ form_start(base_form) }}
+
+{{ form_widget(base_form) }}
+
+<button type="submit" class="btn btn-success">Enregistrer</button>
+
+{{ form_end(base_form)}}
+
+{% endblock %}

@@ -8,6 +8,7 @@ composer require symfony/asset
 composer require symfony/form
 composer require annotation
 composer require symfony/security-bundle
+composer require symfony/validator doctrine/annotations
 
 
 ### Faire la modification suivante pour utiliser ObjectManager ###

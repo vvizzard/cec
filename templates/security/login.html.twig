@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CEC: Connexion{% endblock %}
+
+{% block body %}
+
+<h1>Connexion</h1>
+
+<form action="{{ path('security_login') }}" method="POST">
+    <div class="form-group">
+        <label for="email">E-mail: </label>
+        <input type="text" required id="email" name="_username" placeholder="Adresse email ..." class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="pw">Mot de passe: </label>
+        <input type="password" required id="pw" name="_password" placeholder="mot de passe ..." class="form-control">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+    </div>
+</form>
+
+{% endblock %}
