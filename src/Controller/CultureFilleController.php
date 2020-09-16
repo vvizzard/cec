@@ -92,8 +92,16 @@ class CultureFilleController extends AbstractController
                 'label'    => 'Qté de semence',
                 'required' => false,
             ])
+            ->add('prixUnitaireSemence', TextType::class, [
+                'label'    => 'Prix unitaire des semences',
+                'required' => false,
+            ])
             ->add('production', TextType::class, [
                 'label'    => 'Production',
+                'required' => false,
+            ])
+            ->add('prixUnitaireProduit', TextType::class, [
+                'label'    => 'Prix unitaire du produit',
                 'required' => false,
             ])
             ->getForm();

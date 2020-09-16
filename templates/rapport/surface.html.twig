@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bilan surface | CEC{% endblock %}
+
+{% block h1 %}Bilan surface{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Bilan surface</li>
+{% endblock %}
+
+{% block body %}
+<div class="row card">
+    <div class="card-body">
+        {{ form_start(base_form) }}
+            <div class="form-group">
+                <label for="commune">Commune</label>
+                <select name="commune" id="commune" class="form-control">
+                    {% for commune in communes %}
+                        <option {% if selectedCommune is not null and selectedCommune == commune.id %} selected {% endif %} 
+                                value="{{ commune.id }}">
+                            {{ commune.nom }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="campaigne">Campaigne</label>
+                <select name="compaigne" id="campaigne" class="form-control">
+                    {% for compaigne in compaignes %}
+                        <option {% if selectedCompaigne is not null and selectedCompaigne == compaigne.compaigne %} selected {% endif %} 
+                                value="{{ compaigne.compaigne }}">{{ compaigne.compaigne }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cycle">Cycle agricole</label>
+                <select name="cycleAgricole" id="cycle" class="form-control">
+                    {% for cycle in cycles %}
+                        <option {% if selectedCycle is not null and selectedCycle == cycle.id %} selected {% endif %} 
+                                value="{{ cycle.id }}">{{ cycle.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary"> Rechercher </button>
+        {{ form_end(base_form) }}
+    </div>
+</div>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr class="table-cec-header">
+            <th class="text-center">Itinéraire cultural</th>
+            <th class="text-right">Nbr d'agriculteur</th>
+            <th class="text-right">Nbr de parcelle</th>
+            <th class="text-right">Surface (ha)</th>
+        </tr>
+        {% for rapport in rapports %}
+        <tr>
+            <td class="text-center">
+                {{ rapport.nom }}
+            </td>
+            <td class="text-right">
+                {{ rapport.nbr_a }}
+            </td>
+            <td class="text-right">
+                {{ rapport.nbr_p }}
+            </td>
+            <td class="text-right">
+                {{ rapport.surface }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

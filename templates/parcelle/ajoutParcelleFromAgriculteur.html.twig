@@ -1,12 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC:Ajout d'un parcelle{% endblock %}
+{% block title %}Ajout d'un nouveau parcelle | CEC{% endblock %}
+
+{% block h1 %}Ajout d'un nouveau parcelle{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('detail_agriculteur', {'id': idAgriculteur }) }}">
+            AG_{{ idAgriculteur }}
+        </a>
+    </li>
+    <li class="breadcrumb-item active">Ajout d'un nouveau parcelle</li>
+{% endblock %}
 
 {% block body %}
-<h1>Ajout d'un nouvel parcelle</h1>
-<div class="">
+<div class="card">
+    <div class="card-body">
 
-    {{ form_start(form_parcelle) }}
+        {{ form_start(form_parcelle) }}
 
     <div class="form-group">
         <label for="form_nom" class="required">Surface (ha)</label>

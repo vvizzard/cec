@@ -1,36 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TypologieController!{% endblock %}
+{% block title %}Champ école | CEC{% endblock %}
+
+{% block h1 %}Champ école{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Champ école</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(base_form) }}
 
-<h1>TYPOLOGIE</h1>
+        {{ form_widget(base_form) }}
 
-<h2>Ajout</h2>
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(typologie_form) }}
-
-    {{ form_widget(typologie_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(typologie_form) }}
+        {{ form_end(base_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-    </tr>
-    {% for typologie in typologies %}
-    <tr>
-        <td>{{ typologie.nom }}</td>
-        <td>{{ typologie.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for typologie in bases %}
+        <tr>
+            <td>{{ typologie.nom }}</td>
+            <td>{{ typologie.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" href="{{ path('update_typologie', {'id': typologie.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_typologie', {'id': typologie.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

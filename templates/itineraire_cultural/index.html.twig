@@ -1,66 +1,91 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ItineraireCulturalController!{% endblock %}
+{% block title %}Itinéraire cultural | CEC{% endblock %}
+
+{% block h1 %}Itinéraire cultural{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Itinéraire cultural</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(base_form) }}
 
-<h1>Itineraire Cultural</h1>
+        <label for="foreign">Systeme: </label>
+        <select name="foreign" id="foreign" class="form-control">
+            <option></option>
+        {% for foreign in foreigns %}
+            <option {% if base.systeme is not null and base.systeme.id == foreign.id %}{% endif %} value="{{ foreign.id }}">{{ foreign.nom }}</option>
+        {% endfor %}
+        </select>
 
-<h2>Ajout</h2>
+        {{ form_widget(base_form) }}
 
-<div>
-    {{ form_start(base_form) }}
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-    <label for="foreign">Systeme: </label>
-    <select name="foreign" id="foreign" class="form-control">
-        <option></option>
-    {% for foreign in foreigns %}
-        <option value="{{ foreign.id }}">{{ foreign.nom }}</option>
-    {% endfor %}
-    </select>
-
-    {{ form_widget(base_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(base_form) }}
+        {{ form_end(base_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Culture</th>
-        {# <th>Description</th> #}
-        <th>riz</th>
-        <th>vivrierHors</th>
-        <th>rmme</th>
-        <th>pcEnPure</th>
-        <th>couvertureCultureRente</th>
-        <th>reforestation</th>
-        <th>cultureRente</th>
-        <th>pcAssocie</th>
-    </tr>
-    {% for base in bases %}
-    <tr>
-        <td>{{ base.nom }}</td>
-        <td>
-            {% if base.systeme is not null %}
-                {{ base.systeme.nom }}
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Culture</th>
+            {# <th>Description</th> #}
+            <th>riz</th>
+            <th>vivrierHors</th>
+            <th>rmme</th>
+            <th>pcEnPure</th>
+            <th>couvertureCultureRente</th>
+            <th>reforestation</th>
+            <th>cultureRente</th>
+            <th>pcAssocie</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
             {% endif %}
-        </td>
-        <td>{{ base.riz }}</td>
-        <td>{{ base.vivrierHors }}</td>
-        <td>{{ base.rmme }}</td>
-        <td>{{ base.pcEnPure }}</td>
-        <td>{{ base.couvertureCultureRente }}</td>
-        <td>{{ base.reforestation }}</td>
-        <td>{{ base.cultureRente }}</td>
-        <td>{{ base.pcAssocie }}</td>
-        {# <td>{{ base.description }}</td> #}
-    </tr>
-    {% endfor %}
-</table>
+        </tr>
+        {% for base in bases %}
+        <tr>
+            <td>{{ base.nom }}</td>
+            <td>
+                {% if base.systeme is not null %}
+                    {{ base.systeme.nom }}
+                {% endif %}
+            </td>
+            <td>{{ base.riz }}</td>
+            <td>{{ base.vivrierHors }}</td>
+            <td>{{ base.rmme }}</td>
+            <td>{{ base.pcEnPure }}</td>
+            <td>{{ base.couvertureCultureRente }}</td>
+            <td>{{ base.reforestation }}</td>
+            <td>{{ base.cultureRente }}</td>
+            <td>{{ base.pcAssocie }}</td>
+            {# <td>{{ base.description }}</td> #}
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" 
+                            href="{{ path('update_itineraire_cultural', {'id': base.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_itineraire_cultural', {'id': base.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

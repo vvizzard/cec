@@ -1,314 +1,406 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC:Ajout d'un agriculteur
+{% block title %}Ajout d'un agriculteur | CEC
+{% endblock %}
+
+{% block h1 %}Ajout d'un nouvel agriculteur{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Ajout d'un agriculteur</li>
 {% endblock %}
 
 {% block body %}
-	<h1>Ajout d'un nouvel agriculteur</h1>
-	<hr>
-	<div class="">
 
-		{{ form_start(form_agriculteur) }}
+	<div class="card">
+        <div class="card-body">
 
-		<div class="form-group">
-			<label for="form_nom" class="required">Nom</label>
-			{{ form_widget(form_agriculteur.nom, {'attr': {'placeholder': 'Taper ici le nom de l\'agriculteur'}}) }}
-		</div>
+            {{ form_start(form_agriculteur) }}
 
-        {{ form_row(form_agriculteur.prenom) }}
+            <div class="form-group">
+                <label for="form_nom" class="required">Nom</label>
+                {{ form_widget(form_agriculteur.nom, {'attr': {'placeholder': 'Taper ici le nom de l\'agriculteur'}}) }}
+            </div>
 
-        <label for="typologie">Type d'agriculteur:</label>
-		<select name="typologie" id="typologie" class="form-control">
-			{% for typologie in typologies %}
-				<option value="{{ typologie.id }}">{{ typologie.nom }}</option>
-			{% endfor %}
-		</select>
+            {{ form_row(form_agriculteur.prenom) }}
 
-        <label for="genre">Genre:</label>
-		<select name="genre" id="genre" class="form-control">
-			<option value="0">Femme</option>
-			<option value="1">Homme</option>
-		</select>
-
-        {{ form_row(form_agriculteur.age) }}
-
-        <div class="form-group">
-			<label for="form_statutFamille" class="required">Statut au niveau de la famille:</label>
-			{{ form_widget(form_agriculteur.statutFamille) }}
-		</div>
-
-        <div class="form-group">
-			<label for="form_nbrMenage" class="required">Taille de ménage:</label>
-			{{ form_widget(form_agriculteur.nbrMenage) }}
-		</div>
-        
-        <div class="form-group">
-			<label for="form_nbrActif" class="required">Nombre d'actif:</label>
-			{{ form_widget(form_agriculteur.nbrActif) }}
-		</div>
-
-        <label for="sousRegion">District:
-		</label>
-		<select name="sousRegion" id="sousRegion" class="form-control">
-			<option></option>
-			{% for sousRegion in sousRegions %}
-				<option value="{{ sousRegion.id }}">{{ sousRegion.nom }}</option>
-			{% endfor %}
-		</select>
-
-        <label for="commune">Commune:
-		</label>
-		<select name="commune" id="commune" class="form-control">
-			<option></option>
-			{% for commune in communes %}
-				<option value="{{ commune.id }}">{{ commune.nom }}</option>
-			{% endfor %}
-		</select>
-
-        <label for="terroir">Fokontany:
-		</label>
-		<select name="terroir" id="terroir" class="form-control">
-			<option></option>
-			{% for terroir in terroirs %}
-				<option value="{{ terroir.id }}">{{ terroir.nom }}</option>
-			{% endfor %}
-		</select>
-
-        <label for="village">Village:
-		</label>
-		<select name="village" id="village" class="form-control">
-			<option></option>
-			{% for village in villages %}
-				<option value="{{ village.id }}">{{ village.nom }}</option>
-			{% endfor %}
-		</select>
-
-        <label for="ce">Champ ecole:
-		</label>
-		<select name="ce" id="ce" class="form-control">
-			{% for ce in ces %}
-				<option value="{{ ce.id }}">{{ ce.nom }}</option>
-			{% endfor %}
-		</select>
-
-        <label for="crente">Culture de rente prioritaire:
-		</label>
-		<select name="culture" id="crente" class="form-control">
-			{% for ce in cultures %}
-				<option value="{{ ce.id }}">{{ ce.nom }}</option>
-			{% endfor %}
-		</select>
-
-        <div class="form-group">
-			{{ form_widget(form_agriculteur.pratiqueElevageRente) }}
-		</div>
-
-        <label for="typeElevage">Type d'élevage prioritaire:
-		</label>
-		<select name="typeElevage" id="typeElevage" class="form-control">
-			{% for ce in typeElevages %}
-				<option value="{{ ce.id }}">{{ ce.nom }}</option>
-			{% endfor %}
-		</select>
-
-        <div class="form-group">
-			{{ form_widget(form_agriculteur.accesRiziere) }}
-		</div>
-
-        <div class="form-group">
-			{{ form_widget(form_agriculteur.opBoolean) }}
-		</div>
-
-        <div class="form-group">
-			{{ form_widget(form_agriculteur.pratiqueActiviteNonAgricole) }}
-		</div>
-
-        <div class="form-group">
-			{{ form_widget(form_agriculteur.pratiquePeche) }}
-		</div>
-
-        <div class="form-group">
-			{{ form_widget(form_agriculteur.autreProgramme) }}
-		</div>
-
-
-
-        <div class="form-group">
-			<label for="form_surfaceTotaleExploitee" class="required">Surface totale exploitée (ha):</label>
-			{{ form_widget(form_agriculteur.surfaceTotaleExploitee) }}
-		</div>
-
-        <div class="form-group">
-			<label for="form_surfaceTotaleRiziere" class="required">Surface totale rizière (ha):</label>
-			{{ form_widget(form_agriculteur.surfaceTotaleRiziere) }}
-		</div>
-
-        <div class="form-group">
-			<label for="form_surfaceParcelleLouee" class="required">Surface de parcelle louée (ha):</label>
-			{{ form_widget(form_agriculteur.surfaceParcelleLouee) }}
-		</div>
-
-        <div class="form-group">
-			<label for="form_surfaceParcelleEnLocation" class="required">Surface de parcelle en location (ha):</label>
-			{{ form_widget(form_agriculteur.surfaceParcelleEnLocation) }}
-		</div>
-
-
-        {% for culture in cultures %}
-			<label for="nbr_{{ culture.nom }}">Nbr de pieds
-				{{ culture.nom }}</label>
-			<input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" class="form-control">
-		{% endfor %}
-
-        {% for equipement in equipements %}
-			<label for="nbr_{{ equipement.nom }}">Nbr de
-				{{ equipement.nom }}</label>
-			<input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" class="form-control">
-		{% endfor %}
-
-        <div class="form-group">
-			<label for="form_nbrMoisSoudure" class="required">Nombre de mois de soudure:</label>
-			{{ form_widget(form_agriculteur.nbrMoisSoudure) }}
-		</div>
-
-        <hr>
-
-        <div class="form-group">
-            <label for="calendrier">Comment vous planifiez vos activités de production ?</label>
-            <select class="form-control" name="calendrier" id="calendrier">
-                <option value=""></option>
-                <option value="1">1. Sur la base des pratiques ancestrales</option>
-                <option value="2">2. Sur la base de la perception des conditions météorologiques</option>
-                <option value="3">3. Sur la base du calendrier agricole</option>
+            <label for="typologie">Type d'agriculteur:</label>
+            <select name="typologie" id="typologie" class="form-control">
+                {% for typologie in typologies %}
+                    <option {% if agriculteur.typologie is not null and agriculteur.typologie.id == typologie.id %}selected{% endif %} value="{{ typologie.id }}">{{ typologie.nom }}</option>
+                {% endfor %}
             </select>
-        </div>
-        <div class="form-group">
-            <label for="outilAmeliore">Comment mesurez-vous vos parcelles et les intrants nécessaires à votre exploitation ?</label>
-            <select class="form-control" name="outilAmeliore" id="outilAmeliore">
-                <option value=""></option>
-                <option value="1">1. Utilisation de décamètre pour mesurer la surface et de balance pour le dosage des intrants</option>
-                <option value="2">2. Utilisation de corde avec un étalon de mesure et utilisation de boîte de lait concentré ou gobelet pour le dosage d’engrais</option>
-                <option value="3">3. Technique de mesure traditionnel, avec estimation par pas et dosage d’engrais par poignée de main</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="differenceBesoinsAlimentaire">Selon vous, les besoins en alimentation sont-ils les mêmes pour chaque membre du ménage ?</label>
-            <select class="form-control" name="differenceBesoinsAlimentaire" id="differenceBesoinsAlimentaire">
-                <option value=""></option>
-                <option value="true">Oui</option>
-                <option value="false">Non</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="connaissanceDifferenceBesoinsAlimentaire">Si non, connaissez-vous cette différence de besoin ?</label>
-            <select class="form-control" name="connaissanceDifferenceBesoinsAlimentaire" id="connaissanceDifferenceBesoinsAlimentaire">
-                <option value=""></option>
-                <option value="true">Oui</option>
-                <option value="false">Non</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="regimeAlimentaireVariee">Votre régime alimentaire est-il varié ?</label>
-            <select class="form-control" name="regimeAlimentaireVariee" id="regimeAlimentaireVariee">
-                <option value=""></option>
-                <option value="true">Oui</option>
-                <option value="false">Non</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="assuranceProduitNecessaireAlimentation">Comment assurez-vous la disponibilité des produits nécessaires à l’alimentation tout au long de l’année ?</label>
-            <select class="form-control" name="assuranceProduitNecessaireAlimentation" id="assuranceProduitNecessaireAlimentation">
-                <option value=""></option>
-                <option value="1">1. Le producteur garde une partie de sa production agricole pour assurer la disponibilité d’une nourriture variée tout au long de l’année</option>
-                <option value="2">2. Le producteur vend la totalité de sa production sur un produit et achète le même produit à une période ultérieure pour satisfaire les besoins nutritionnels</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="enregistrementMouvementArgent">Vous enregistrez vos entrées et sorties d’argent ?</label>
-            <select class="form-control" name="enregistrementMouvementArgent" id="enregistrementMouvementArgent">
-                <option value=""></option>
-                <option value="true">Oui</option>
-                <option value="false">Non</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="enregistrementMouvementArgentWhy">Si oui, pourquoi faire ?</label>
-            <select class="form-control" name="enregistrementMouvementArgentWhy" id="enregistrementMouvementArgentWhy">
-                <option value=""></option>
-                <option value="1">1. Pour évaluer le profit ou la perte</option>
-                <option value="2">2. Pour justifier les recettes et les dépenses</option>
-                <option value="2">3. Pour gérer la trésorerie</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="epargne">Comment vous épargnez votre argent ?</label>
-            <select class="form-control" name="epargne" id="epargne">
-                <option value=""></option>
-                <option value="1">1. Le producteur garde son argent à la maison</option>
-                <option value="2">2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="connaissanceDemandeCoursProduitAgricole">Vous connaissez la demande et le cours des produits agricoles sur le marché ?</label>
-            <select class="form-control" name="connaissanceDemandeCoursProduitAgricole" id="connaissanceDemandeCoursProduitAgricole">
-                <option value=""></option>
-                <option value="true">Oui</option>
-                <option value="false">Non</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="connaissanceDemandeCoursProduitAgricoleWhy">Pourquoi faire ?</label>
-            <select class="form-control" name="connaissanceDemandeCoursProduitAgricoleWhy" id="connaissanceDemandeCoursProduitAgricoleWhy">
-                <option value=""></option>
-                <option value="1">1. Le prix et la demande conditionnent l’orientation vers une spéculation compte tenu des dépenses et des risques encourus</option>
-                <option value="2">2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="ameliorerQualiteProduit">Selon vous, est-il important d’améliorer la qualité de vos produits ?</label>
-            <select class="form-control" name="ameliorerQualiteProduit" id="ameliorerQualiteProduit">
-                <option value=""></option>
-                <option value="true">Oui</option>
-                <option value="false">Non</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="ameliorerQualiteProduitWhy">Si oui, pourquoi ?</label>
-            <select class="form-control" name="ameliorerQualiteProduitWhy" id="ameliorerQualiteProduitWhy">
-                <option value=""></option>
-                <option value="1">1. Parce que la valeur marchande du produit peut augmenter en fonction de la qualité et de la même manière le revenu du producteur</option>
-                <option value="2">2. Le défaut de qualité entraine des pertes lors de la commercialisation</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="groupement">Vous faites partie d’un groupement ou d’une coopérative ?</label>
-            <select class="form-control" name="groupement" id="groupement">
-                <option value=""></option>
-                <option value="true">Oui</option>
-                <option value="false">False</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="avantageRegroupement">Selon vous, quels sont les avantages du regroupement ?</label>
-            <select class="form-control" name="avantageRegroupement" id="avantageRegroupement">
-                <option value=""></option>
-                <option value="1">1.Il est plus facile de résoudre les problèmes dans le processus de production</option>
-                <option value="2">2. Cela facilite la demande de services et l’intervention des prestataires</option>
-                <option value="3">3. Intéressant économiquement (obtention de meilleurs prix à l’achat des intrants et à la vente de la production)</option>
-                <option value="4">4. Le producteur ne comprend pas encore les avantages du regroupement</option>
-            </select>
-        </div>
 
-		{{ form_widget(form_agriculteur) }}
+            <label for="genre">Genre:</label>
+            <select name="genre" id="genre" class="form-control">
+                <option {% if agriculteur.genre == 0 %}selected{% endif %} value="0">Femme</option>
+                <option {% if agriculteur.genre == 1 %}selected{% endif %} value="1">Homme</option>
+            </select>
 
-		<hr>
+            {{ form_row(form_agriculteur.age) }}
 
-		<button type="submit" class="btn btn-success">Enregistrer</button>
+            <div class="form-group">
+                <label for="form_statutFamille" class="required">Statut au niveau de la famille:</label>
+                {{ form_widget(form_agriculteur.statutFamille) }}
+            </div>
 
-		<hr>
+            <div class="form-group">
+                <label for="form_nbrMenage" class="required">Taille de ménage:</label>
+                {{ form_widget(form_agriculteur.nbrMenage) }}
+            </div>
+            
+            <div class="form-group">
+                <label for="form_nbrActif" class="required">Nombre d'actif:</label>
+                {{ form_widget(form_agriculteur.nbrActif) }}
+            </div>
 
-		{{ form_end(form_agriculteur) }}
+            <label for="sousRegion">District:
+            </label>
+            <select name="sousRegion" id="sousRegion" class="form-control">
+                <option></option>
+                {% for sousRegion in sousRegions %}
+                    <option {% if agriculteur.sousRegion is not null and agriculteur.sousRegion.id == sousRegion.id %}selected{% endif %} value="{{ sousRegion.id }}">{{ sousRegion.nom }}</option>
+                {% endfor %}
+            </select>
 
+            <label for="commune">Commune:
+            </label>
+            <select name="commune" id="commune" class="form-control">
+                <option></option>
+                {% for commune in communes %}
+                    <option {% if agriculteur.commune is not null and agriculteur.commune.id == commune.id %}selected{% endif %} value="{{ commune.id }}">{{ commune.nom }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="terroir">Fokontany:
+            </label>
+            <select name="terroir" id="terroir" class="form-control">
+                <option></option>
+                {% for terroir in terroirs %}
+                    <option {% if agriculteur.terroir is not null and agriculteur.terroir.id == terroir.id %}selected{% endif %} value="{{ terroir.id }}">{{ terroir.nom }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="village">Village:
+            </label>
+            <select name="village" id="village" class="form-control">
+                <option></option>
+                {% for village in villages %}
+                    <option {% if agriculteur.village is not null and agriculteur.village.id == village.id %}selected{% endif %} value="{{ village.id }}">{{ village.nom }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="ce">Champ ecole:
+            </label>
+            <select name="ce" id="ce" class="form-control">
+                {% for ce in ces %}
+                    <option {% if agriculteur.ce is not null and agriculteur.ce.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="crente">Culture de rente prioritaire:
+            </label>
+            <select name="culture" id="crente" class="form-control">
+                {% for ce in cultures %}
+                    <option {% if agriculteur.culture is not null and agriculteur.culture.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.pratiqueElevageRente) }}
+            </div>
+
+            <label for="typeElevage">Type d'élevage prioritaire:
+            </label>
+            <select name="typeElevage" id="typeElevage" class="form-control">
+                {% for ce in typeElevages %}
+                    <option {% if agriculteur.typeElevage is not null and agriculteur.typeElevage.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.accesAuRiziere) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.opBoolean) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.pratiqueActiviteNonAgricole) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.pratiquePeche) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.autreProgramme) }}
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="form_surfaceTotaleExploitee" class="required">Surface totale exploitée (ha):</label>
+                {{ form_widget(form_agriculteur.surfaceTotaleExploitee) }}
+            </div>
+
+            <div class="form-group">
+                <label for="form_surfaceTotaleRiziere" class="required">Surface totale rizière (ha):</label>
+                {{ form_widget(form_agriculteur.surfaceTotaleRiziere) }}
+            </div>
+
+            <div class="form-group">
+                <label for="form_surfaceParcelleLouee" class="required">Surface de parcelle louée (ha):</label>
+                {{ form_widget(form_agriculteur.surfaceParcelleLouee) }}
+            </div>
+
+            <div class="form-group">
+                <label for="form_surfaceParcelleEnLocation" class="required">Surface de parcelle en location (ha):</label>
+                {{ form_widget(form_agriculteur.surfaceParcelleEnLocation) }}
+            </div>
+
+
+            {% for culture in cultures %}
+                {% set add = true %}
+                <label for="nbr_{{ culture.nom }}">Nbr de pieds
+                    {{ culture.nom }}
+                </label>
+                {% for nbr in agriculteur.nbrCultureAgriculteur %}
+                    {% if nbr.culture.id == culture.id %}
+                        {% set add = false %}
+                        <input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" value="{{ nbr.nbr }}" class="form-control">
+                    {% endif %}
+                {% endfor %}
+                {% if add == true %}
+                    <input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" class="form-control">
+                {% endif %}
+            {% endfor %}
+
+            {% for equipement in equipements %}
+                {% set add = true %}
+                <label for="nbr_{{ equipement.nom }}">Nbr de
+                    {{ equipement.nom }}
+                </label>
+                {% for nbr in agriculteur.nbrEquipementAgricoleAgriculteur %}
+                    {% if nbr.equipementAgricole.id == equipement.id %}
+                        {% set add = false %}
+                        <input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" value="{{ nbr.nbr }}" class="form-control">
+                    {% endif %}
+                {% endfor %}
+                {% if add == true %}
+                    <input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" class="form-control">
+                {% endif %}
+            {% endfor %}
+
+            <div class="form-group">
+                <label for="form_nbrMoisSoudure" class="required">Nombre de mois de soudure:</label>
+                {{ form_widget(form_agriculteur.nbrMoisSoudure) }}
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label for="calendrier">Comment vous planifiez vos activités de production ?</label>
+                <select class="form-control" name="calendrier" id="calendrier">
+                    <option value=""></option>
+                    <option {% if agriculteur.calendrier == 1 %}selected{% endif %} value="1">1. Sur la base des pratiques ancestrales</option>
+                    <option {% if agriculteur.calendrier == 2 %}selected{% endif %} value="2">2. Sur la base de la perception des conditions météorologiques</option>
+                    <option {% if agriculteur.calendrier == 3 %}selected{% endif %} value="3">3. Sur la base du calendrier agricole</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="outilAmeliore">Comment mesurez-vous vos parcelles et les intrants nécessaires à votre exploitation ?</label>
+                <select class="form-control" name="outilAmeliore" id="outilAmeliore">
+                    <option value=""></option>
+                    <option {% if agriculteur.outilAmeliore == 1 %}selected{% endif %} value="1">1. Utilisation de décamètre pour mesurer la surface et de balance pour le dosage des intrants</option>
+                    <option {% if agriculteur.outilAmeliore == 2 %}selected{% endif %} value="2">2. Utilisation de corde avec un étalon de mesure et utilisation de boîte de lait concentré ou gobelet pour le dosage d’engrais</option>
+                    <option {% if agriculteur.outilAmeliore == 3 %}selected{% endif %} value="3">3. Technique de mesure traditionnel, avec estimation par pas et dosage d’engrais par poignée de main</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="differenceBesoinsAlimentaire">Selon vous, les besoins en alimentation sont-ils les mêmes pour chaque membre du ménage ?</label>
+                <select class="form-control" name="differenceBesoinsAlimentaire" id="differenceBesoinsAlimentaire">
+                    <option value=""></option>
+                    <option {% if agriculteur.differenceBesoinsAlimentaire == 1 %}selected{% endif %} value="true">Oui</option>
+                    <option {% if agriculteur.differenceBesoinsAlimentaire == 2 %}selected{% endif %} value="false">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="connaissanceDifferenceBesoinsAlimentaire">Si non, connaissez-vous cette différence de besoin ?</label>
+                <select class="form-control" name="connaissanceDifferenceBesoinsAlimentaire" id="connaissanceDifferenceBesoinsAlimentaire">
+                    <option value=""></option>
+                    <option {% if agriculteur.connaissanceDifferenceBesoinsAlimentaire == 1 %}selected{% endif %} value="true">Oui</option>
+                    <option {% if agriculteur.connaissanceDifferenceBesoinsAlimentaire == 2 %}selected{% endif %} value="false">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="regimeAlimentaireVariee">Votre régime alimentaire est-il varié ?</label>
+                <select class="form-control" name="regimeAlimentaireVariee" id="regimeAlimentaireVariee">
+                    <option value=""></option>
+                    <option {% if agriculteur.regimeAlimentaireVariee == 1 %}selected{% endif %} value="true">Oui</option>
+                    <option {% if agriculteur.regimeAlimentaireVariee == 2 %}selected{% endif %} value="false">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="assuranceProduitNecessaireAlimentation">Comment assurez-vous la disponibilité des produits nécessaires à l’alimentation tout au long de l’année ?</label>
+                <select class="form-control" name="assuranceProduitNecessaireAlimentation" id="assuranceProduitNecessaireAlimentation">
+                    <option value=""></option>
+                    <option {% if agriculteur.assuranceProduitNecessaireAlimentation == 1 %}selected{% endif %} value="1">1. Le producteur garde une partie de sa production agricole pour assurer la disponibilité d’une nourriture variée tout au long de l’année</option>
+                    <option {% if agriculteur.assuranceProduitNecessaireAlimentation == 2 %}selected{% endif %} value="2">2. Le producteur vend la totalité de sa production sur un produit et achète le même produit à une période ultérieure pour satisfaire les besoins nutritionnels</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="enregistrementMouvementArgent">Vous enregistrez vos entrées et sorties d’argent ?</label>
+                <select class="form-control" name="enregistrementMouvementArgent" id="enregistrementMouvementArgent">
+                    <option value=""></option>
+                    <option {% if agriculteur.enregistrementMouvementArgent == 1 %}selected{% endif %} value="true">Oui</option>
+                    <option {% if agriculteur.enregistrementMouvementArgent == 2 %}selected{% endif %} value="false">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="enregistrementMouvementArgentWhy">Si oui, pourquoi faire ?</label>
+                <select class="form-control" name="enregistrementMouvementArgentWhy" id="enregistrementMouvementArgentWhy">
+                    <option value=""></option>
+                    <option {% if agriculteur.enregistrementMouvementArgentWhy == 1 %}selected{% endif %} value="1">1. Pour évaluer le profit ou la perte</option>
+                    <option {% if agriculteur.enregistrementMouvementArgentWhy == 2 %}selected{% endif %} value="2">2. Pour justifier les recettes et les dépenses</option>
+                    <option {% if agriculteur.enregistrementMouvementArgentWhy == 3 %}selected{% endif %} value="2">3. Pour gérer la trésorerie</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="epargne">Comment vous épargnez votre argent ?</label>
+                <select class="form-control" name="epargne" id="epargne">
+                    <option value=""></option>
+                    <option {% if agriculteur.epargne == 1 %}selected{% endif %} value="1">1. Le producteur garde son argent à la maison</option>
+                    <option {% if agriculteur.epargne == 2 %}selected{% endif %} value="2">2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="connaissanceDemandeCoursProduitAgricole">Vous connaissez la demande et le cours des produits agricoles sur le marché ?</label>
+                <select class="form-control" name="connaissanceDemandeCoursProduitAgricole" id="connaissanceDemandeCoursProduitAgricole">
+                    <option value=""></option>
+                    <option {% if agriculteur.connaissanceDemandeCoursProduitAgricole == 1 %}selected{% endif %} value="true">Oui</option>
+                    <option {% if agriculteur.connaissanceDemandeCoursProduitAgricole == 2 %}selected{% endif %} value="false">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="connaissanceDemandeCoursProduitAgricoleWhy">Pourquoi faire ?</label>
+                <select class="form-control" name="connaissanceDemandeCoursProduitAgricoleWhy" id="connaissanceDemandeCoursProduitAgricoleWhy">
+                    <option value=""></option>
+                    <option {% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 1 %}selected{% endif %} value="1">1. Le prix et la demande conditionnent l’orientation vers une spéculation compte tenu des dépenses et des risques encourus</option>
+                    <option {% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 2 %}selected{% endif %} value="2">2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ameliorerQualiteProduit">Selon vous, est-il important d’améliorer la qualité de vos produits ?</label>
+                <select class="form-control" name="ameliorerQualiteProduit" id="ameliorerQualiteProduit">
+                    <option value=""></option>
+                    <option {% if agriculteur.ameliorerQualiteProduit == 1 %}selected{% endif %} value="true">Oui</option>
+                    <option {% if agriculteur.ameliorerQualiteProduit == 2 %}selected{% endif %} value="false">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ameliorerQualiteProduitWhy">Si oui, pourquoi ?</label>
+                <select class="form-control" name="ameliorerQualiteProduitWhy" id="ameliorerQualiteProduitWhy">
+                    <option value=""></option>
+                    <option {% if agriculteur.ameliorerQualiteProduitWhy == 1 %}selected{% endif %} value="1">1. Parce que la valeur marchande du produit peut augmenter en fonction de la qualité et de la même manière le revenu du producteur</option>
+                    <option {% if agriculteur.ameliorerQualiteProduitWhy == 2 %}selected{% endif %} value="2">2. Le défaut de qualité entraine des pertes lors de la commercialisation</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="groupement">Vous faites partie d’un groupement ou d’une coopérative ?</label>
+                <select class="form-control" name="groupement" id="groupement">
+                    <option value=""></option>
+                    <option {% if agriculteur.groupement == true %}selected{% endif %} value="true">Oui</option>
+                    <option {% if agriculteur.groupement == false %}selected{% endif %} value="false">False</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="avantageRegroupement">Selon vous, quels sont les avantages du regroupement ?</label>
+                <select class="form-control" name="avantageRegroupement" id="avantageRegroupement">
+                    <option value=""></option>
+                    <option {% if agriculteur.avantageRegroupement == 1 %}selected{% endif %} value="1">1.Il est plus facile de résoudre les problèmes dans le processus de production</option>
+                    <option {% if agriculteur.avantageRegroupement == 2 %}selected{% endif %} value="2">2. Cela facilite la demande de services et l’intervention des prestataires</option>
+                    <option {% if agriculteur.avantageRegroupement == 3 %}selected{% endif %} value="3">3. Intéressant économiquement (obtention de meilleurs prix à l’achat des intrants et à la vente de la production)</option>
+                    <option {% if agriculteur.avantageRegroupement == 4 %}selected{% endif %} value="4">4. Le producteur ne comprend pas encore les avantages du regroupement</option>
+                </select>
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.accesEauPotable) }}
+            </div>
+
+            <h4>Condition d'hygienne</h4>
+            <div class="form-group">
+                <label for="toilette">Toilette</label>
+                <select class="form-control" name="toilette" id="toilette">
+                    <option {% if agriculteur.toilette == 1 %}selected{% endif %} value="1">Aucun</option>
+                    <option {% if agriculteur.toilette == 2 %}selected{% endif %} value="2">Haut</option>
+                    <option {% if agriculteur.toilette == 3 %}selected{% endif %} value="3">Moyen</option>
+                    <option {% if agriculteur.toilette == 4 %}selected{% endif %} value="4">Bas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="douche">Douche</label>
+                <select class="form-control" name="douche" id="douche">
+                    <option {% if agriculteur.douche == 1 %}selected{% endif %} value="1">Aucun</option>
+                    <option {% if agriculteur.douche == 2 %}selected{% endif %} value="2">Haut</option>
+                    <option {% if agriculteur.douche == 3 %}selected{% endif %} value="3">Moyen</option>
+                    <option {% if agriculteur.douche == 4 %}selected{% endif %} value="4">Bas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="assainissement">Autre assainissement</label>
+                <select class="form-control" name="assainissement" id="assainissement">
+                    <option {% if agriculteur.assainissement == 1 %}selected{% endif %} value="1">Aucun</option>
+                    <option {% if agriculteur.assainissement == 2 %}selected{% endif %} value="2">Haut</option>
+                    <option {% if agriculteur.assainissement == 3 %}selected{% endif %} value="3">Moyen</option>
+                    <option {% if agriculteur.assainissement == 4 %}selected{% endif %} value="4">Bas</option>
+                </select>
+            </div>
+
+            <h4>Accès à l'éducation</h4>
+            <div class="form-group">
+                <label for="accesEducation">Autre assainissement</label>
+                <select class="form-control" name="accesEducation" id="accesEducation">
+                    <option {% if agriculteur.accesEducation == 1 %}selected{% endif %} value="1">Aucun</option>
+                    <option {% if agriculteur.accesEducation == 2 %}selected{% endif %}  value="2">Education de Base</option>
+                    <option {% if agriculteur.accesEducation == 3 %}selected{% endif %}  value="3">Secondaire</option>
+                    <option {% if agriculteur.accesEducation == 4 %}selected{% endif %}  value="4">Universitaire</option>
+                </select>
+            </div>
+
+            <h4>Système de santée</h4>
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.medecinTraditionnel) }}
+            </div>
+            <div class="form-group">
+                {{ form_widget(form_agriculteur.medecinConventionnel) }}
+            </div>
+
+            <h4>Localisation</h4>
+            <div class="form-group">
+                <label for="form_longitude" class="required">Longitude:</label>
+                {{ form_widget(form_agriculteur.longitude) }}
+            </div>
+            <div class="form-group">
+                <label for="form_latitude" class="required">Latitude:</label>
+                {{ form_widget(form_agriculteur.latitude) }}
+            </div>
+
+            {{ form_widget(form_agriculteur) }}
+
+            <hr>
+
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+
+            <hr>
+
+            {{ form_end(form_agriculteur) }}
+            
+        </div>
 	</div>
 
 {% endblock %}

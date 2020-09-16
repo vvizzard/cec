@@ -93,7 +93,7 @@ class AgriculteurController extends AbstractController
                 'required' => false,
             ]) // -> Elevage
             // Type d'elevage prioritaire (api, vol, bov)
-            ->add('accesRiziere', CheckboxType::class, [
+            ->add('accesAuRiziere', CheckboxType::class, [
                 'label'    => 'Accès rizière',
                 'required' => false,
             ]) // acces a des riziere
@@ -121,6 +121,23 @@ class AgriculteurController extends AbstractController
             //nbr pieds agriculture xD
             //nbr equipement agricole
             ->add('nbrMoisSoudure')
+
+            ->add('accesEauPotable', CheckboxType::class, [
+                'label'    => 'Accès à l\'eau potable',
+                'required' => false,
+            ])
+            ->add('medecinTraditionnel', CheckboxType::class, [
+                'label'    => 'Médecin traditionnel',
+                'required' => false,
+            ])
+            ->add('medecinConventionnel', CheckboxType::class, [
+                'label'    => 'Médecin conventionnel',
+                'required' => false,
+            ])
+
+            ->add('latitude')
+            ->add('longitude')
+
             ->getForm();
 
 
@@ -177,6 +194,18 @@ class AgriculteurController extends AbstractController
             }
             if (!is_null($request->request->get('avantageRegroupement'))) {
                 $agriculteur->setAvantageRegroupement(intval($request->request->get('avantageRegroupement')));
+            }
+            if (!is_null($request->request->get('toilette'))) {
+                $agriculteur->setToilette(intval($request->request->get('toilette')));
+            }
+            if (!is_null($request->request->get('douche'))) {
+                $agriculteur->setDouche(intval($request->request->get('douche')));
+            }
+            if (!is_null($request->request->get('assainissement'))) {
+                $agriculteur->setAssainissement(intval($request->request->get('assainissement')));
+            }
+            if (!is_null($request->request->get('accesEducation'))) {
+                $agriculteur->setAccesEducation(intval($request->request->get('accesEducation')));
             }
 
             // Complete agriculteur with foreign key
@@ -255,6 +284,236 @@ class AgriculteurController extends AbstractController
             'sousRegions' => $sousRegions,
             'communes' => $communes,
             'typeElevages' => $typeElevages,
+            'agriculteur' => $agriculteur,
+        ]);
+    }
+
+    /**
+     * @Route("/agriculteur/update/{id}", name="update_agriculteur")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        CeRepository $ceRepository,
+        CultureRepository $cultureRepository,
+        TypologieRepository $typologieRepository,
+        EquipementAgricoleRepository $equipementAgricoleRepository,
+        VillageRepository $villageRepository,
+        TerroirRepository $terroirRepository,
+        SousRegionRepository $sousRegionRepository,
+        CommuneRepository $communeRepository,
+        TypeElevageRepository $typeElevageRepository,
+        Agriculteur $agriculteur
+    ) {
+
+        $cultures = $cultureRepository->findByRente(true);
+        $equipements = $equipementAgricoleRepository->findAll();
+        $villages = $villageRepository->findAll();
+        $terroirs = $terroirRepository->findAll();
+        $sousRegions = $sousRegionRepository->findAll();
+        $communes = $communeRepository->findAll();
+        $typeElevages = $typeElevageRepository->findAll();
+        $ces = $ceRepository->findAll();
+        $typologies = $typologieRepository->findAll();
+
+        $form = $this->createFormBuilder($agriculteur)
+            ->add('nom')
+            ->add('prenom')
+            ->add('age')
+            ->add('statutFamille')
+            ->add('nbrMenage')
+            ->add('nbrActif')
+            ->add('pratiqueElevageRente', CheckboxType::class, [
+                'label'    => 'Elevage',
+                'required' => false,
+            ])
+            ->add('accesAuRiziere')
+            ->add('opBoolean', CheckboxType::class, [
+                'label'    => 'OP',
+                'required' => false,
+            ])
+            ->add('pratiqueActiviteNonAgricole', CheckboxType::class, [
+                'label'    => 'Pratique d\'activité non agricole',
+                'required' => false,
+            ])
+            ->add('pratiquePeche', CheckboxType::class, [
+                'label'    => 'Pratique de pêche',
+                'required' => false,
+            ])
+            ->add('autreProgramme', CheckboxType::class, [
+                'label'    => 'Actif dans d\'autre projet et programme',
+                'required' => false,
+            ])
+
+            ->add('surfaceTotaleExploitee')
+            ->add('surfaceTotaleRiziere')
+            ->add('surfaceParcelleLouee')
+            ->add('surfaceParcelleEnLocation')
+            ->add('nbrMoisSoudure')
+
+            ->add('accesEauPotable', CheckboxType::class, [
+                'label'    => 'Accès à l\'eau potable',
+                'required' => false,
+            ])
+            ->add('medecinTraditionnel', CheckboxType::class, [
+                'label'    => 'Médecin traditionnel',
+                'required' => false,
+            ])
+            ->add('medecinConventionnel', CheckboxType::class, [
+                'label'    => 'Médecin conventionnel',
+                'required' => false,
+            ])
+
+            ->add('latitude')
+            ->add('longitude')
+
+            ->getForm();
+
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Add some attributes that was not in the form above
+            if ($request->request->get('genre') == 0 || $request->request->get('genre') == 1) {
+                $agriculteur->setGenre($request->request->get('genre'));
+            }
+            if (!is_null($request->request->get('calendrier'))) {
+                $agriculteur->setCalendrier(intval($request->request->get('calendrier')));
+            }
+            if (!is_null($request->request->get('outilAmeliore'))) {
+                $agriculteur->setOutilAmeliore(intval($request->request->get('outilAmeliore')));
+            }
+            if (!is_null($request->request->get('differenceBesoinsAlimentaire'))) {
+                $agriculteur->setDifferenceBesoinsAlimentaire(boolval($request->request->get('differenceBesoinsAlimentaire')));
+            }
+            if (!is_null($request->request->get('connaissanceDifferenceBesoinsAlimentaire'))) {
+                $agriculteur->setConnaissanceDifferenceBesoinsAlimentaire(boolval($request->request->get('connaissanceDifferenceBesoinsAlimentaire')));
+            }
+            if (!is_null($request->request->get('regimeAlimentaireVariee'))) {
+                $agriculteur->setRegimeAlimentaireVariee(boolval($request->request->get('regimeAlimentaireVariee')));
+            }
+            if (!is_null($request->request->get('assuranceProduitNecessaireAlimentation'))) {
+                $agriculteur->setAssuranceProduitNecessaireAlimentation(intval($request->request->get('assuranceProduitNecessaireAlimentation')));
+            }
+            if (!is_null($request->request->get('enregistrementMouvementArgent'))) {
+                $agriculteur->setEnregistrementMouvementArgent(boolval($request->request->get('enregistrementMouvementArgent')));
+            }
+            if (!is_null($request->request->get('enregistrementMouvementArgentWhy'))) {
+                $agriculteur->setEnregistrementMouvementArgentWhy(intval($request->request->get('enregistrementMouvementArgentWhy')));
+            }
+            if (!is_null($request->request->get('epargne'))) {
+                $agriculteur->setEpargne(intval($request->request->get('epargne')));
+            }
+            if (!is_null($request->request->get('connaissanceDemandeCoursProduitAgricole'))) {
+                $agriculteur->setConnaissanceDemandeCoursProduitAgricole(boolval($request->request->get('connaissanceDemandeCoursProduitAgricole')));
+            }
+            if (!is_null($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy'))) {
+                $agriculteur->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy'))
+                );
+            }
+            if (!is_null($request->request->get('ameliorerQualiteProduit'))) {
+                $agriculteur->setAmeliorerQualiteProduit(boolval($request->request->get('ameliorerQualiteProduit')));
+            }
+            if (!is_null($request->request->get('ameliorerQualiteProduitWhy'))) {
+                $agriculteur->setAmeliorerQualiteProduitWhy(intval($request->request->get('ameliorerQualiteProduitWhy')));
+            }
+            if (!is_null($request->request->get('groupement'))) {
+                $agriculteur->setGroupement(boolval($request->request->get('groupement')));
+            }
+            if (!is_null($request->request->get('avantageRegroupement'))) {
+                $agriculteur->setAvantageRegroupement(intval($request->request->get('avantageRegroupement')));
+            }
+            if (!is_null($request->request->get('toilette'))) {
+                $agriculteur->setToilette(intval($request->request->get('toilette')));
+            }
+            if (!is_null($request->request->get('douche'))) {
+                $agriculteur->setDouche(intval($request->request->get('douche')));
+            }
+            if (!is_null($request->request->get('assainissement'))) {
+                $agriculteur->setAssainissement(intval($request->request->get('assainissement')));
+            }
+            if (!is_null($request->request->get('accesEducation'))) {
+                $agriculteur->setAccesEducation(intval($request->request->get('accesEducation')));
+            }
+
+            // Complete agriculteur with foreign key
+            if ($request->request->get('ce')) {
+                $agriculteur->setCe($ceRepository->find($request->request->get('ce')));
+            }
+            if ($request->request->get('typeElevage')) {
+                $agriculteur->setTypeElevage($typeElevageRepository->find($request->request->get('typeElevage')));
+            }
+            if ($request->request->get('culture')) {
+                $agriculteur->setCulture($cultureRepository->find($request->request->get('culture')));
+            }
+
+            if ($request->request->get('village')) {
+                $agriculteur->setVillage($villageRepository->find($request->request->get('village')));
+            }
+
+            if ($request->request->get('terroir')) {
+                $agriculteur->setTerroir($terroirRepository->find($request->request->get('terroir')));
+            }
+
+            if ($request->request->get('sousRegion')) {
+                $agriculteur->setSousRegion($sousRegionRepository->find($request->request
+                    ->get('sousRegion')));
+            }
+
+            if ($request->request->get('commune')) {
+                $agriculteur->setCommune($communeRepository->find($request->request
+                    ->get('commune')));
+            }
+
+            if ($request->request->get('typologie')) {
+                $agriculteur->setTypologie($typologieRepository->find($request->request
+                    ->get('typologie')));
+            }
+
+            $objectManager->persist($agriculteur);
+
+            foreach ($cultures as $culture) {
+                $eid = $culture->getId();
+                if ($request->request->get('culture_' . $eid)) {
+                    $temp = new NbrCultureAgriculteur();
+                    $temp->setAgriculteur($agriculteur);
+                    $temp->setCulture($culture);
+                    $temp->setNbr($request->request->get('culture_' . $eid));
+
+                    $objectManager->persist($temp);
+                }
+            }
+
+            foreach ($equipements as $equipement) {
+                $eid = $equipement->getId();
+                if ($request->request->get('equipement_' . $eid)) {
+                    $temp = new NbrEquipementAgricoleAgriculteur();
+                    $temp->setAgriculteur($agriculteur);
+                    $temp->setEquipementAgricole($equipement);
+                    $temp->setNbr($request->request->get('equipement_' . $eid));
+
+                    $objectManager->persist($temp);
+                }
+            }
+
+            $objectManager->flush();
+
+            return $this->redirectToRoute('detail_agriculteur', ['id' => $agriculteur->getId()]);
+        }
+
+        return $this->render('agriculteur/ajoutAgriculteur.html.twig', [
+            'form_agriculteur' => $form->createView(),
+            'ces' => $ces,
+            'cultures' => $cultures,
+            'equipements' => $equipements,
+            'typologies' => $typologies,
+            'villages' => $villages,
+            'terroirs' => $terroirs,
+            'sousRegions' => $sousRegions,
+            'communes' => $communes,
+            'typeElevages' => $typeElevages,
+            'agriculteur' => $agriculteur,
         ]);
     }
 
@@ -266,5 +525,15 @@ class AgriculteurController extends AbstractController
         return $this->render('agriculteur/detailAgriculteur.html.twig', [
             'agriculteur' => $agriculteur,
         ]);
+    }
+
+    /**
+     * @Route("/admin/agriculteur/delete/{id}", name="delete_agriculteur")
+     */
+    public function delete(Agriculteur $agriculteur, ObjectManager $objectManager)
+    {
+        $objectManager->remove($agriculteur);
+        $objectManager->flush();
+        return $this->redirectToRoute('agriculteurs');
     }
 }

@@ -15,23 +15,26 @@ class SousRegionController extends AbstractController
     /**
      * @Route("/sous_regions", name="sous_Region")
      */
-    public function index(HttpFoundationRequest $request, ObjectManager $objectManager, 
-            SousRegionRepository $sousRegionRepository, RegionRepository $regionRepository)
-    {
+    public function index(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        SousRegionRepository $sousRegionRepository,
+        RegionRepository $regionRepository
+    ) {
         $sousRegion = new SousRegion();
 
         $regions = $regionRepository->findAll();
 
         $form = $this->createFormBuilder($sousRegion)
-                     ->add('nom')
-                     ->add('description')
-                     ->getForm();
+            ->add('nom')
+            ->add('description')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            if($request->request->get('region')) {
+            if ($request->request->get('region')) {
                 $sousRegion->setRegion($regionRepository->find($request->request->get('region')));
             }
 
@@ -45,8 +48,61 @@ class SousRegionController extends AbstractController
 
         return $this->render('sous_region/index.html.twig', [
             'sousRegions' => $sousRegions,
+            'sousRegion' => $sousRegion,
             'regions' => $regions,
             'sousRegion_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/district/update/{id}", name="update_district")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        SousRegionRepository $sousRegionRepository,
+        RegionRepository $regionRepository,
+        SousRegion $sousRegion
+    ) {
+
+        $regions = $regionRepository->findAll();
+
+        $form = $this->createFormBuilder($sousRegion)
+            ->add('nom')
+            ->add('description')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->get('region')) {
+                $sousRegion->setRegion($regionRepository->find($request->request->get('region')));
+            }
+
+            $objectManager->persist($sousRegion);
+            $objectManager->flush();
+
+            return $this->redirectToRoute('sous_Regions');
+        }
+
+        $sousRegions = $sousRegionRepository->findAll();
+
+        return $this->render('sous_region/index.html.twig', [
+            'sousRegions' => $sousRegions,
+            'sousRegion' => $sousRegion,
+            'regions' => $regions,
+            'sousRegion_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/district/delete/{id}", name="delete_district")
+     */
+    public function delete(SousRegion $sousRegion, ObjectManager $objectManager)
+    {
+        $objectManager->remove($sousRegion);
+        $objectManager->flush();
+        return $this->redirectToRoute('sous_Regions');
     }
 }

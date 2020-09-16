@@ -85,9 +85,9 @@ class Agriculteur
     private $nbrMoisAutosuffisanceRiz;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $accesRiziere;
+    private $accesAuRiziere;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -294,6 +294,55 @@ class Agriculteur
      */
     private $avantageRegroupement;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $accesEauPotable;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    // Aucun, haut, moyen, bas
+    private $toilette;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    // Aucun, haut, moyen, bas
+    private $douche;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    // Aucun, haut, moyen, bas
+    private $assainissement;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    // base, secondaire, universitaire
+    private $accesEducation;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $medecinTraditionnel;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $medecinConventionnel;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $longitude;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $latitude;
+
     public function __construct()
     {
         $this->nbrElevageAgriculteurs = new ArrayCollection();
@@ -463,14 +512,14 @@ class Agriculteur
         return $this;
     }
 
-    public function getAccesRiziere(): ?string
+    public function getAccesAuRiziere(): ?bool
     {
-        return $this->accesRiziere;
+        return $this->accesAuRiziere;
     }
 
-    public function setAccesRiziere(?string $accesRiziere): self
+    public function setAccesAuRiziere(?bool $accesAuRiziere): self
     {
-        $this->accesRiziere = $accesRiziere;
+        $this->accesAuRiziere = $accesAuRiziere;
 
         return $this;
     }
@@ -1039,6 +1088,114 @@ class Agriculteur
     public function setAvantageRegroupement(?int $avantageRegroupement): self
     {
         $this->avantageRegroupement = $avantageRegroupement;
+
+        return $this;
+    }
+
+    public function getAccesEauPotable(): ?bool
+    {
+        return $this->accesEauPotable;
+    }
+
+    public function setAccesEauPotable(?bool $accesEauPotable): self
+    {
+        $this->accesEauPotable = $accesEauPotable;
+
+        return $this;
+    }
+
+    public function getToilette(): ?int
+    {
+        return $this->toilette;
+    }
+
+    public function setToilette(?int $toilette): self
+    {
+        $this->toilette = $toilette;
+
+        return $this;
+    }
+
+    public function getDouche(): ?int
+    {
+        return $this->douche;
+    }
+
+    public function setDouche(?int $douche): self
+    {
+        $this->douche = $douche;
+
+        return $this;
+    }
+
+    public function getAssainissement(): ?int
+    {
+        return $this->assainissement;
+    }
+
+    public function setAssainissement(?int $assainissement): self
+    {
+        $this->assainissement = $assainissement;
+
+        return $this;
+    }
+
+    public function getAccesEducation(): ?int
+    {
+        return $this->accesEducation;
+    }
+
+    public function setAccesEducation(?int $accesEducation): self
+    {
+        $this->accesEducation = $accesEducation;
+
+        return $this;
+    }
+
+    public function getMedecinTraditionnel(): ?bool
+    {
+        return $this->medecinTraditionnel;
+    }
+
+    public function setMedecinTraditionnel(?bool $medecinTraditionnel): self
+    {
+        $this->medecinTraditionnel = $medecinTraditionnel;
+
+        return $this;
+    }
+
+    public function getMedecinConventionnel(): ?bool
+    {
+        return $this->medecinConventionnel;
+    }
+
+    public function setMedecinConventionnel(?bool $medecinConventionnel): self
+    {
+        $this->medecinConventionnel = $medecinConventionnel;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?string $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?string $latitude): self
+    {
+        $this->latitude = $latitude;
 
         return $this;
     }

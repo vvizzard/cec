@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bilan performance du système | CEC{% endblock %}
+
+{% block h1 %}Bilan performance du système{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Bilan performance du sytème</li>
+{% endblock %}
+
+{% block body %}
+<div class="row card">
+    <div class="card-body">
+        <form action="{{ path('rapport_performance') }}" method="GET">
+            <div class="form-group">
+                <label for="campaigne">Agriculteur</label>
+                <select name="agriculteur" id="agriculteur" class="form-control">
+                    {% for agriculteur in agriculteurs %}
+                        <option {% if selectedAgriculteur is not null and selectedAgriculteur == agriculteur.id %} selected {% endif %} 
+                                value="{{ agriculteur.id }}">{{ agriculteur.id }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cycle">Cycle agricole</label>
+                <select name="cycleAgricole" id="cycle" class="form-control">
+                    {% for cycle in cycles %}
+                        <option {% if selectedCycle is not null and selectedCycle == cycle.id %} selected {% endif %} 
+                                value="{{ cycle.id }}">{{ cycle.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary"> Rechercher </button>
+        </form>
+    </div>
+</div>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr class="table-cec-header">
+            <th class="text-center">Système</th>
+            <th class="text-right">Année</th>
+            <th class="text-right">Prix de revient</th>
+            <th class="text-right">Charges</th>
+            <th class="text-right">Rendement</th>
+            <th class="text-right">Productivités</th>
+        </tr>
+        {% for rapport in rapports %}
+        <tr>
+            <td class="text-center">
+                {{ rapport.systeme }}
+            </td>
+            <td class="text-right">
+                {{ rapport.annee }}
+            </td>
+            <td class="text-right">
+                {{ rapport.prixderevient }}
+            </td>
+            <td class="text-right">
+                {{ rapport.charges }}
+            </td>
+            <td class="text-right">
+                {{ rapport.rendement }}
+            </td>
+            <td class="text-right">
+                {{ rapport.productivite }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

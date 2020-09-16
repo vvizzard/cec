@@ -19,14 +19,14 @@ class CultureController extends AbstractController
         $culture = new Culture();
 
         $form = $this->createFormBuilder($culture)
-                     ->add('nom')
-                     ->add('rente')
-                     ->add('description')
-                     ->getForm();
+            ->add('nom')
+            ->add('rente')
+            ->add('description')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->persist($culture);
             $objectManager->flush();
             return $this->redirect($request->getUri());
@@ -38,5 +38,47 @@ class CultureController extends AbstractController
             'cultures' => $cultures,
             'culture_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/culture/update/{id}", name="update_culture")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        CultureRepository $cultureRepository,
+        Culture $culture
+    ) {
+
+        $form = $this->createFormBuilder($culture)
+            ->add('nom')
+            ->add('rente')
+            ->add('description')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $objectManager->persist($culture);
+            $objectManager->flush();
+            return $this->redirectToRoute('culture');
+        }
+
+        $cultures = $cultureRepository->findAll();
+
+        return $this->render('culture/index.html.twig', [
+            'cultures' => $cultures,
+            'culture_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/culture/delete/{id}", name="delete_culture")
+     */
+    public function delete(Culture $culture, ObjectManager $objectManager)
+    {
+        $objectManager->remove($culture);
+        $objectManager->flush();
+        return $this->redirectToRoute('culture');
     }
 }

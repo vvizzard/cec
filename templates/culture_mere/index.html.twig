@@ -1,134 +1,156 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC: Liste des cultures{% endblock %}
+{% block title %}Liste des cultures | CEC{% endblock %}
+
+{% block h1 %}Liste des cultures{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Liste des cultures</li>
+{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <h1>Liste des cultures</h1>
-    </div>
-    <div class="row fit">
-        <table class="table table-fit table-cec table-hover">
-            <tr>
-                <th>Culture_id</th>
-                <th>Parcelle</th>
-                <th>Nouvelle plantation</th>
-                <th>Cycle agricole</th>
-                <th>Surface cultivée</th>
-                <th>Précédent cultural</th>
-                <th>Système cultural</th>
-                <th>Itinéraire cultural</th>
-                <th>MO préparation du sol</th>
-                <th>MO installation culture</th>
-                <th>MO entretien 1</th>
-                <th>MO entretien 2</th>
-                <th>MO entretien 3</th>
-                <th>MO Récolte</th>
-                <th>MO Exté préparation du sol</th>
-                <th>MO Exté installation du culture</th>
-                <th>MO Exté entretien 1</th>
-                <th>MO Exté entretien 2</th>
-                <th>MO Exté entretien 3</th>
-                <th>MO Exté récolte</th>
-                <th>Date de plantation</th>
-                <th>Age de plantation</th>
-                <th>Qté fumure organique</th>
-                {% for fumure in fumures %}
-                    <th>{{ fumure.nom }}</th>
-                {% endfor %}
-                <th>Qté insecticides</th>
-                {% for insecticide in insecticides %}
-                    <th>{{ insecticide.nom }}</th>
-                {% endfor %}
-                <th>Mis en cloture</th>
-            </tr>
-            {% for culture in cultures %}
-            <tr>
-                <td>
-                    <a class="" href="{{ path('detail_culture_mere', 
-                            {'id': culture.id}) }}">
-                        CL_{{ culture.id }}
-                    </a>
-                </td>
-                <td>
-                    <a class="" href="{{ path('detail_parcelle', 
-                            {'id': culture.parcelle.id}) }}">
-                        PL_{{ culture.parcelle.id }}
-                    </a>
-                </td>
-                <td>
-                    {% if culture.nouvellePlantation == true %}
-                        Oui
-                    {% else %}
-                        Non
-                    {% endif %}
-                </td>
-                <td>
-                    {% if culture.cycleAgricole is not null %}
-                        {{ culture.cycleAgricole.nom }}
-                    {% endif %}
-                </td>
-                <td>{{ culture.surfaceCultive }}</td>
-                <td>
-                    {% if culture.precedentCultural is not null %}
-                        {{ culture.precedentCultural.nom }}
-                    {% endif %}
-                </td>
-
-                <td>
-                    {% if culture.systemeCultural is not null %}
-                        {{ culture.systemeCultural.nom }}
-                    {% endif %}
-                </td>
-
-                <td>
-                    {% if culture.itineraireCultural is not null %}
-                        {{ culture.itineraireCultural.nom }}
-                    {% endif %}
-                </td>
-
-                <td>{{ culture.moPreparationSol }}</td>
-                <td>{{ culture.moInstallationCulture }}</td>
-                <td>{{ culture.moEntretien1 }}</td>
-                <td>{{ culture.moEntretien2 }}</td>
-                <td>{{ culture.moEntretien3 }}</td>
-                <td>{{ culture.moRecolte }}</td>
-                <td>{{ culture.moExtPreparationSol }}</td>
-                <td>{{ culture.moExtInstallationCulture }}</td>
-                <td>{{ culture.moExtEntretien1 }}</td>
-                <td>{{ culture.moExtEntretien2 }}</td>
-                <td>{{ culture.moExtEntretien3 }}</td>
-                <td>{{ culture.moExtRecolte }}</td>
-                <td>{{ culture.datePlantation | date("m/d/Y") }}</td>
-                <td>{{ culture.agePlantation }}</td>
-                <td>{{ culture.qteFumureOrganique }}</td>
-                {% for fumure in fumures %}
-                    <td>
-                    {% for eq in culture.nbrFumureCultureMs %}
-                        {% if fumure.id == eq.fumure.id %}
-                            {{ eq.nbr }}
-                        {% endif %}
-                    {% endfor %}
-                    </td>
-                {% endfor %}
-                <td>{{ culture.qteInsecticide }}</td>
-                {% for insecticide in insecticides %}
-                    <td>
-                    {% for eq in culture.nbrInsecticideCultureMs %}
-                        {% if insecticide.id == eq.insecticide.id %}
-                            {{ eq.nbr }}
-                        {% endif %}
-                    {% endfor %}
-                    </td>
-                {% endfor %}
-                <td>
-                    {% if culture.misEnCloture == true %}
-                        Oui
-                    {% else %}
-                        Non
-                    {% endif %}
-                </td>
-            </tr>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr class="table-cec-header">
+            <th>Culture_id</th>
+            <th>Parcelle</th>
+            <th>Nouvelle plantation</th>
+            <th>Cycle agricole</th>
+            <th>Surface cultivée</th>
+            <th>Précédent cultural</th>
+            <th>Système cultural</th>
+            <th>Itinéraire cultural</th>
+            <th>MO préparation du sol</th>
+            <th>MO installation culture</th>
+            <th>MO entretien 1</th>
+            <th>MO entretien 2</th>
+            <th>MO entretien 3</th>
+            <th>MO Récolte</th>
+            <th>MO Exté préparation du sol</th>
+            <th>MO Exté installation du culture</th>
+            <th>MO Exté entretien 1</th>
+            <th>MO Exté entretien 2</th>
+            <th>MO Exté entretien 3</th>
+            <th>MO Exté récolte</th>
+            <th>Date de plantation</th>
+            <th>Age de plantation</th>
+            <th>Qté fumure organique</th>
+            {% for fumure in fumures %}
+                <th>{{ fumure.nom }}</th>
             {% endfor %}
-        </table>
-    </div/>
+            <th>Qté insecticides</th>
+            {% for insecticide in insecticides %}
+                <th>{{ insecticide.nom }}</th>
+            {% endfor %}
+            <th>Mis en culture</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for culture in cultures %}
+        <tr>
+            <td>
+                <a class="" href="{{ path('detail_culture_mere', 
+                        {'id': culture.id}) }}">
+                    CL_{{ culture.id }}
+                </a>
+            </td>
+            <td>
+                <a class="" href="{{ path('detail_parcelle', 
+                        {'id': culture.parcelle.id}) }}">
+                    PL_{{ culture.parcelle.id }}
+                </a>
+            </td>
+            <td>
+                {% if culture.nouvellePlantation == true %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+            </td>
+            <td>
+                {% if culture.cycleAgricole is not null %}
+                    {{ culture.cycleAgricole.nom }}
+                {% endif %}
+            </td>
+            <td>{{ culture.surfaceCultive }}</td>
+            <td>
+                {% if culture.precedentCultural is not null %}
+                    {{ culture.precedentCultural.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.systemeCultural is not null %}
+                    {{ culture.systemeCultural.nom }}
+                {% endif %}
+            </td>
+
+            <td>
+                {% if culture.itineraireCultural is not null %}
+                    {{ culture.itineraireCultural.nom }}
+                {% endif %}
+            </td>
+
+            <td>{{ culture.moPreparationSol }}</td>
+            <td>{{ culture.moInstallationCulture }}</td>
+            <td>{{ culture.moEntretien1 }}</td>
+            <td>{{ culture.moEntretien2 }}</td>
+            <td>{{ culture.moEntretien3 }}</td>
+            <td>{{ culture.moRecolte }}</td>
+            <td>{{ culture.moExtPreparationSol }}</td>
+            <td>{{ culture.moExtInstallationCulture }}</td>
+            <td>{{ culture.moExtEntretien1 }}</td>
+            <td>{{ culture.moExtEntretien2 }}</td>
+            <td>{{ culture.moExtEntretien3 }}</td>
+            <td>{{ culture.moExtRecolte }}</td>
+            <td>{{ culture.datePlantation | date("m/d/Y") }}</td>
+            <td>{{ culture.agePlantation }}</td>
+            <td>{{ culture.qteFumureOrganique }}</td>
+            {% for fumure in fumures %}
+                <td>
+                {% for eq in culture.nbrFumureCultureMs %}
+                    {% if fumure.id == eq.fumure.id %}
+                        {{ eq.nbr }}
+                    {% endif %}
+                {% endfor %}
+                </td>
+            {% endfor %}
+            <td>{{ culture.qteInsecticide }}</td>
+            {% for insecticide in insecticides %}
+                <td>
+                {% for eq in culture.nbrInsecticideCultureMs %}
+                    {% if insecticide.id == eq.insecticide.id %}
+                        {{ eq.nbr }}
+                    {% endif %}
+                {% endfor %}
+                </td>
+            {% endfor %}
+            <td>
+                {% if culture.misEnCloture == true %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+            </td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" href="{{ path('update_culture_mere', {'id': culture.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_culture_mere', {'id': culture.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div/>
 {% endblock %}

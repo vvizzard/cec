@@ -1,12 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC:Inscription d'un nouvel utilisateur{% endblock %}
+{% block title %}Inscription | CEC{% endblock %}
+
+{% block h1 %}Inscription{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item active">...</li>
+{% endblock %}
+
 
 {% block body %}
 
 {{ form_start(base_form) }}
 
 {{ form_widget(base_form) }}
+
+<div class="form-group">
+    <label for="role">Role :</label>
+    <select name="role" id="role" class="form-control">
+        <option value="ROLE_USER">Utilisateur normal</option>
+        <option value="ROLE_ADMIN">Administrateur</option>
+    </select>
+</div>
 
 <button type="submit" class="btn btn-success">Enregistrer</button>
 

@@ -1,36 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CeController!{% endblock %}
+{% block title %}Champ école | CEC{% endblock %}
+
+{% block h1 %}Champ école{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Champ école</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(ce_form) }}
 
-<h1>Champ Ecole</h1>
+        {{ form_widget(ce_form) }}
 
-<h2>Ajout</h2>
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(ce_form) }}
-
-    {{ form_widget(ce_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(ce_form) }}
+        {{ form_end(ce_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-    </tr>
-    {% for ce in ces %}
-    <tr>
-        <td>{{ ce.nom }}</td>
-        <td>{{ ce.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for ce in ces %}
+        <tr>
+            <td>{{ ce.nom }}</td>
+            <td>{{ ce.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" href="{{ path('update_ce', {'id': ce.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_ce', {'id': ce.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

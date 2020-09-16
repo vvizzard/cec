@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\SystemeCultural;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,4 +49,22 @@ class SystemeCulturalRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function nbrSemence($nomSystemeCultural)
+    {
+
+        $res = new ResultSetMapping();
+        $res->addScalarResult('nbr', 'nbr');
+
+        $query = $this->getEntityManager()->createNativeQuery('SELECT SUM(fille.qte_semence) AS nbr FROM culture_fille AS fille
+        JOIN culture_mere AS mere ON fille.culture_mere_id = mere.id
+        JOIN systeme_cultural AS systeme ON systeme.id = mere.systeme_cultural_id
+        WHERE systeme.nom = ?', $res);
+
+        $query->setParameter(1, $nomSystemeCultural);
+
+        $result = $query->getSingleScalarResult();
+
+        return $result;
+    }
 }

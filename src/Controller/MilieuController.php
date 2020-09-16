@@ -19,13 +19,13 @@ class MilieuController extends AbstractController
         $milieu = new Milieu();
 
         $form = $this->createFormBuilder($milieu)
-                     ->add('nom')
-                     ->add('description')
-                     ->getForm();
+            ->add('nom')
+            ->add('description')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->persist($milieu);
             $objectManager->flush();
             return $this->redirect($request->getUri());
@@ -37,5 +37,46 @@ class MilieuController extends AbstractController
             'milieus' => $milieus,
             'milieu_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/milieu/update/{id}", name="update_milieu")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        MilieuRepository $milieuRepository,
+        Milieu $milieu
+    ) {
+
+        $form = $this->createFormBuilder($milieu)
+            ->add('nom')
+            ->add('description')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $objectManager->persist($milieu);
+            $objectManager->flush();
+            return $this->redirectToRoute('milieu');
+        }
+
+        $milieus = $milieuRepository->findAll();
+
+        return $this->render('milieu/index.html.twig', [
+            'milieus' => $milieus,
+            'milieu_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/milieu/delete/{id}", name="delete_milieu")
+     */
+    public function delete(Milieu $milieu, ObjectManager $objectManager)
+    {
+        $objectManager->remove($milieu);
+        $objectManager->flush();
+        return $this->redirectToRoute('milieu');
     }
 }

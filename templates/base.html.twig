@@ -1,201 +1,485 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="https://bootswatch.com/4/litera/bootstrap.min.css">
-        {# <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"> #}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
-        {% block stylesheets %}
-        {% endblock %}
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="#">CEC</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %} CEC | Accueil {% endblock %}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/jqvmap/jqvmap.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
 
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav mr-auto">
-                    {# <li class="nav-item active">
-                        <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
-                    </li> #}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
-                                role="button" aria-haspopup="true" aria-expanded="false">Agriculteur</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path('add_agriculteur') }}">
-                                Ajouter
-                            </a>
-                            <a class="dropdown-item" href="{{ path('agriculteurs') }}">
-                                Liste des agriculteurs
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
-                                role="button" aria-haspopup="true" aria-expanded="false">Parcelle</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path('add_parcelle') }}">
-                                Ajouter
-                            </a>
-                            <a class="dropdown-item" href="{{ path('parcelle') }}">
-                                Liste des parcelles
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
-                                role="button" aria-haspopup="true" aria-expanded="false">Culture</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path('culture_mere_add') }}">
-                                Ajouter
-                            </a>
-                            <a class="dropdown-item" href="{{ path('culture_meres') }}">
-                                Liste des cultures
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
-                                role="button" aria-haspopup="true" aria-expanded="false">
-                            Configuration agriculteur
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path('type_elevage') }}">
-                                Type d'elevage
-                            </a>
-                            <a class="dropdown-item" href="{{ path('village') }}">
-                                Village
-                            </a>
-                            <a class="dropdown-item" href="{{ path('terroir') }}">
-                                Fokontany
-                            </a>
-                            <a class="dropdown-item" href="{{ path('sous_Region') }}">
-                                District
-                            </a>
-                            <a class="dropdown-item" href="{{ path('commune') }}">
-                                Commune
-                            </a>
-                            {# <a class="dropdown-item" href="{{ path('ancienneteAgriculteur') }}">
-                                Anciennete Agriculteur
-                            </a>
-                            <a class="dropdown-item" href="{{ path('bvpi') }}">
-                                BVPI
-                            </a> #}
-                            <a class="dropdown-item" href="{{ path('ce') }}">
-                                Champ école
-                            </a>
-                            {# <a class="dropdown-item" href="{{ path('op') }}">
-                                OP
-                            </a> #}
-                            <a class="dropdown-item" href="{{ path('typologie') }}">
-                                Typologie
-                            </a>
-                            {# <a class="dropdown-item" href="{{ path('zone_technicien') }}">
-                                Zone techincien
-                            </a> #}
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
-                                role="button" aria-haspopup="true" aria-expanded="false">
-                            Configuration parcelle
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path('type') }}">
-                                Type de parcelle
-                            </a>
-                            <a class="dropdown-item" href="{{ path('type_sol') }}">
-                                Type de sol
-                            </a>
-                            <a class="dropdown-item" href="{{ path('mode_faire_valoir') }}">
-                                Mode de faire valoir
-                            </a>
-                            <a class="dropdown-item" href="{{ path('localisation') }}">
-                                Localisation
-                            </a>
-                            <a class="dropdown-item" href="{{ path('milieu') }}">
-                                Milieu
-                            </a>
-                            {# <a class="dropdown-item" href="{{ path('anciennete') }}">
-                                Anciennete Parcelle
-                            </a>
-                            <a class="dropdown-item" href="{{ path('zc') }}">
-                                ZC 2010
-                            </a>
-                            <a class="dropdown-item" href="{{ path('emplacement_p_i') }}">
-                                Emplacement PI
-                            </a> #}
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
-                                role="button" aria-haspopup="true" aria-expanded="false">
-                            Configuration Culture
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path('cycle_agricole') }}">
-                                Cycle agricole
-                            </a>
-                            <a class="dropdown-item" href="{{ path('precedent_cultural') }}">
-                                Précédent cultural
-                            </a>
-                            <a class="dropdown-item" href="{{ path('systeme_cultural') }}">
-                                Système cultural
-                            </a>
-                            <a class="dropdown-item" href="{{ path('itineraire_cultural') }}">
-                                Itinéraire cultural
-                            </a>
-                            {# <a class="dropdown-item" href="{{ path('etat_pc') }}">
-                                État PC
-                            </a>
-                            <a class="dropdown-item" href="{{ path('etat_mulch') }}">
-                                État Mulch
-                            </a>
-                            <a class="dropdown-item" href="{{ path('preparation_parcelle') }}">
-                                Préparation parcelle
-                            </a>
-                            <a class="dropdown-item" href="{{ path('controlle_biomas') }}">
-                                Controlle Biomas
-                            </a>
-                            <a class="dropdown-item" href="{{ path('mode_installation') }}">
-                                Mode Installation
-                            </a>
-                            <a class="dropdown-item" href="{{ path('type_pepiniere') }}">
-                                Type pépinière
-                            </a>
-                            <a class="dropdown-item" href="{{ path('mode_repiquage') }}">
-                                Mode repiquage
-                            </a>
-                            <a class="dropdown-item" href="{{ path('type_sarclage') }}">
-                                Type sarclage
-                            </a>
-                            <a class="dropdown-item" href="{{ path('degat_cyclonique') }}">
-                                Dégats cyclonique
-                            </a>
-                            <a class="dropdown-item" href="{{ path('sondage_qualitatif') }}">
-                                Sondage qualitatif
-                            </a> #}
-                        </div>
-                    </li>
-                </ul>
-                {% if app.user %}
-                <form class="form-inline my-2 my-lg-0">
-                    {# <input class="form-control mr-sm-2" type="text" placeholder="Search"> #}
-                    <a href="{{ path('security_logout') }}" class="btn btn-secondary my-2 my-sm-0">Déconnexion</a>
-                </form>
-                {% endif %}
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand bg-primary navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+        </ul>
+
+        <!-- SEARCH FORM -->
+        <div class="form-inline cec-search">
+            <div class="input-group input-group-sm cec-search-inside">
+                <input style="margin-bottom: 0px!important;" class="form-control form-control-navbar" 
+                        type="search" placeholder="Rechercher ..." id="search" aria-label="Rechercher">
+                <div class="input-group-append">
+                <button class="btn btn-navbar" onclick="search()" title="Lancer la recherche">
+                    <i class="fas fa-search"></i>
+                </button>
+                </div>
             </div>
-        </nav>
-
-        <div class="container start-body">
-            {% block body %}{% endblock %}
-            {% block javascripts %}{% endblock %}
         </div>
 
-    </body>
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Logout -->
+            {% if app.user %}
+            <form class="form-inline my-2 my-lg-0">
+                <a class="nav-link" href="{{ path('security_logout') }}">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="">Déconnexion</span>
+                </a>
+            </form>
+            {% endif %}
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="{{ path('home') }}" class="brand-link">
+        <img src="{{ asset('assets/img/tiny_logo_cotesud.jpg') }}" alt="" class="brand-image elevation-3"
+            style="opacity: .8; float: none;">
+        <span class="brand-text font-weight-light">CEC</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+        {% if app.user %}
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="">
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">{{ app.user.userName }}</a>
+                </div>
+            </div>
+        {% endif %}
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Agriculteurs
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ path('add_agriculteur') }}" class="nav-link active">
+                        <i class=""></i>
+                        <p>Ajouter un agriculteur</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('agriculteurs') }}" class="nav-link">
+                        <i class=""></i>
+                        <p>Liste des agriculteurs</p>
+                        </a>
+                    </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-chart-pie"></i>
+                    <p>
+                        Parcelles
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ path('add_parcelle') }}" class="nav-link">
+                        <i class=""></i>
+                        <p>Ajouter un nouveau parcelle</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('parcelles') }}" class="nav-link">
+                        <i class=""></i>
+                        <p>Liste des parcelles</p>
+                        </a>
+                    </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-leaf"></i>
+                    <p>
+                        Cultures
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ path('culture_mere_add') }}" class="nav-link">
+                        <i class=""></i>
+                        <p>Ajouter une nouvelle culture</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('culture_meres') }}" class="nav-link">
+                        <i class=""></i>
+                        <p>Liste des cultures</p>
+                        </a>
+                    </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('rapport_surface') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Bilan surface</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('rapport_rendement') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Bilan rendement</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('zone_erodibles') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Zone érodible</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('productivites') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Productivité de travail</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('rapport_performance') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Performance du système</p>
+                    </a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cogs"></i>
+                        <p>
+                        Configurations agriculteurs
+                        <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                        <a href="{{ path('type_elevage') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Type d'élevage</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('village') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Village</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('terroir') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Fokontany</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('sous_Region') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>District</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('commune') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Commune</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('ce') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Champ école</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('typologie') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Typologie</p>
+                        </a>
+                        </li>
+                    </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cogs"></i>
+                        <p>
+                        Configurations parcelles
+                        <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                        <a href="{{ path('type') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Type de parcelle</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('type_sol') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Type de sol</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('mode_faire_valoir') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Mode de faire valoir</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('localisation') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Localisation</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{ path('milieu') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Milieu</p>
+                        </a>
+                        </li>
+                    </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-cogs"></i>
+                            <p>
+                            Configurations cultures
+                            <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('cycle_agricole') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Cycle agricole</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('precedent_cultural') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Précédent cultural</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('systeme_cultural') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Système cultural</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('itineraire_cultural') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Itinéraire cultural</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('culture') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Plantes</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('variete') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Variétés de plantes</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('insecticide') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Insecticides</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('fumure_organique') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Fumures</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">{% block h1 %}Côté Sud{% endblock %}</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            {% block history %}
+                                <li class="breadcrumb-item active">Accueil</li>
+                            {% endblock %}
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+        <div class="container-fluid start-body">
+                {% block body %}{% endblock %}
+                
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 <a href="#">Coté sud | CEC</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+        <b>by</b> Zacharie
+        </div>
+    </footer>
+
+    <!-- Modal delete -->
+    <div class="modal" id="delete-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Suppression</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Cette action est irréversible. Voulez-vous vraiment supprimer cette enregistrement?
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <div id="del-div">
+                        {# <button type="button" class="btn btn-danger" data-dismiss="modal">OUI</button> #}
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">NON</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+    $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ asset('assets/plugins/chart.js/Chart.min.js') }}"></script>
+    <!-- Sparkline -->
+    <script src="{{ asset('assets/plugins/sparklines/sparkline.js') }}"></script>
+    <!-- JQVMap -->
+    <script src="{{ asset('assets/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="{{ asset('assets/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+    <!-- daterangepicker -->
+    <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{ asset('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <!-- Summernote -->
+    <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <!-- overlayScrollbars -->
+    <script src="{{ asset('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="{{ asset('assets/dist/js/pages/dashboard.js') }}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ asset('assets/dist/js/demo.js') }}"></script>
+
+    <!-- search -->
+    <script>
+        function search() {
+            console.log('url');
+            window.location.href = '{{ path('search') }}?s=' + $('#search').val();
+        }
+        
+        function del(link) {
+            var temp = '<a href="'+link+'" class="btn btn-danger rm">OUI</a>';
+            $('.rm').remove();
+            $('#del-div').append(temp);
+        }
+    </script>
+    {% block javascripts %}{% endblock %}
+</body>
 </html>

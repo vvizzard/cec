@@ -1,38 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PrecedentCulturalController!{% endblock %}
+{% block title %}Précédent cultural | CEC{% endblock %}
+
+{% block h1 %}Précédent cultural{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Précédent cultural</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(precedentCultural_form) }}
 
-<h1>precedentCultural</h1>
+        {{ form_widget(precedentCultural_form) }}
 
-<h2>Ajout</h2>
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(precedentCultural_form) }}
-
-    {{ form_widget(precedentCultural_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(precedentCultural_form) }}
+        {{ form_end(precedentCultural_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Installe sur pdt</th>
-        <th>Description</th>
-    </tr>
-    {% for precedentCultural in precedentCulturals %}
-    <tr>
-        <td>{{ precedentCultural.nom }}</td>
-        <td>{{ precedentCultural.installeSurPDT }}</td>
-        <td>{{ precedentCultural.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Installe sur pdt</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for precedentCultural in precedentCulturals %}
+        <tr>
+            <td>{{ precedentCultural.nom }}</td>
+            <td>{{ precedentCultural.installeSurPDT }}</td>
+            <td>{{ precedentCultural.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" 
+                            href="{{ path('udpate_precedent_cultural', {'id': precedentCultural.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_precedent_cultural', {'id': precedentCultural.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

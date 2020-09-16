@@ -1,36 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LocalisationController!{% endblock %}
+{% block title %}Localisation | CEC{% endblock %}
+
+{% block h1 %}Localisation{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Localisation</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(localisation_form) }}
 
-<h1>LOCALISATION</h1>
+        {{ form_widget(localisation_form) }}
 
-<h2>Ajout</h2>
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(localisation_form) }}
-
-    {{ form_widget(localisation_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(localisation_form) }}
+        {{ form_end(localisation_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-    </tr>
-    {% for localisation in localisations %}
-    <tr>
-        <td>{{ localisation.nom }}</td>
-        <td>{{ localisation.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for localisation in localisations %}
+        <tr>
+            <td>{{ localisation.nom }}</td>
+            <td>{{ localisation.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" 
+                            href="{{ path('update_localisation', {'id': localisation.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_localisation', {'id': localisation.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

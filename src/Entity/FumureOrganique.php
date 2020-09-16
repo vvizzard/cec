@@ -27,6 +27,11 @@ class FumureOrganique
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $prix;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class FumureOrganique
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPrix(): ?int
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(?int $prix): self
+    {
+        $this->prix = $prix;
 
         return $this;
     }

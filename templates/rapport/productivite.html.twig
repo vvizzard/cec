@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Productivités | CEC{% endblock %}
+
+{% block h1 %}Productivités{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Productivités</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row card">
+    <div class="card-body">
+        <form action="{{ path('productivites') }}" method="GET">
+            <div class="form-group">
+                <label for="commune">Commune</label>
+                <select name="commune" id="commune" class="form-control">
+                    {% for commune in communes %}
+                        <option {% if selectedCommune is not null and selectedCommune == commune.id %} selected {% endif %} 
+                                value="{{ commune.id }}">
+                            {{ commune.nom }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="campaigne">Campaigne</label>
+                <select name="compaigne" id="campaigne" class="form-control">
+                    {% for compaigne in compaignes %}
+                        <option {% if selectedCompaigne is not null and selectedCompaigne == compaigne.compaigne %} selected {% endif %} 
+                                value="{{ compaigne.compaigne }}">{{ compaigne.compaigne }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr class="table-cec-header">
+            <th class="text-center">Commune</th>
+            <th class="text-center">Année</th>
+            <th class="text-right">Main d'oeuvre (homme/jour)</th>
+            <th class="text-right">Production (Kg)</th>
+            <th class="text-right">Productivité (Kg/homme/jour)</th>
+        </tr>
+        {% for productivite in productivites %}
+        <tr>
+            <td class="text-center">
+                {{ productivite.commune }}
+            </td>
+            <td class="text-center">
+                {{ productivite.annee }}
+            </td>
+            <td class="text-right">
+                {{ productivite.mo }}
+            </td>
+            <td class="text-right">
+                {{ productivite.production }}
+            </td>
+            <td class="text-right">
+                {{ productivite.productivite }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

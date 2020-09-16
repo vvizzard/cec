@@ -1,38 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CultureController!{% endblock %}
+{% block title %}Plantes | CEC{% endblock %}
+
+{% block h1 %}Plantes{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Plantes</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(culture_form) }}
 
-<h1>Culture</h1>
+        {{ form_widget(culture_form) }}
 
-<h2>Ajout</h2>
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(culture_form) }}
-
-    {{ form_widget(culture_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(culture_form) }}
+        {{ form_end(culture_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Rente</th>
-        <th>Description</th>
-    </tr>
-    {% for culture in cultures %}
-    <tr>
-        <td>{{ culture.nom }}</td>
-        <td>{{ culture.rente }}</td>
-        <td>{{ culture.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Rente</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for culture in cultures %}
+        <tr>
+            <td>{{ culture.nom }}</td>
+            <td>{{ culture.rente }}</td>
+            <td>{{ culture.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" 
+                            href="{{ path('update_culture', {'id': culture.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_culture', {'id': culture.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

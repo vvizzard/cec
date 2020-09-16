@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\CultureMere;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @method CultureMere|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CultureMere|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CultureMere[]    findAll()
+ * @method CultureMere[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class CultureMereRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, CultureMere::class);
+    }
+
+    // /**
+    //  * @return CultureMere[] Returns an array of CultureMere objects
+    //  */
+    /*
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    */
+
+    /*
+    public function findOneBySomeField($value): ?CultureMere
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
+
+    public function compaigne() {
+
+        $res = new ResultSetMapping();
+        $res->addScalarResult('compaigne', 'compaigne');
+
+        $query = $this->getEntityManager()->createNativeQuery(
+            'SELECT DISTINCT YEAR(c.date_plantation) as compaigne FROM culture_mere AS c ORDER BY compaigne ASC', $res
+        );
+
+        $result = $query->getScalarResult();
+
+        return $result;
+    }
+
+    public function rapportSurface($idCommune = null, $compaigne = null, $idCycleAgricole = null)
+    {
+        $res = new ResultSetMapping();
+        $res->addScalarResult('nom', 'nom');
+        $res->addScalarResult('nbr_p', 'nbr_p');
+        $res->addScalarResult('nbr_a', 'nbr_a');
+        $res->addScalarResult('surface', 'surface');
+
+        $query = 'SELECT ic.nom, SUM(p.id) as nbr_p, SUM(a.id) as nbr_a, SUM(c.surface_cultive) as surface 
+        FROM culture_mere as c 
+        JOIN parcelle as p on p.id = c.parcelle_id
+        JOIN agriculteur as a on a.id = p.agriculteur_id
+        JOIN itineraire_cultural as ic on c.itineraire_cultural_id = ic.id
+        WHERE 1 = 1 ';
+
+        if ($idCommune != null) {
+            $query = $query.'AND a.commune_id = ? ';
+        }
+        if ($compaigne != null) {
+            $query = $query.'AND YEAR(c.date_plantation) = ? ';
+        }
+        if ($idCycleAgricole != null) {
+            $query = $query.'AND c.cycle_agricole_id = ? ';
+        }
+
+        $query = $query.' GROUP BY c.itineraire_cultural_id';
+
+        $query = $this->getEntityManager()->createNativeQuery(
+            $query, $res
+        );
+
+        $indexParam = 1;
+
+        if ($idCommune != null) {
+            $query->setParameter($indexParam, $idCommune);
+            $indexParam++;
+        }
+        if ($compaigne != null) {
+            $query->setParameter($indexParam, $compaigne);
+            $indexParam++;
+        }
+        if ($idCycleAgricole != null) {
+            $query->setParameter($indexParam, $idCycleAgricole);
+        }
+
+        $result = $query->getScalarResult();
+
+        return $result;
+    }
+}

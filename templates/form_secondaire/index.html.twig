@@ -1,36 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TypologieController!{% endblock %}
+{% block title %}{{ titre }} | CEC{% endblock %}
+
+{% block h1 %}{{ titre }}{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">{{ titre }}</li>
+{% endblock %}
 
 {% block body %}
+<div class="row card">
+    <div class="card-header">
+        <h3 class="card-title">Ajout</h3>
+    </div>
+    <div class="card-body">
+        {{ form_start(base_form) }}
 
-<h1>{{ titre }}</h1>
+        {{ form_widget(base_form) }}
 
-<h2>Ajout</h2>
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(base_form) }}
-
-    {{ form_widget(base_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(base_form) }}
+        {{ form_end(base_form) }}
+    </div>
 </div>
 
-<h2>Listes</h2>
-
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-    </tr>
-    {% for base in bases %}
-    <tr>
-        <td>{{ base.nom }}</td>
-        <td>{{ base.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row bkg-white fit card">
+    <div class="card-head modified-head">
+        <h3 class="card-title">
+            Parcelles
+        </h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-fit table-hover">
+            <tr>
+                <th>Nom</th>
+                {% if bases[0].prix is defined %}
+                    <th>Prix</th>
+                {% endif %}
+                <th>Description</th>
+            </tr>
+            {% for base in bases %}
+            <tr>
+                <td>{{ base.nom }}</td>
+                {% if base.prix is defined %}
+                    <td>{{ base.prix }}</td>
+                {% endif %}
+                <td>{{ base.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
 
 {% endblock %}

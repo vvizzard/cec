@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC: Connexion{% endblock %}
+{% block title %}Connexion | CEC{% endblock %}
+
+{% block h1 %}Connexion{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item active">...</li>
+{% endblock %}
 
 {% block body %}
-
-<h1>Connexion</h1>
 
 <form action="{{ path('security_login') }}" method="POST">
     <div class="form-group">

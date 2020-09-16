@@ -1,68 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC: Liste des parcelles{% endblock %}
+{% block title %}Liste des parcelles | CEC{% endblock %}
+
+{% block h1 %}Liste des parcelles{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Liste des parcelles</li>
+{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <h1>Liste des parcelles</h1>
-    </div>
-    <div class="row fit">
-        <table class="table table-fit table-cec table-hover">
-            <tr>
-                <th>Id</th>
-                <th>Id_Agriculteur</th>
-                <th>Surface</th>
-                <th>Type</th>
-                <th>TypeSol</th>
-                <th>Mode de faire valoir</th>
-                {# <th>Localisation</th>
-                <th>Milieu</th>
-                <th>Irrigation</th>
-                <th>Compaction</th>
-                <th>Contre saison</th>
-                <th>Zone érodible</th>
-                <th>Longitude</th>
-                <th>Latitude</th> #}
-                <th>Observation</th>
-            </tr>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr class="table-cec-header">
+            <th>Id</th>
+            <th>Id_Agriculteur</th>
+            <th>Surface</th>
+            <th>Type</th>
+            <th>TypeSol</th>
+            <th>Mode de faire valoir</th>
+            <th>Observation</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+            {% endif %}
+        </tr>
 
-            {% for parcelle in parcelles %}
-                <tr>
+        {% for parcelle in parcelles %}
+            <tr>
+                <td>
+                    <a class="" href="{{ path('detail_parcelle', 
+                            {'id': parcelle.id}) }}">
+                        PL_{{ parcelle.id }}
+                    </a>
+                </td>
+                <td>
+                    <a class="" title="{{ parcelle.agriculteur.nom }} {{ parcelle.agriculteur.prenom }}" 
+                            href="{{ path('detail_agriculteur', {'id': parcelle.agriculteur.id}) }}">
+                        AG_{{ parcelle.agriculteur.id }}
+                    </a>
+                </td>
+                <td>{{ parcelle.surface }}</td>
+                <td>{% if parcelle.type is not null %} {{ parcelle.type.nom }} {% endif %}</td>
+                <td>{% if parcelle.TypeSol is not null %} {{ parcelle.TypeSol.nom }} {% endif %}</td>
+                <td>
+                    {% if parcelle.modeFaireValoir is not null %} 
+                        {{ parcelle.modeFaireValoir.nom }} 
+                    {% endif %}
+                </td>
+                <td>{{ parcelle.observation }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
                     <td>
-                        <a class="" href="{{ path('detail_parcelle', 
-                                {'id': parcelle.id}) }}">
-                            PL_{{ parcelle.id }}
+                        <a class="btn btn-default" title="Modifier" href="{{ path('update_parcelle', {'id': parcelle.id}) }}">
+                            <i class="fas fa-edit"></i>
                         </a>
                     </td>
                     <td>
-                        <a class="" title="{{ parcelle.agriculteur.nom }} {{ parcelle.agriculteur.prenom }}" 
-                                href="{{ path('detail_agriculteur', {'id': parcelle.agriculteur.id}) }}">
-                            AG_{{ parcelle.agriculteur.id }}
+                        <a href="#" class="btn btn-danger" title="Supprimer" 
+                                data-toggle="modal" data-target="#delete-modal"
+                                onclick="del('{{ path('delete_parcelle', {'id': parcelle.id}) }}')">
+                            <i class="fas fa-trash"></i>
                         </a>
                     </td>
-                    <td>{{ parcelle.surface }}</td>
-                    <td>{% if parcelle.type is not null %} {{ parcelle.type.nom }} {% endif %}</td>
-                    <td>{% if parcelle.TypeSol is not null %} {{ parcelle.TypeSol.nom }} {% endif %}</td>
-                    <td>
-                        {% if parcelle.modeFaireValoir is not null %} 
-                            {{ parcelle.modeFaireValoir.nom }} 
-                        {% endif %}
-                    </td>
-                    {# <td>
-                        {% if parcelle.localisation is not null %} 
-                            {{ parcelle.localisation.nom }} 
-                        {% endif %}
-                    </td>
-                    <td>{% if parcelle.milieu is not null %} {{ parcelle.milieu.nom }} {% endif %}</td>
-                    <td>{{ parcelle.irrigation }}</td>
-                    <td>{{ parcelle.compaction }}</td>
-                    <td>{{ parcelle.contreSaison }}</td>
-                    <td>{{ parcelle.zoneErodible }}</td>
-                    <td>{{ parcelle.longitude }}</td>
-                    <td>{{ parcelle.latitude }}</td> #}
-                    <td>{{ parcelle.observation }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

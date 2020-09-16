@@ -1,35 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CultureFilleController!{% endblock %}
+{% block title %}Ajout d'une nouvelle culture | CEC{% endblock %}
+
+{% block h1 %}Ajout d'une nouvelle agriculture{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Ajout d'une nouvelle culture</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(base_form) }}
 
-<h1>Cultures</h1>
+        <label for="plante">Plante: </label>
+        <select name="plante" id="plante" class="form-control">
+        {% for plante in plantes %}
+            <option value="{{ plante.id }}">{{ plante.nom }}</option>
+        {% endfor %}
+        </select>
+        <label for="variete">Variete: </label>
+        <select name="variete" id="variete" class="form-control">
+            <option></option>
+        {% for variete in varietes %}
+            <option value="{{ variete.id }}">{{ variete.nom }}</option>
+        {% endfor %}
+        </select>
 
-<h2>Ajout</h2>
+        {{ form_widget(base_form) }}
 
-<div>
-    {{ form_start(base_form) }}
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-    <label for="plante">Plante: </label>
-    <select name="plante" id="plante" class="form-control">
-    {% for plante in plantes %}
-        <option value="{{ plante.id }}">{{ plante.nom }}</option>
-    {% endfor %}
-    </select>
-    <label for="variete">Variete: </label>
-    <select name="variete" id="variete" class="form-control">
-        <option></option>
-    {% for variete in varietes %}
-        <option value="{{ variete.id }}">{{ variete.nom }}</option>
-    {% endfor %}
-    </select>
+        {{ form_end(base_form) }}
+        
+    </div>
 
-    {{ form_widget(base_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(base_form) }}
 </div>
 
 {% endblock %}

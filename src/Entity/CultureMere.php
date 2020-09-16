@@ -251,6 +251,7 @@ class CultureMere
 
     /**
      * @ORM\ManyToOne(targetEntity=Parcelle::class, inversedBy="cultureMeres")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $parcelle;
 
@@ -263,6 +264,11 @@ class CultureMere
      * @ORM\OneToMany(targetEntity=NbrInsecticideCultureM::class, mappedBy="culture")
      */
     private $nbrInsecticideCultureMs;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $tarifMO;
 
     public function __construct()
     {
@@ -917,6 +923,18 @@ class CultureMere
                 $nbrInsecticideCultureM->setCulture(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTarifMO(): ?int
+    {
+        return $this->tarifMO;
+    }
+
+    public function setTarifMO(?int $tarifMO): self
+    {
+        $this->tarifMO = $tarifMO;
 
         return $this;
     }

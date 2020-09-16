@@ -21,7 +21,7 @@ class Parcelle
 
     /**
      * @ORM\ManyToOne(targetEntity=Agriculteur::class, inversedBy="parcelles")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $agriculteur;
 

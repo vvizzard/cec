@@ -19,7 +19,7 @@ class CultureFille
 
     /**
      * @ORM\ManyToOne(targetEntity=Culture::class, inversedBy="cultureFilles")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $plante;
 
@@ -55,8 +55,19 @@ class CultureFille
 
     /**
      * @ORM\ManyToOne(targetEntity=CultureMere::class, inversedBy="cultureFilles")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $cultureMere;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $prixUnitaireSemence;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $prixUnitaireProduit;
 
     public function getId(): ?int
     {
@@ -155,6 +166,30 @@ class CultureFille
     public function setCultureMere(?CultureMere $cultureMere): self
     {
         $this->cultureMere = $cultureMere;
+
+        return $this;
+    }
+
+    public function getPrixUnitaireSemence(): ?int
+    {
+        return $this->prixUnitaireSemence;
+    }
+
+    public function setPrixUnitaireSemence(?int $prixUnitaireSemence): self
+    {
+        $this->prixUnitaireSemence = $prixUnitaireSemence;
+
+        return $this;
+    }
+
+    public function getPrixUnitaireProduit(): ?int
+    {
+        return $this->prixUnitaireProduit;
+    }
+
+    public function setPrixUnitaireProduit(?int $prixUnitaireProduit): self
+    {
+        $this->prixUnitaireProduit = $prixUnitaireProduit;
 
         return $this;
     }

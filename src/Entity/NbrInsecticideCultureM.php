@@ -19,11 +19,13 @@ class NbrInsecticideCultureM
 
     /**
      * @ORM\ManyToOne(targetEntity=Insecticide::class, inversedBy="nbrInsecticideCultureMs")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $insecticide;
 
     /**
      * @ORM\ManyToOne(targetEntity=CultureMere::class, inversedBy="nbrInsecticideCultureMs")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $culture;
 

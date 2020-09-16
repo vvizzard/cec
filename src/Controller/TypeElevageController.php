@@ -38,4 +38,45 @@ class TypeElevageController extends AbstractController
             'typeElevage_form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/type_elevage/update/{id}", name="update_type_elevage")
+     */
+    public function update(
+        HttpFoundationRequest $request, 
+        ObjectManager $objectManager, 
+        TypeElevageRepository $typeElevageRepository,
+        TypeElevage $typeElevage)
+    {
+
+        $form = $this->createFormBuilder($typeElevage)
+                     ->add('nom')
+                     ->add('description')
+                     ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $objectManager->persist($typeElevage);
+            $objectManager->flush();
+            return $this->redirectToRoute('type_elevage');
+        }
+
+        $typeElevages = $typeElevageRepository->findAll();
+
+        return $this->render('type_elevage/index.html.twig', [
+            'typeElevages' => $typeElevages,
+            'typeElevage_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/type_elevage/delete/{id}", name="delete_type_elevage")
+     */
+    public function delete(TypeElevage $typeElevage, ObjectManager $objectManager)
+    {
+        $objectManager->remove($typeElevage);
+        $objectManager->flush();
+        return $this->redirectToRoute('type_elevage');
+    }
 }

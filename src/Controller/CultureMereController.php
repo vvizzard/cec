@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\CultureFille;
 use App\Entity\CultureMere;
 use App\Entity\NbrFumureCultureM;
 use App\Entity\NbrInsecticideCultureM;
 // use App\Repository\ControlleBiomasRepository;
 use App\Repository\CultureMereRepository;
+use App\Repository\CultureRepository;
 use App\Repository\CycleAgricoleRepository;
 // use App\Repository\DegatCycloniqueRepository;
 // use App\Repository\EtatMulchRepository;
@@ -21,11 +23,13 @@ use App\Repository\PrecedentCulturalRepository;
 // use App\Repository\PreparationParcelleRepository;
 // use App\Repository\SondageQualitatifRepository;
 use App\Repository\SystemeCulturalRepository;
+use App\Repository\VarieteRepository;
 // use App\Repository\TypePepiniereRepository;
 // use App\Repository\TypeSarclageRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -115,6 +119,7 @@ class CultureMereController extends AbstractController
             ->add('moExtEntretien2')
             ->add('moExtEntretien3')
             ->add('moExtRecolte')
+            ->add('tarifMO')
             ->add('datePlantation')
             ->add('agePlantation')
             ->add('qteFumureOrganique')
@@ -123,7 +128,7 @@ class CultureMereController extends AbstractController
             //  liste insecticide
             // autre pesticide
             ->add('misEnCloture', CheckboxType::class, [
-                'label'    => 'Mis en cloture',
+                'label'    => 'Mis en culture',
                 'required' => false,
             ])
             //  ->add('nbrSarclage')
@@ -259,6 +264,7 @@ class CultureMereController extends AbstractController
             'fumures' => $fumures,
             'insecticides' => $insecticides,
             'parcelles' => $parcelles,
+            'culture' => null,
             'base_form' => $form->createView(),
         ]);
     }
@@ -327,6 +333,7 @@ class CultureMereController extends AbstractController
             ->add('moExtEntretien2')
             ->add('moExtEntretien3')
             ->add('moExtRecolte')
+            ->add('tarifMO')
             ->add('datePlantation')
             ->add('agePlantation')
             ->add('qteFumureOrganique')
@@ -335,7 +342,7 @@ class CultureMereController extends AbstractController
             //  liste insecticide
             // autre pesticide
             ->add('misEnCloture', CheckboxType::class, [
-                'label'    => 'Mis en cloture',
+                'label'    => 'Mis en culture',
                 'required' => false,
             ])
             //  ->add('nbrSarclage')
@@ -477,6 +484,8 @@ class CultureMereController extends AbstractController
             // 'sondageQualitatifs' => $sondageQualitatifs,
             'fumures' => $fumures,
             'insecticides' => $insecticides,
+            'parcelleId' => $parcelleId,
+            'culture' => null,
             'base_form' => $form->createView(),
         ]);
     }
@@ -485,17 +494,195 @@ class CultureMereController extends AbstractController
      * @Route("/culture_mere/{id}", name="detail_culture_mere")
      */
     public function detail(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
         CultureMere $cultureMere,
         FumureOrganiqueRepository $fumureOrganiqueRepository,
-        InsecticideRepository $insecticideRepository
+        InsecticideRepository $insecticideRepository,
+        VarieteRepository $varieteRepository,
+        CultureRepository $cultureRepository
     ) {
+
+        $cultureFille = new CultureFille();
+
+        $form = $this->createFormBuilder($cultureFille)
+            ->add('datePlantation', DateType::class, array(
+                'widget' => 'choice',
+                'format' => 'dd MM yyyy'
+            ))
+            ->add('QteSemence')
+            ->add('prixUnitaireSemence')
+            ->add('production')
+            ->add('prixUnitaireProduit')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $cultureFille->setCultureMere($cultureMere);
+
+            if ($request->request->get('variete')) {
+                $cultureFille->setVariete($varieteRepository->find($request->request->get('variete')));
+            }
+            if ($request->request->get('plante')) {
+                $cultureFille->setPlante($cultureRepository->find($request->request->get('plante')));
+            }
+
+            $objectManager->persist($cultureFille);
+            $objectManager->flush();
+        }
+
         $fumures = $fumureOrganiqueRepository->findAll();
         $insecticides = $insecticideRepository->findAll();
+
+        $varietes = $varieteRepository->findAll();
+        $plantes = $cultureRepository->findAll();
 
         return $this->render('culture_mere/detail_culture_mere.html.twig', [
             'culture' => $cultureMere,
             'fumures' => $fumures,
             'insecticides' => $insecticides,
+            'varietes' => $varietes,
+            'plantes' => $plantes,
+            'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/culture_mere/update/{id}", name="update_culture_mere")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        CycleAgricoleRepository $cycleAgricoleRepository,
+        PrecedentCulturalRepository $precedentCulturalRepository,
+        SystemeCulturalRepository $systemeCulturalRepository,
+        ItineraireCulturalRepository $itineraireCulturalRepository,
+        ParcelleRepository $parcelleRepository,
+        FumureOrganiqueRepository $fumureOrganiqueRepository,
+        InsecticideRepository $insecticideRepository,
+        CultureMere $cultureMere
+    ) {
+
+        $cycleAgricoles = $cycleAgricoleRepository->findAll();
+        $precedentCulturals = $precedentCulturalRepository->findAll();
+        $systemeCulturals = $systemeCulturalRepository->findAll();
+        $itineraireCulturals = $itineraireCulturalRepository->findAll();
+        $fumures = $fumureOrganiqueRepository->findAll();
+        $insecticides = $insecticideRepository->findAll();
+        $parcelles = $parcelleRepository->findAll();
+
+        $form = $this->createFormBuilder($cultureMere)
+            ->add('nouvellePlantation', CheckboxType::class, [
+                'label'    => 'Nouvelle plantation',
+                'required' => false,
+            ])
+            ->add('surfaceCultive')
+            ->add('moPreparationSol')
+            ->add('moInstallationCulture')
+            ->add('moEntretien1')
+            ->add('moEntretien2')
+            ->add('moEntretien3')
+            ->add('moRecolte')
+            ->add('moExtPreparationSol')
+            ->add('moExtInstallationCulture')
+            ->add('moExtEntretien1')
+            ->add('moExtEntretien2')
+            ->add('moExtEntretien3')
+            ->add('moExtRecolte')
+            ->add('tarifMO')
+            ->add('datePlantation')
+            ->add('agePlantation')
+            ->add('qteFumureOrganique')
+            ->add('qteInsecticide')
+            ->add('misEnCloture', CheckboxType::class, [
+                'label'    => 'Mis en culture',
+                'required' => false,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->get('parcelle')) {
+                $cultureMere->setParcelle($parcelleRepository->find(
+                    $request->request->get('parcelle')
+                ));
+            }
+            if ($request->request->get('cycleAgricole')) {
+                $cultureMere->setCycleAgricole($cycleAgricoleRepository->find(
+                    $request->request->get('cycleAgricole')
+                ));
+            }
+            if ($request->request->get('precedentCultural')) {
+                $cultureMere->setPrecedentCultural($precedentCulturalRepository->find(
+                    $request->request->get('precedentCultural')
+                ));
+            }
+            if ($request->request->get('systemeCultural')) {
+                $cultureMere->setSystemeCultural($systemeCulturalRepository->find(
+                    $request->request->get('systemeCultural')
+                ));
+            }
+            if ($request->request->get('itineraireCultural')) {
+                $cultureMere->setItineraireCultural($itineraireCulturalRepository->find(
+                    $request->request->get('itineraireCultural')
+                ));
+            }
+            
+            $objectManager->persist($cultureMere);
+
+            foreach ($fumures as $fumure) {
+                $eid = $fumure->getId();
+                if ($request->request->get('fumure_' . $eid)) {
+                    $temp = new NbrFumureCultureM();
+                    $temp->setCulture($cultureMere);
+                    $temp->setFumure($fumure);
+                    $temp->setNbr($request->request->get('fumure_' . $eid));
+
+                    $objectManager->persist($temp);
+                }
+            }
+
+            foreach ($insecticides as $insecticide) {
+                $eid = $insecticide->getId();
+                if ($request->request->get('insecticide_' . $eid)) {
+                    $temp = new NbrInsecticideCultureM();
+                    $temp->setCulture($cultureMere);
+                    $temp->setInsecticide($insecticide);
+                    $temp->setNbr($request->request->get('insecticide_' . $eid));
+
+                    $objectManager->persist($temp);
+                }
+            }
+
+            $objectManager->flush();
+
+            return $this->redirectToRoute('culture_meres');
+        }
+
+        return $this->render('culture_mere/ajoutCulture.html.twig', [
+            'cycleAgricoles' => $cycleAgricoles,
+            'precedentCulturals' => $precedentCulturals,
+            'systemeCulturals' => $systemeCulturals,
+            'itineraireCulturals' => $itineraireCulturals,
+            'fumures' => $fumures,
+            'insecticides' => $insecticides,
+            'parcelles' => $parcelles,
+            'base_form' => $form->createView(),
+            'culture' => $cultureMere,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/culture_mere/delete/{id}", name="delete_culture_mere")
+     */
+    public function delete(CultureMere $cultureMere, ObjectManager $objectManager)
+    {
+        $objectManager->remove($cultureMere);
+        $objectManager->flush();
+        return $this->redirectToRoute('culture_meres');
     }
 }

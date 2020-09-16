@@ -1,36 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ModeFaireValoirController!{% endblock %}
+{% block title %}Mode de faire valoir | CEC{% endblock %}
+
+{% block h1 %}Mode de faire valoir{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Mode de faire valoir</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(modeFaireValoir_form) }}
 
-<h1>MODE DE FAIRE VALOIR</h1>
+        {{ form_widget(modeFaireValoir_form) }}
 
-<h2>Ajout</h2>
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(modeFaireValoir_form) }}
-
-    {{ form_widget(modeFaireValoir_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(modeFaireValoir_form) }}
+        {{ form_end(modeFaireValoir_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-    </tr>
-    {% for modeFaireValoir in modeFaireValoirs %}
-    <tr>
-        <td>{{ modeFaireValoir.nom }}</td>
-        <td>{{ modeFaireValoir.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for modeFaireValoir in modeFaireValoirs %}
+        <tr>
+            <td>{{ modeFaireValoir.nom }}</td>
+            <td>{{ modeFaireValoir.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" 
+                            href="{{ path('update_mode_faire_valoir', {'id': modeFaireValoir.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_mode_faire_valoir', {'id': modeFaireValoir.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

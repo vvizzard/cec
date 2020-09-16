@@ -19,13 +19,13 @@ class TypologieController extends AbstractController
         $typologie = new Typologie();
 
         $form = $this->createFormBuilder($typologie)
-                     ->add('nom')
-                     ->add('description')
-                     ->getForm();
+            ->add('nom')
+            ->add('description')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->persist($typologie);
             $objectManager->flush();
             return $this->redirect($request->getUri());
@@ -33,10 +33,52 @@ class TypologieController extends AbstractController
 
         $typologies = $typologieRepository->findAll();
 
-        return $this->render('form_secondaire/index.html.twig', [
+        return $this->render('typologie/index.html.twig', [
             'titre' => 'Typologie',
             'bases' => $typologies,
             'base_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/typologie/update/{id}", name="update_typologie")
+     */
+    public function upddate(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        TypologieRepository $typologieRepository,
+        Typologie $typologie
+    ) {
+
+        $form = $this->createFormBuilder($typologie)
+            ->add('nom')
+            ->add('description')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $objectManager->persist($typologie);
+            $objectManager->flush();
+            return $this->redirectToRoute('typologie');
+        }
+
+        $typologies = $typologieRepository->findAll();
+
+        return $this->render('typologie/index.html.twig', [
+            'titre' => 'Typologie',
+            'bases' => $typologies,
+            'base_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/typologie/delete/{id}", name="delete_typologie")
+     */
+    public function delete(Typologie $typologie, ObjectManager $objectManager)
+    {
+        $objectManager->remove($typologie);
+        $objectManager->flush();
+        return $this->redirectToRoute('typologie');
     }
 }

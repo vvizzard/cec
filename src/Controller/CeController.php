@@ -19,13 +19,13 @@ class CeController extends AbstractController
         $ce = new Ce();
 
         $form = $this->createFormBuilder($ce)
-                     ->add('nom')
-                     ->add('description')
-                     ->getForm();
+            ->add('nom')
+            ->add('description')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->persist($ce);
             $objectManager->flush();
             return $this->redirect($request->getUri());
@@ -37,5 +37,46 @@ class CeController extends AbstractController
             'ces' => $ces,
             'ce_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/ce/update/{id}", name="update_ce")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        CeRepository $ceRepository,
+        Ce $ce
+    ) {
+
+        $form = $this->createFormBuilder($ce)
+            ->add('nom')
+            ->add('description')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $objectManager->persist($ce);
+            $objectManager->flush();
+            return $this->redirectToRoute('ce');
+        }
+
+        $ces = $ceRepository->findAll();
+
+        return $this->render('ce/index.html.twig', [
+            'ces' => $ces,
+            'ce_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/ce/delete/{id}", name="delete_ce")
+     */
+    public function delete(Ce $ce, ObjectManager $objectManager)
+    {
+        $objectManager->remove($ce);
+        $objectManager->flush();
+        return $this->redirectToRoute('ce');
     }
 }

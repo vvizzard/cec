@@ -1,20 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello InsecticideController!{% endblock %}
+{% block title %}Insecticides | CEC{% endblock %}
+
+{% block h1 %}Insecticides{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Insecticides</li>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="card">
+    <div class="card-body">
+        {{ form_start(base_form) }}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {{ form_widget(base_form) }}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/dimby/Documents/Haritiana/CoteSud/Database/cec/src/Controller/InsecticideController.php'|file_link(0) }}">src/Controller/InsecticideController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/dimby/Documents/Haritiana/CoteSud/Database/cec/templates/insecticide/index.html.twig'|file_link(0) }}">templates/insecticide/index.html.twig</a></code></li>
-    </ul>
+        <button type="submit" class="btn btn-success">Ajout</button>
+
+        {{ form_end(base_form) }}
+    </div>
 </div>
+
+<h2>Listes</h2>
+
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Rente</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for base in bases %}
+        <tr>
+            <td>{{ base.nom }}</td>
+            <td>{{ base.prix }}</td>
+            <td>{{ base.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" 
+                            href="{{ path('update_insecticide', {'id': base.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_insecticide', {'id': base.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
 {% endblock %}

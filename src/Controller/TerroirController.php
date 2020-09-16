@@ -19,13 +19,13 @@ class TerroirController extends AbstractController
         $terroir = new Terroir();
 
         $form = $this->createFormBuilder($terroir)
-                     ->add('nom')
-                     ->add('description')
-                     ->getForm();
+            ->add('nom')
+            ->add('description')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->persist($terroir);
             $objectManager->flush();
             return $this->redirect($request->getUri());
@@ -37,5 +37,47 @@ class TerroirController extends AbstractController
             'terroirs' => $terroirs,
             'terroir_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/update/fokontany/{id}", name="update_fokontany")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        TerroirRepository $terroirRepository,
+        Terroir $terroir
+    ) {
+
+        $form = $this->createFormBuilder($terroir)
+            ->add('nom')
+            ->add('description')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $objectManager->persist($terroir);
+            $objectManager->flush();
+            return $this->redirectToRoute('terroirs');
+        }
+
+        $terroirs = $terroirRepository->findAll();
+
+        return $this->render('terroir/index.html.twig', [
+            'terroirs' => $terroirs,
+            'terroir' => $terroir,
+            'terroir_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/fokontany/delete/{id}", name="delete_fokontany")
+     */
+    public function delete(Terroir $fokontany, ObjectManager $objectManager)
+    {
+        $objectManager->remove($fokontany);
+        $objectManager->flush();
+        return $this->redirectToRoute('terroirs');
     }
 }

@@ -19,13 +19,13 @@ class ModeFaireValoirController extends AbstractController
         $modeFaireValoir = new ModeFaireValoir();
 
         $form = $this->createFormBuilder($modeFaireValoir)
-                     ->add('nom')
-                     ->add('description')
-                     ->getForm();
+            ->add('nom')
+            ->add('description')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->persist($modeFaireValoir);
             $objectManager->flush();
             return $this->redirect($request->getUri());
@@ -37,5 +37,46 @@ class ModeFaireValoirController extends AbstractController
             'modeFaireValoirs' => $modeFaireValoirs,
             'modeFaireValoir_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/mode_faire_valoir/update/{id}", name="update_mode_faire_valoir")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        ModeFaireValoirRepository $modeFaireValoirRepository,
+        ModeFaireValoir $modeFaireValoir
+    ) {
+
+        $form = $this->createFormBuilder($modeFaireValoir)
+            ->add('nom')
+            ->add('description')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $objectManager->persist($modeFaireValoir);
+            $objectManager->flush();
+            return $this->redirectToRoute('mode_faire_valoir');
+        }
+
+        $modeFaireValoirs = $modeFaireValoirRepository->findAll();
+
+        return $this->render('mode_faire_valoir/index.html.twig', [
+            'modeFaireValoirs' => $modeFaireValoirs,
+            'modeFaireValoir_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/mode_faire_valoir/delete/{id}", name="delete_mode_faire_valoir")
+     */
+    public function delete(ModeFaireValoir $modeFaireValoir, ObjectManager $objectManager)
+    {
+        $objectManager->remove($modeFaireValoir);
+        $objectManager->flush();
+        return $this->redirectToRoute('mode_faire_valoir');
     }
 }

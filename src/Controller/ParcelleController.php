@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ParcelleController extends AbstractController
 {
     /**
-     * @Route("/parcelles", name="parcelle")
+     * @Route("/parcelles", name="parcelles")
      */
     public function index(ParcelleRepository $parcelleRepository)
     {
@@ -125,6 +125,7 @@ class ParcelleController extends AbstractController
             'localisations' => $localisations,
             'milieux' => $milieux,
             'agriculteurs' => $agriculteurs,
+            'parcelle' => null,
         ]);
     }
 
@@ -203,6 +204,8 @@ class ParcelleController extends AbstractController
             'modeFaireValoirs' => $modeFaireValoirs,
             'localisations' => $localisations,
             'milieux' => $milieux,
+            'idAgriculteur'=> $idAgriculteur,
+            'parcelle'=> null,
         ]);
     }
 
@@ -222,5 +225,94 @@ class ParcelleController extends AbstractController
             'fumures' => $fumures,
             'insecticides' => $insecticides,
         ]);
+    }
+
+    /**
+     * @Route("/parcelle/update/{id}", name="update_parcelle")
+     */
+    public function update(
+        Request $request,
+        ObjectManager $objectManager,
+        Parcelle $parcelle,
+        TypeRepository $typeRepository,
+        TypeSolRepository $typeSolRepository,
+        ModeFaireValoirRepository $modeFaireValoirRepository,
+        LocalisationRepository $localisationRepository,
+        MilieuRepository $milieuRepository,
+        AgriculteurRepository $agriculteurRepository
+    ) {
+
+        $types = $typeRepository->findAll();
+        $typeSols = $typeSolRepository->findAll();
+        $modeFaireValoirs = $modeFaireValoirRepository->findAll();
+        $localisations = $localisationRepository->findAll();
+        $milieux = $milieuRepository->findAll();
+        $agriculteurs = $agriculteurRepository->findAll();
+
+        $form = $this->createFormBuilder($parcelle)
+            ->add('surface')
+            ->add('irrigation')
+            ->add('compaction')
+            ->add('contreSaison')
+            ->add('zoneErodible')
+            ->add('longitude')
+            ->add('latitude')
+            ->add('observation')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Complete parcelle with foreign key
+            $parcelle->setAgriculteur($agriculteurRepository->find($parcelle->getAgriculteur()->getId()));
+
+            if ($request->request->get('type')) {
+                $parcelle->setType($typeRepository->find($request->request->get('type')));
+            }
+            if ($request->request->get('typeSol')) {
+                $parcelle->setTypeSol($typeSolRepository->find($request->request->get('typeSol')));
+            }
+            if ($request->request->get('modeFaireValoir')) {
+                $parcelle->setModeFaireValoir($modeFaireValoirRepository->find(
+                    $request->request->get('modeFaireValoir')
+                ));
+            }
+            if ($request->request->get('localisation')) {
+                $parcelle->setLocalisation($localisationRepository->find(
+                    $request->request->get('localisation')
+                ));
+            }
+            if ($request->request->get('milieu')) {
+                $parcelle->setMilieu($milieuRepository->find($request->request->get('milieu')));
+            }
+
+            $objectManager->persist($parcelle);
+
+            $objectManager->flush();
+
+            return $this->redirectToRoute('detail_agriculteur', ['id' => $parcelle->getAgriculteur()->getId()]);
+        }
+
+        return $this->render('parcelle/ajoutParcelle.html.twig', [
+            'form_parcelle' => $form->createView(),
+            'types' => $types,
+            'typeSols' => $typeSols,
+            'modeFaireValoirs' => $modeFaireValoirs,
+            'localisations' => $localisations,
+            'milieux' => $milieux,
+            'agriculteurs'=> $agriculteurs,
+            'parcelle'=> $parcelle,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/parcelle/delete/{id}", name="delete_parcelle")
+     */
+    public function delete(Parcelle $parcelle, ObjectManager $objectManager)
+    {
+        $objectManager->remove($parcelle);
+        $objectManager->flush();
+        return $this->redirectToRoute('parcelles');
     }
 }

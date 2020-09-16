@@ -15,33 +15,35 @@ class ItineraireCulturalController extends AbstractController
     /**
      * @Route("/itineraire_culturals", name="itineraire_cultural")
      */
-    public function index(HttpFoundationRequest $request, ObjectManager $objectManager, 
-            ItineraireCulturalRepository $itineraireCulturalRepository, 
-            SystemeCulturalRepository $systemeCulturalRepository)
-    {
+    public function index(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        ItineraireCulturalRepository $itineraireCulturalRepository,
+        SystemeCulturalRepository $systemeCulturalRepository
+    ) {
         $itineraireCultural = new ItineraireCultural();
 
         $systemes = $systemeCulturalRepository->findAll();
 
         $form = $this->createFormBuilder($itineraireCultural)
-                     ->add('nom')
-                     ->add('riz')
-                     ->add('vivrierHors')
-                     ->add('rmme')
-                     ->add('pcEnPure')
-                     ->add('couvertureCultureRente')
-                     ->add('reforestation')
-                     ->add('cultureRente')
-                     ->add('pcAssocie')
-                     ->getForm();
+            ->add('nom')
+            ->add('riz')
+            ->add('vivrierHors')
+            ->add('rmme')
+            ->add('pcEnPure')
+            ->add('couvertureCultureRente')
+            ->add('reforestation')
+            ->add('cultureRente')
+            ->add('pcAssocie')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            if($request->request->get('foreign')) {
+            if ($request->request->get('foreign')) {
                 $itineraireCultural->setSysteme($systemeCulturalRepository
-                        ->find($request->request->get('foreign')));
+                    ->find($request->request->get('foreign')));
             }
 
             $objectManager->persist($itineraireCultural);
@@ -54,8 +56,69 @@ class ItineraireCulturalController extends AbstractController
 
         return $this->render('itineraire_cultural/index.html.twig', [
             'bases' => $itineraireCulturals,
+            'base' => $itineraireCultural,
             'foreigns' => $systemes,
             'base_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/itineraire_cultural/update/{id}", name="update_itineraire_cultural")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        ItineraireCulturalRepository $itineraireCulturalRepository,
+        SystemeCulturalRepository $systemeCulturalRepository,
+        ItineraireCultural $itineraireCultural
+    ) {
+
+        $systemes = $systemeCulturalRepository->findAll();
+
+        $form = $this->createFormBuilder($itineraireCultural)
+            ->add('nom')
+            ->add('riz')
+            ->add('vivrierHors')
+            ->add('rmme')
+            ->add('pcEnPure')
+            ->add('couvertureCultureRente')
+            ->add('reforestation')
+            ->add('cultureRente')
+            ->add('pcAssocie')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->get('foreign')) {
+                $itineraireCultural->setSysteme($systemeCulturalRepository
+                    ->find($request->request->get('foreign')));
+            }
+
+            $objectManager->persist($itineraireCultural);
+            $objectManager->flush();
+
+            return $this->redirectToRoute('itineraire_cultural');
+        }
+
+        $itineraireCulturals = $itineraireCulturalRepository->findAll();
+
+        return $this->render('itineraire_cultural/index.html.twig', [
+            'bases' => $itineraireCulturals,
+            'base' => $itineraireCultural,
+            'foreigns' => $systemes,
+            'base_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/itineraire_cultural/delete/{id}", name="delete_itineraire_cultural")
+     */
+    public function delete(ItineraireCultural $itineraireCultural, ObjectManager $objectManager)
+    {
+        $objectManager->remove($itineraireCultural);
+        $objectManager->flush();
+        return $this->redirectToRoute('itineraire_cultural');
     }
 }

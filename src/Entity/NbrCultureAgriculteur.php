@@ -19,13 +19,13 @@ class NbrCultureAgriculteur
 
     /**
      * @ORM\ManyToOne(targetEntity=Culture::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $culture;
 
     /**
      * @ORM\ManyToOne(targetEntity=Agriculteur::class, inversedBy="nbrCultureAgriculteur")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $agriculteur;
 

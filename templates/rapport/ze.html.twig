@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zones érodibles | CEC{% endblock %}
+
+{% block h1 %}Zones érodibles{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Zones érodibles</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr class="table-cec-header">
+            <th class="text-center">Commune</th>
+            <th class="text-right">Nbr de parcelle</th>
+            <th class="text-right">Surface (ha)</th>
+        </tr>
+        {% for ze in zes %}
+        <tr>
+            <td class="text-center">
+                {{ ze.commune }}
+            </td>
+            <td class="text-right">
+                {{ ze.nbr_p }}
+            </td>
+            <td class="text-right">
+                {{ ze.surface }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

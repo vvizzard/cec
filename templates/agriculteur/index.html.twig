@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC : Liste des agriculteurs{% endblock %}
+{% block title %}Liste des agriculteurs | CEC{% endblock %}
+
+{% block h1 %}Liste des agriculteurs{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Liste des agriculteurs</li>
+{% endblock %}
 
 {% block body %}
-<div class="backgrounded"></div>
-<div class="row">
-    <h1>Liste des agriculteurs</h1>
-</div>
-<div class="row fit">
+<div class="row fit card">
     <table class="table table-fit table-cec table-hover">
         <tr class="table-cec-header">
             <th class="text-left">id</th>
@@ -19,52 +22,11 @@
             <th class="text-center">District</th>
             <th class="text-center">Commune</th>
             <th class="text-center">Village</th>
-<!--        <th>sousRegion</th>
-            <th>district</th>
-            <th>terroir</th>
-            <th>commune</th>
-            <th>village</th>
-            <th>surfaceTotaleExploitee</th>
-            <th>surfaceTotaleRiziere</th>
-            <th>surfaceParcelleLouee</th>
-            <th>surfaceParcelleEnLocation</th>
-            <th>nbrMenage</th>
-            <th>nbrActif</th>
-            <th>nbrMoisAutosuffisanceRiz</th>
-            <th>accesRiziere</th> 
-            <th>equipementAgricole</th> 
-            {# <th>nbrPulverisateur</th>
-            <th>nbrBrouette</th>
-            <th>nbrArrosoir</th>
-            <th>nbrHerse</th>
-            <th>nbrBicyclette</th>
-            <th>nbrAngady</th> #}
-            <th>pratiqueActiviteAgricole</th>
-            <th>pratiqueElevageRente</th>
-            <th>pratiqueActiviteNonAgricole</th>
-            <th>pratiquePeche</th>
-            <th>autreProgramme</th>
-            <th>nbrMoisSoudure</th>
-            <th>bvpi</th>
-            <th>ce</th>
-            {# <th>culture</th>
-            <th>elevage</th> #}
-            <th>op</th>
-            <th>typologie</th>
-            <th>zone technicien</th>
-
-            {% for elevage in elevages %}
-                <th>{{ elevage.nom }}</th>
-            {% endfor %}
-
-            {% for culture in cultures %}
-                <th>{{ culture.nom }}</th>
-            {% endfor %}
-
-            {% for equipement in equipements %}
-                <th>{{ equipement.nom }}</th>
-            {% endfor %}
--->
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+            
         </tr>
         {% for agriculteur in agriculteurs %}
         <tr>
@@ -109,117 +71,20 @@
                     {{ agriculteur.village.nom }}
                 {% endif %}
             </td>
-<!--            <td>
-                {% if agriculteur.sousRegion is not null %}
-                    {{ agriculteur.sousRegion.nom }}
-                {% endif %}
-            </td>
-            <td>{{ agriculteur.district }}</td>
-            <td>
-                {% if agriculteur.terroir is not null %}
-                    {{ agriculteur.terroir.nom }}
-                {% endif %}
-            </td>
-            <td>
-                {% if agriculteur.commune is not null %}
-                    {{ agriculteur.commune.nom }}
-                {% endif %}
-            </td>
-            <td>
-                {% if agriculteur.village is not null %}
-                    {{ agriculteur.village.nom }}
-                {% endif %}
-            </td>
-            <td>{{ agriculteur.surfaceTotaleExploitee }}</td>
-            <td>{{ agriculteur.surfaceTotaleRiziere }}</td>
-            <td>{{ agriculteur.surfaceParcelleLouee }}</td>
-            <td>{{ agriculteur.surfaceParcelleEnLocation }}</td>
-            <td>{{ agriculteur.nbrMenage }}</td>
-            <td>{{ agriculteur.nbrActif }}</td>
-            <td>{{ agriculteur.nbrMoisAutosuffisanceRiz }}</td>
-            <td>{{ agriculteur.accesRiziere }}</td>
-            {# <td>{{ agriculteur.nbrBoeufTrait }}</td>
-            <td>{{ agriculteur.nbrZebu }}</td>
-            <td>{{ agriculteur.nbrVacheLaitiere }}</td> #}
-            <td>{{ agriculteur.equipementAgricole }}</td>
-            {# <td>{{ agriculteur.nbrPulverisateur }}</td>
-            <td>{{ agriculteur.nbrBrouette }}</td>
-            <td>{{ agriculteur.nbrArrosoir }}</td>
-            <td>{{ agriculteur.nbrHerse }}</td>
-            <td>{{ agriculteur.nbrBicyclette }}</td>
-            <td>{{ agriculteur.nbrAngady }}</td> #}
-            <td>{{ agriculteur.pratiqueActiviteAgricole }}</td>
-            <td>{{ agriculteur.pratiqueElevageRente }}</td>
-            <td>{{ agriculteur.pratiqueActiviteNonAgricole }}</td>
-            <td>{{ agriculteur.pratiquePeche }}</td>
-            <td>{{ agriculteur.autreProgramme }}</td>
-            <td>{{ agriculteur.nbrMoisSoudure }}</td>
-            <td>
-                {% if agriculteur.bvpi is not null %}
-                    {{ agriculteur.bvpi.nom }}
-                {% endif %}
-            </td>
-            <td>
-                {% if agriculteur.ce is not null %}
-                    {{ agriculteur.ce.nom }}
-                {% endif %}
-            </td>
-            {# <td>
-                {% if agriculteur.culture is not null %}
-                    {{ agriculteur.culture.nom }}
-                {% endif %}
-            </td> #}
-            {# <td>
-                {% if agriculteur.elevage is not null %}
-                    {{ agriculteur.elevage.nom }}
-                {% endif %}
-            </td> #}
-            <td>
-                {% if agriculteur.op is not null %}
-                    {{ agriculteur.op.nom }}
-                {% endif %}
-            </td>
-            <td>
-                {% if agriculteur.typologie is not null %}
-                    {{ agriculteur.typologie.nom }}
-                {% endif %}
-            </td>
-            <td>
-                {% if agriculteur.zoneTechnicien is not null %}
-                    {{ agriculteur.zoneTechnicien.nom }}
-                {% endif %}
-            </td>
-            
-            {% for elevage in elevages %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <td>
-                {% for eq in agriculteur.nbrElevageAgriculteurs %}
-                    {% if elevage.id == eq.elevage.id %}
-                        {{ eq.nbr }}
-                    {% endif %}
-                {% endfor %}
+                    <a class="btn btn-default" title="Modifier" href="{{ path('update_agriculteur', {'id': agriculteur.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
                 </td>
-            {% endfor %}
-
-            {% for culture in cultures %}
                 <td>
-                {% for eq in agriculteur.nbrCultureAgriculteur %}
-                    {% if culture.id == eq.culture.id %}
-                        {{ eq.nbr }}
-                    {% endif %}
-                {% endfor %}
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_agriculteur', {'id': agriculteur.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
                 </td>
-            {% endfor %}
-
-            {% for equipement in equipements %}
-                <td>
-                {% for eq in agriculteur.nbrEquipementAgricoleAgriculteur %}
-                    {% if equipement.id == eq.equipementAgricole.id %}
-                        {{ eq.nbr }}
-                    {% endif %}
-                {% endfor %}
-                </td>
-            {% endfor %}
--->
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

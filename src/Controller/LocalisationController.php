@@ -19,13 +19,13 @@ class LocalisationController extends AbstractController
         $localisation = new Localisation();
 
         $form = $this->createFormBuilder($localisation)
-                     ->add('nom')
-                     ->add('description')
-                     ->getForm();
+            ->add('nom')
+            ->add('description')
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->persist($localisation);
             $objectManager->flush();
             return $this->redirect($request->getUri());
@@ -37,5 +37,46 @@ class LocalisationController extends AbstractController
             'localisations' => $localisations,
             'localisation_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/localisation/update/{id}", name="update_localisation")
+     */
+    public function update(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        LocalisationRepository $localisationRepository,
+        Localisation $localisation
+    ) {
+
+        $form = $this->createFormBuilder($localisation)
+            ->add('nom')
+            ->add('description')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $objectManager->persist($localisation);
+            $objectManager->flush();
+            return $this->redirectToRoute('localisation');
+        }
+
+        $localisations = $localisationRepository->findAll();
+
+        return $this->render('localisation/index.html.twig', [
+            'localisations' => $localisations,
+            'localisation_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/localisation/delete/{id}", name="delete_localisation")
+     */
+    public function delete(Localisation $localisation, ObjectManager $objectManager)
+    {
+        $objectManager->remove($localisation);
+        $objectManager->flush();
+        return $this->redirectToRoute('localisation');
     }
 }

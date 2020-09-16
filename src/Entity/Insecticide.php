@@ -34,6 +34,11 @@ class Insecticide
      */
     private $nbrInsecticideCultureMs;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $prix;
+
     public function __construct()
     {
         $this->nbrInsecticideCultureMs = new ArrayCollection();
@@ -95,6 +100,18 @@ class Insecticide
                 $nbrInsecticideCultureM->setInsecticide(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrix(): ?int
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(?int $prix): self
+    {
+        $this->prix = $prix;
 
         return $this;
     }

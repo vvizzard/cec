@@ -19,13 +19,13 @@ class NbrEquipementAgricoleAgriculteur
 
     /**
      * @ORM\ManyToOne(targetEntity=EquipementAgricole::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $equipementAgricole;
 
     /**
      * @ORM\ManyToOne(targetEntity=agriculteur::class, inversedBy="nbrEquipementAgricoleAgriculteur")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $agriculteur;
 

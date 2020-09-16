@@ -1,36 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TypeElevageController!{% endblock %}
+{% block title %}Type d'élevage | CEC{% endblock %}
+
+{% block h1 %}Modification du type d'élevage{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Modification des types d'élevage</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(typeElevage_form) }}
 
-<h1>TYPE ELEVAGE</h1>
+        {{ form_widget(typeElevage_form) }}
 
-<h2>Ajout</h2>
+        <button typeElevage="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(typeElevage_form) }}
-
-    {{ form_widget(typeElevage_form) }}
-
-    <button typeElevage="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(typeElevage_form) }}
+        {{ form_end(typeElevage_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-    </tr>
-    {% for typeElevage in typeElevages %}
-    <tr>
-        <td>{{ typeElevage.nom }}</td>
-        <td>{{ typeElevage.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr class="table-cec-header">
+            <th>Nom</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for typeElevage in typeElevages %}
+        <tr>
+            <td>{{ typeElevage.nom }}</td>
+            <td>{{ typeElevage.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" href="{{ path('update_type_elevage', {'id': typeElevage.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_type_elevage', {'id': typeElevage.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

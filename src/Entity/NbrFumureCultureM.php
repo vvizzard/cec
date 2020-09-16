@@ -19,11 +19,13 @@ class NbrFumureCultureM
 
     /**
      * @ORM\ManyToOne(targetEntity=FumureOrganique::class)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $fumure;
 
     /**
      * @ORM\ManyToOne(targetEntity=CultureMere::class, inversedBy="nbrFumureCultureMs")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $culture;
 

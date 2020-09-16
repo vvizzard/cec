@@ -1,205 +1,305 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC: Culture {% endblock %}
+{% block title %}Culture | CEC {% endblock %}
+
+{% block h1 %}Culture_id : CL_{{ culture.id }}{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('culture_meres') }}">Liste des cultures</a></li>
+    <li class="breadcrumb-item active">AG_{{ culture.id }}</li>
+{% endblock %}
 
 {% block body %}
-<div class="row">
-    <h1>Culture_id : CL_{{ culture.parcelle.id }}</h1>
-</div>
 
-<div class="row bkg-white">
-    <h2>Information de base</h2>
-    <table class="table table-hover table-fit">
-        <tr>
-            <td>Id_parcelle</td>
-            <td>
-                <a class="" href="{{ path('detail_parcelle', 
-                        {'id': culture.parcelle.id}) }}">
-                    PL_{{ culture.parcelle.id }}
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>Nouvelle Plantation</td>
-            <td>
-                {% if culture.nouvellePlantation == true %}
-                    Oui
-                {% else %}
-                    Non
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Cycle Agricole : </td>
-            <td>
-                {% if culture.cycleAgricole is not null %}
-                    {{ culture.cycleAgricole.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>Surface Cultivée</td>
-            <td>{{ culture.surfaceCultive }}</td>
-        </tr>
-        <tr>
-            <td>Precedent Cultural : </td>
-            <td>
-                {% if culture.precedentCultural is not null %}
-                    {{ culture.precedentCultural.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Systeme Cultural : </td>
-            <td>
-                {% if culture.systemeCultural is not null %}
-                    {{ culture.systemeCultural.nom }}
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Itineraire Cultural : </td>
-            <td>
-                {% if culture.itineraireCultural is not null %}
-                    {{ culture.itineraireCultural.nom }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>MO Preparation Sol</td>
-            <td>{{ culture.moPreparationSol }}</td>
-        </tr>
-        <tr>
-            <td>MO Installation Culture</td>
-            <td>{{ culture.moInstallationCulture }}</td>
-        </tr>
-        <tr>
-            <td>MO Entretien 1</td>
-            <td>{{ culture.moEntretien1 }}</td>
-        </tr>
-        <tr>
-            <td>MO Entretien 2</td>
-            <td>{{ culture.moEntretien2 }}</td>
-        </tr>
-        <tr>
-            <td>MO Entretien 3</td>
-            <td>{{ culture.moEntretien3 }}</td>
-        </tr>
-        <tr>
-            <td>MO Recolte</td>
-            <td>{{ culture.moRecolte }}</td>
-        </tr>
-        <tr>
-            <td>MO Ext Preparation Sol</td>
-            <td>{{ culture.moExtPreparationSol }}</td>
-        </tr>
-        <tr>
-            <td>MO ExtInstallation Culture</td>
-            <td>{{ culture.moExtInstallationCulture }}</td>
-        </tr>
-        <tr>
-            <td>MO Ext Entretien 1</td>
-            <td>{{ culture.moExtEntretien1 }}</td>
-        </tr>
-        <tr>
-            <td>MO Ext Entretien 2</td>
-            <td>{{ culture.moExtEntretien2 }}</td>
-        </tr>
-        <tr>
-            <td>MO Ext Entretien 3</td>
-            <td>{{ culture.moExtEntretien3 }}</td>
-        </tr>
-        <tr>
-            <td>MO Ext Recolte</td>
-            <td>{{ culture.moExtRecolte }}</td>
-        </tr>
-        
-        <tr>
-            <td>Date de Plantation</td>
-            <td>{{ culture.datePlantation | date("m/d/Y")  }}</td>
-        </tr>
-
-        <tr>
-            <td>Age Plantation : </td>
-            <td>{{ culture.agePlantation }}</td>
-        </tr>
-
-        <tr>
-            <td>Qte Fumure Organique</td>
-            <td>{{ culture.qteFumureOrganique }}</td>
-        </tr>
-
-        {% for fumure in culture.nbrFumureCultureMs %}
+<div class="row card bkg-white">
+    <div class="card-head modified-head">
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="#" style="float:right;" title="Supprimer" 
+                    data-toggle="modal" data-target="#delete-modal"
+                    onclick="del('{{ path('delete_culture_mere', {'id': culture.id}) }}')">
+                <i class="fas fa-trash"></i>
+            </a>
+            <a style="float:right;" title="Modifier" href="{{ path('update_culture_mere', {'id': culture.id}) }}">
+                <i class="fas fa-edit"></i>
+            </a>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <table class="table">
             <tr>
-                <td>{{ fumure.fumure.nom }} : </td>
-                <td>{{ fumure.nbr }}</td>
+                <th>Id</th>
+                <th>Nouvelle plantation</th>
+                <th>Cycle agricole</th>
+                <th>Surface Cultivée</th>
+                <th>Précédent cultural</th>
+                <th>Système cultural</th>
+                <th>Itinéraire cultural</th>
             </tr>
-        {% endfor %}
-
-        <tr>
-            <td>Qte Insecticide</td>
-            <td>{{ culture.qteInsecticide }}</td>
-        </tr>
-        {% for insecticide in culture.nbrInsecticideCultureMs %}
             <tr>
-                <td>{{ insecticide.insecticide.nom }} : </td>
-                <td>{{ insecticide.nbr }}</td>
+                <td>
+                    <a class="" href="{{ path('detail_parcelle', 
+                            {'id': culture.parcelle.id}) }}">
+                        PL_{{ culture.parcelle.id }}
+                    </a>
+                </td>
+                <td>
+                    {% if culture.nouvellePlantation == true %}
+                        Oui
+                    {% else %}
+                        Non
+                    {% endif %}
+                </td>
+                <td>
+                    {% if culture.cycleAgricole is not null %}
+                        {{ culture.cycleAgricole.nom }}
+                    {% endif %}
+                </td>
+                <td>{{ culture.surfaceCultive }}</td>
+                <td>
+                    {% if culture.precedentCultural is not null %}
+                        {{ culture.precedentCultural.nom }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if culture.systemeCultural is not null %}
+                        {{ culture.systemeCultural.nom }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if culture.itineraireCultural is not null %}
+                        {{ culture.itineraireCultural.nom }}
+                    {% endif %}
+                </td>
             </tr>
-        {% endfor %}
-        
-        <tr>
-            <td>Mis en Cloture</td>
-            <td>
-                {% if culture.misEnCloture == true %}
-                    Oui
-                {% else %}
-                    Non
-                {% endif %}
-            </td>
-        </tr>
-
-    </table>
-</div>
-<br>
-<div class="row bkg-white fit">
-    <h2>Cultures composants</h2>
-    <table class="table table-fit table-hover">
-        <tr>
-            <th>Plante</th>
-            <th>Variété</th>
-            <th>Date de plantation</th>
-            <th>Qté de semence</th>
-            <th>Production</th>
-        </tr>
-        {% for cle in culture.cultureFilles %}
-        <tr>
-            <td>
-                {% if cle.plante is not null %}
-                    {{ cle.plante.nom }}
-                {% endif %}
-            </td>
-            <td>
-                {% if cle.variete is not null %}
-                    {{ cle.variete.nom }}
-                {% endif %}
-            </td>
-            <td>{{ cle.datePlantation | date("m/d/Y") }}</td>
-            <td>{{ cle.QteSemence }}</td>
-            <td>{{ cle.production }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
-<div class="row bkg-white">
-    <hr>
-
-    <a class="" href="{{ path('ajout_culture_fille_from_mere', {'idCultureMere': culture.id}) }}">
-        <button class="btn btn-primary">Ajouter</button>
-    </a>
-
-    <hr>
+        </table>
+    </div>
 </div>
 
+<div class="row bkg-white fit card">
+    <div class="card-header modified-head">
+        <h3 class="card-title">
+            Cultures composantes
+        </h3>
+
+        <div class="card-tools">
+            <a type="button" class="btn btn-tool" title="Ajouter une nouvelle culture" 
+                    href="{{ path('ajout_culture_fille_from_mere', {'idCultureMere': culture.id}) }}">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-fit table-hover">
+            <tr>
+                <th>Plante</th>
+                <th>Variété</th>
+                <th>Date de plantation</th>
+                <th class="text-right">Qté de semence</th>
+                <th class="text-right">Prix unitaire</th>
+                <th class="text-right">Prix total</th>
+                <th class="text-right">Production</th>
+                <th class="text-right">Prix unitaire</th>
+                <th class="text-right">Prix total</th>
+            </tr>
+            {% for cle in culture.cultureFilles %}
+            <tr>
+                <td>
+                    {% if cle.plante is not null %}
+                        {{ cle.plante.nom }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if cle.variete is not null %}
+                        {{ cle.variete.nom }}
+                    {% endif %}
+                </td>
+                <td>{{ cle.datePlantation | date("m/d/Y") }}</td>
+                <td class="text-right">{{ cle.QteSemence }}</td>
+                <td class="text-right">{{ cle.prixUnitaireSemence }}</td>
+                <td class="text-right">{{ cle.prixUnitaireSemence * cle.QteSemence }}</td>
+                <td class="text-right">{{ cle.production }}</td>
+                <td class="text-right">{{ cle.prixUnitaireProduit }}</td>
+                <td class="text-right">{{ cle.prixUnitaireProduit * cle.production }}</td>
+            </tr>
+            {% endfor %}
+            {{ form_start(form) }}
+                <tr>
+                    <td>
+                        <select name="plante" id="plante" class="form-control">
+                        {% for plante in plantes %}
+                            <option value="{{ plante.id }}">{{ plante.nom }}</option>
+                        {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="variete" id="variete" class="form-control">
+                            <option></option>
+                        {% for variete in varietes %}
+                            <option value="{{ variete.id }}">{{ variete.nom }}</option>
+                        {% endfor %}
+                        </select>
+                    </td>
+                    <td style="min-width: 231px;">
+                        {{ form_widget(form.datePlantation) }}
+                    </td>
+                    <td>
+                        {{ form_widget(form.QteSemence, {'attr': {'placeholder': 'Taper ici la qté de semence en (kg) ...'}})  }}
+                    </td>
+                    <td>{{ form_widget(form.prixUnitaireSemence) }}</td>
+                    <td id="prixTotalSemence" class="text-right">0</td>
+                    <td>
+                        {{ form_widget(form.production, {'attr': {'placeholder': 'Taper ici la production en (kg) ...'}}) }}
+                    </td>
+                    <td>{{ form_widget(form.prixUnitaireProduit) }}</td>
+                    <td id="prixTotalProduit" class="text-right">0</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><button type="submit" class="btn btn-success">Ajout</button></td>
+                </tr>
+            {{ form_end(form) }}
+        </table>
+    </div>
+</div>
+
+<div class="row bkg-white card">
+    <div class="card-body">
+        <table class="table table-hover table-fit">
+            <tr>
+                <td>MO Preparation Sol</td>
+                <td>{{ culture.moPreparationSol }}</td>
+            </tr>
+            <tr>
+                <td>MO Installation Culture</td>
+                <td>{{ culture.moInstallationCulture }}</td>
+            </tr>
+            <tr>
+                <td>MO Entretien 1</td>
+                <td>{{ culture.moEntretien1 }}</td>
+            </tr>
+            <tr>
+                <td>MO Entretien 2</td>
+                <td>{{ culture.moEntretien2 }}</td>
+            </tr>
+            <tr>
+                <td>MO Entretien 3</td>
+                <td>{{ culture.moEntretien3 }}</td>
+            </tr>
+            <tr>
+                <td>MO Recolte</td>
+                <td>{{ culture.moRecolte }}</td>
+            </tr>
+            <tr>
+                <td>MO Ext Preparation Sol</td>
+                <td>{{ culture.moExtPreparationSol }}</td>
+            </tr>
+            <tr>
+                <td>MO ExtInstallation Culture</td>
+                <td>{{ culture.moExtInstallationCulture }}</td>
+            </tr>
+            <tr>
+                <td>MO Ext Entretien 1</td>
+                <td>{{ culture.moExtEntretien1 }}</td>
+            </tr>
+            <tr>
+                <td>MO Ext Entretien 2</td>
+                <td>{{ culture.moExtEntretien2 }}</td>
+            </tr>
+            <tr>
+                <td>MO Ext Entretien 3</td>
+                <td>{{ culture.moExtEntretien3 }}</td>
+            </tr>
+            <tr>
+                <td>MO Ext Recolte</td>
+                <td>{{ culture.moExtRecolte }}</td>
+            </tr>
+            
+            <tr>
+                <td>Date de Plantation</td>
+                <td>{{ culture.datePlantation | date("m/d/Y")  }}</td>
+            </tr>
+
+            <tr>
+                <td>Age Plantation : </td>
+                <td>{{ culture.agePlantation }}</td>
+            </tr>
+
+            <tr>
+                <td>Qte Fumure Organique</td>
+                <td>{{ culture.qteFumureOrganique }}</td>
+            </tr>
+
+            {% for fumure in culture.nbrFumureCultureMs %}
+                <tr>
+                    <td>{{ fumure.fumure.nom }} : </td>
+                    <td>{{ fumure.nbr }}</td>
+                </tr>
+            {% endfor %}
+
+            <tr>
+                <td>Qte Insecticide</td>
+                <td>{{ culture.qteInsecticide }}</td>
+            </tr>
+            {% for insecticide in culture.nbrInsecticideCultureMs %}
+                <tr>
+                    <td>{{ insecticide.insecticide.nom }} : </td>
+                    <td>{{ insecticide.nbr }}</td>
+                </tr>
+            {% endfor %}
+            
+            <tr>
+                <td>Mis en Culture</td>
+                <td>
+                    {% if culture.misEnCloture == true %}
+                        Oui
+                    {% else %}
+                        Non
+                    {% endif %}
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+        function setTotal(a, b, idDomResult) {
+            if (a && b) {
+                $('#'+idDomResult).text(a*b);
+                console.log('Value of ' + idDomResult + '=' + a + '*' + b);
+                console.log( $('#'+idDomResult).text() );
+            } else {
+                console.log('setTotal : some values are undefined');
+            }
+        }
+
+        $('#form_prixUnitaireSemence').change( function () {
+            setTotal($('#form_prixUnitaireSemence').val(), $('#form_QteSemence').val(), 'prixTotalSemence');
+        });
+
+        $('#form_QteSemence').change( function () {
+            setTotal($('#form_prixUnitaireSemence').val(), $('#form_QteSemence').val(), 'prixTotalSemence');
+        });
+
+        $('#form_prixUnitaireProduit').change( function () {
+            setTotal($('#form_prixUnitaireProduit').val(), $('#form_production').val(), 'prixTotalProduit');
+        });
+
+        $('#form_production').change( function () {
+            setTotal($('#form_prixUnitaireProduit').val(), $('#form_production').val(), 'prixTotalProduit');
+        });
+
+    </script>
 {% endblock %}

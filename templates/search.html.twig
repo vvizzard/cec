@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search | CEC{% endblock %}
+
+{% block h1 %}Résultats de la recherche : {{ searchText }}{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Résultat de la recherche</li>
+{% endblock %}
+
+{% block body %}
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Left col -->
+        <section class="col-lg-12">
+            <!-- SCA Card-->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Agriculteurs
+                    </h3>
+                </div><!-- /.card-header -->
+                <div class="fit card-body">
+                    <table class="table table-fit table-cec table-hover">
+                        <tr class="table-cec-header">
+                            <th class="text-left">Id</th>
+                            <th class="text-left">Nom et prénom</th>
+                            <th class="text-center">Genre</th>
+                            <th class="text-right">Age</th>
+                            <th class="text-center">Statut</th>
+                            <th class="text-center">Type</th>
+                            <th class="text-center">District</th>
+                            <th class="text-center">Commune</th>
+                            <th class="text-center">Village</th>
+                        </tr>
+                        {% for agriculteur in agriculteurs %}
+                        <tr>
+                            <td class="text-left">
+                                <a class="" href="{{ path('detail_agriculteur', 
+                                        {'id': agriculteur.id}) }}">
+                                    AG_{{ agriculteur.id }}
+                                </a>
+                            </td>
+                            <td class="text-left">
+                                <a class="" href="{{ path('detail_agriculteur', 
+                                        {'id': agriculteur.id}) }}">
+                                    {{ agriculteur.nom }} {{ agriculteur.prenom }}
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                {% if agriculteur.genre == 0  %}
+                                    Femme
+                                {% else %}
+                                    Homme
+                                {% endif %}
+                            </td>
+                            <td class="text-right">{{ agriculteur.age }}</td>
+                            <td class="text-center">{{ agriculteur.statutFamille }}</td>
+                            <td>
+                                {% if agriculteur.typologie is not null %}
+                                    {{ agriculteur.typologie.nom }}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if agriculteur.sousRegion is not null %}
+                                    {{ agriculteur.sousRegion.nom }}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if agriculteur.commune is not null %}
+                                    {{ agriculteur.commune.nom }}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if agriculteur.village is not null %}
+                                    {{ agriculteur.village.nom }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Parcelles
+                    </h3>
+                </div><!-- /.card-header -->
+                <div class="fit card-body">
+
+                    <table class="table table-fit table-cec table-hover">
+                        <tr class="table-cec-header">
+                            <th>Id</th>
+                            <th>Id_Agriculteur</th>
+                            <th>Surface</th>
+                            <th>Type</th>
+                            <th>TypeSol</th>
+                            <th>Mode de faire valoir</th>
+                            <th>Observation</th>
+                        </tr>
+
+                        {% for parcelle in parcelles %}
+                            <tr>
+                                <td>
+                                    <a class="" href="{{ path('detail_parcelle', 
+                                            {'id': parcelle.id}) }}">
+                                        PL_{{ parcelle.id }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="" title="{{ parcelle.agriculteur.nom }} {{ parcelle.agriculteur.prenom }}" 
+                                            href="{{ path('detail_agriculteur', {'id': parcelle.agriculteur.id}) }}">
+                                        AG_{{ parcelle.agriculteur.id }}
+                                    </a>
+                                </td>
+                                <td>{{ parcelle.surface }}</td>
+                                <td>{% if parcelle.type is not null %} {{ parcelle.type.nom }} {% endif %}</td>
+                                <td>{% if parcelle.TypeSol is not null %} {{ parcelle.TypeSol.nom }} {% endif %}</td>
+                                <td>
+                                    {% if parcelle.modeFaireValoir is not null %} 
+                                        {{ parcelle.modeFaireValoir.nom }} 
+                                    {% endif %}
+                                </td>
+                                <td>{{ parcelle.observation }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+        </section>
+        <!-- /.Left col -->
+        
+    </div>
+    <!-- /.row (main row) -->
+
+{% endblock %}
+
+{% block javascripts %}
+    
+{% endblock %}

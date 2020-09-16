@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="users")
  * @UniqueEntity(
  *  fields={"email"},
  *  message="l'email que vous avez indiqué est déjà utilisé"
@@ -45,6 +46,11 @@ class User implements UserInterface, \Serializable
      * @Assert\EqualTo(propertyPath="password", message="La valeur de ce champ doit être égale à votre mot de passe")
      */
     public $confirmation;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $roles;
 
     public function getId(): ?int
     {
@@ -99,17 +105,27 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    public function getRoles()
+    {
+        if (is_Null($this->roles)) {
+            return ['ROLE_USER'];
+        }
+        return array('ROLE_USER', $this->roles);
+    }
+
+    public function setRoles(?string $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
     public function eraseCredentials()
     {
     }
 
     public function getSalt()
     {
-    }
-
-    public function getRoles()
-    {
-        return ['ROLE_USER'];
     }
 
     /** @see \Serializable::serialize() */
@@ -120,17 +136,19 @@ class User implements UserInterface, \Serializable
             $this->userName,
             $this->email,
             $this->password,
+            $this->roles,
         ));
     }
 
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->userName,
             $this->email,
             $this->password,
+            $this->roles
         ) = unserialize($serialized, array('allowed_classes' => false));
     }
 }
