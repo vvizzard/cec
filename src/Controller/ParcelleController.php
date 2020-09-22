@@ -22,6 +22,12 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Services\ExcelService;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 class ParcelleController extends AbstractController
 {
     /**
@@ -314,5 +320,128 @@ class ParcelleController extends AbstractController
         $objectManager->remove($parcelle);
         $objectManager->flush();
         return $this->redirectToRoute('parcelles');
+    }
+
+    /**
+     * @Route("/export/parcelle", name="export_parcelle")
+     */
+    public function exportAction(ParcelleRepository $parcelleRepository)
+    {
+        $filename = 'Parcelles.xlsx';
+
+        $excelService = new ExcelService();
+
+        $spreadsheet = $excelService->writeParcelle($parcelleRepository);
+
+        $contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $writer = new Xlsx($spreadsheet);
+
+        $response = new StreamedResponse();
+        $response->headers->set('Content-Type', $contentType);
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename . '"');
+        $response->setPrivate();
+        $response->headers->addCacheControlDirective('no-cache', true);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        $response->setCallback(function () use ($writer) {
+            $writer->save('php://output');
+        });
+
+        return $response;
+    }
+
+    /**
+     * @Route("/upload/parcelle", name="upload_parcelle")
+     */
+    public function upload(
+        Request $request,
+        ObjectManager $objectManager,
+        ParcelleRepository $parcelleRepository,
+        TypeRepository $typeRepository,
+        TypeSolRepository $typeSolRepository,
+        ModeFaireValoirRepository $modeFaireValoirRepository,
+        LocalisationRepository $localisationRepository,
+        MilieuRepository $milieuRepository,
+        AgriculteurRepository $agriculteurRepository
+    ) {
+
+        $file = $request->files->get('file');
+
+        try {
+
+            $fileName = 'Parcelle_uploaded'.(microtime(true) * 1000).'.xlsx';
+
+            $file->move($this->getParameter('upload_directory'), $fileName);
+
+            $reader = new ReaderXlsx();
+            $reader->setReadDataOnly(true);
+
+            $spreadSheet = $reader->load($this->getParameter('upload_directory') . $fileName);
+
+            $excelService = new ExcelService();
+
+            $row = $excelService->upload($spreadSheet);
+
+            foreach ($row as $r) {
+                $parcelle = new Parcelle();
+                try {
+                    if( strpos($r[0], 'PL_') !== false ) {
+                        $r[0] = substr($r[0], 3);
+                    }
+                    if(intval($r[0]) > 0) {
+                        $parcelle = $parcelleRepository->find(intval($r[0]));
+                    }
+                    if( strpos($r[1], 'AG_') !== false ) {
+                        $r[1] = substr($r[0], 3);
+                    }
+                } catch (\Throwable $th) {
+                    //$r[0] is not an int so we add a new instance
+                }
+
+                $parcelle->complete($r);
+
+                if ($r[1] != null) {
+                    $parcelle->setAgriculteur($agriculteurRepository->find(intVal($r[1])));
+                }
+                if ($r[3] != null) {
+                    $parcelle->setType($typeRepository->findOneByNom($r[3]));
+                }
+                if ($r[4] != null) {
+                    $parcelle->setTypeSol($typeSolRepository->findOneByNom($r[4]));
+                }
+
+                if ($r[5] != null) {
+                    $parcelle->setModeFaireValoir($modeFaireValoirRepository->findOneByNom($r[5]));
+                }
+
+                if ($r[6] != null) {
+                    $parcelle->setLocalisation($localisationRepository->findOneByNom($r[6]));
+                }
+
+                if ($r[7] != null) {
+                    $parcelle->setMilieu($milieuRepository->findOneByNom($r[7]));
+                }
+
+                $objectManager->persist($parcelle);
+
+                $objectManager->flush();
+            }
+        } catch (FileException $e) {
+            return $this->redirectToRoute('upload_parcelle_form');
+        }
+
+        return $this->redirectToRoute('parcelles');
+
+        // return $this->render('parcelle/upload.html.twig');
+
+        // return $this->redirectToRoute('detail_parcelle', ['id' => $row[2][0]]);
+
+    }
+
+    /**
+     * @Route("/upload/parcelle_form", name="upload_parcelle_form")
+     */
+    public function uploads()
+    {
+        return $this->render('parcelle/upload.html.twig');
     }
 }

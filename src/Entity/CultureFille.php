@@ -79,6 +79,11 @@ class CultureFille
         return $this->plante;
     }
 
+    public function getPlanteString(): ?String
+    {
+        return $this->plante ? $this->plante->getNom() : null;
+    }
+
     public function setPlante(?Culture $plante): self
     {
         $this->plante = $plante;
@@ -89,6 +94,11 @@ class CultureFille
     public function getVariete(): ?Variete
     {
         return $this->variete;
+    }
+
+    public function getVarieteString(): ?String
+    {
+        return $this->variete ? $this->variete->getNom() : null;
     }
 
     public function setVariete(?Variete $variete): self
@@ -118,6 +128,15 @@ class CultureFille
     public function setDatePlantation(?\DateTimeInterface $datePlantation): self
     {
         $this->datePlantation = $datePlantation;
+
+        return $this;
+    }
+
+    public function setDatePlantationString($datePlantation): self
+    {
+        if ($datePlantation != null) {
+            $this->datePlantation = \DateTime::createFromFormat('Y-m-d H:i:s', $datePlantation);
+        }
 
         return $this;
     }

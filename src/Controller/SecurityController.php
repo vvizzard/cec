@@ -40,6 +40,11 @@ class SecurityController extends AbstractController
         $nbrParcelle = sizeof($parcelleRepository->findAll());
         $reboisement = $systemeCulturalRepository->nbrSemence('foresterie');
 
+        // SCA
+        $sca = $agriculteurRepository->getSCA();
+        $totalSCA = $sca['acceptable']+$sca['limite']+$sca['pauvre'];
+        $totalSCA > 0 ? $sca['total'] = $totalSCA : $sca['total'] = 1;
+
         // Accès eau potable
         $accesEauPotable = $agriculteurRepository->getAccesEau();
 
@@ -84,6 +89,7 @@ class SecurityController extends AbstractController
         return $this->render('home.html.twig', [
             'femmes' => $nbrFemme,
             'hommes' => $nbrHomme,
+            'sca' => $sca,
             'agriculteurs' => $nbrAgriculteur,
             'parcelles' => $nbrParcelle,
             'reboisement' => $reboisement,

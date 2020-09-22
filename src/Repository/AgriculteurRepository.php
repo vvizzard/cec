@@ -253,4 +253,29 @@ class AgriculteurRepository extends ServiceEntityRepository
         return $agriculteurs;
     }
 
+    public function getSCA() {
+
+        $result = array();
+
+        $res = new ResultSetMapping();
+        $res->addScalarResult('nbr', 'nbr');
+
+        $sql = 'SELECT COUNT(*) as nbr 
+        FROM `agriculteur` AS a 
+        WHERE ( (2*a.cereale) + (3*a.legume_sec) + a.legume + a.fruit + (4*a.viande) + (4*a.lait) 
+                + (a.sucre/2) + (a.huile/2) )';
+
+        $query = $this->getEntityManager()->createNativeQuery($sql.' < 28', $res);
+        $result['pauvre'] = $query->getSingleScalarResult();
+
+        $query = $this->getEntityManager()->createNativeQuery($sql.' > 28.5 AND ( (2*a.cereale) + (3*a.legume_sec) + a.legume + a.fruit + (4*a.viande) + (4*a.lait) 
+        + (a.sucre/2) + (a.huile/2) ) <= 42', $res);
+        $result['limite'] = $query->getSingleScalarResult();
+
+        $query = $this->getEntityManager()->createNativeQuery($sql.' > 42', $res);
+        $result['acceptable'] = $query->getSingleScalarResult();
+
+        return $result;
+    }
+
 }

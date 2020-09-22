@@ -14,7 +14,7 @@
     <div class="card-body">
         <form action="{{ path('rapport_performance') }}" method="GET">
             <div class="form-group">
-                <label for="campaigne">Agriculteur</label>
+                <label for="campagne">Agriculteur</label>
                 <select name="agriculteur" id="agriculteur" class="form-control">
                     {% for agriculteur in agriculteurs %}
                         <option {% if selectedAgriculteur is not null and selectedAgriculteur == agriculteur.id %} selected {% endif %} 

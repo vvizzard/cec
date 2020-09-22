@@ -25,7 +25,7 @@ class Agriculteur
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $prenom;
 
@@ -342,6 +342,46 @@ class Agriculteur
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $latitude;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $cereale;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $legumeSec;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $legume;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $fruit;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $viande;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $lait;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $sucre;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $huile;
 
     public function __construct()
     {
@@ -692,6 +732,14 @@ class Agriculteur
         return $this->ce;
     }
 
+    public function getCeString()
+    {
+        if ($this->ce != null) {
+            return $this->ce->getNom();
+        }
+        return $this->ce;
+    }
+
     public function setCe(?Ce $ce): self
     {
         $this->ce = $ce;
@@ -713,6 +761,14 @@ class Agriculteur
 
     public function getCulture(): ?Culture
     {
+        return $this->culture;
+    }
+
+    public function getCultureString()
+    {
+        if ($this->culture != null) {
+            return $this->culture->getNom();
+        }
         return $this->culture;
     }
 
@@ -754,6 +810,54 @@ class Agriculteur
         return $this;
     }
 
+    public function getNbrCaffe()
+    {
+        if ($this->nbrCultureAgriculteur != null) {
+            foreach ($this->nbrCultureAgriculteur as $nbrCultureA) {
+                if ($nbrCultureA->getCulture()->getNom() == 'Cafe' || $nbrCultureA->getCulture()->getNom() == 'Caffé') {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrGirofle()
+    {
+        if ($this->nbrCultureAgriculteur != null) {
+            foreach ($this->nbrCultureAgriculteur as $nbrCultureA) {
+                if ($nbrCultureA->getCulture()->getNom() == 'Girofle') {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrVanille()
+    {
+        if ($this->nbrCultureAgriculteur != null) {
+            foreach ($this->nbrCultureAgriculteur as $nbrCultureA) {
+                if ($nbrCultureA->getCulture()->getNom() == 'Poivre') {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrPoivre()
+    {
+        if ($this->nbrCultureAgriculteur != null) {
+            foreach ($this->nbrCultureAgriculteur as $nbrCultureA) {
+                if ($nbrCultureA->getCulture()->getNom() == 'Poivre') {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
     /**
      * @return Collection|NbrEquipementAgricoleAgriculteur[]
      */
@@ -783,6 +887,78 @@ class Agriculteur
         }
 
         return $this;
+    }
+
+    public function getNbrPulverisateur()
+    {
+        if ($this->nbrEquipementAgricoleAgriculteur != null) {
+            foreach ($this->nbrEquipementAgricoleAgriculteur as $equipement) {
+                if ($equipement->getEquipementAgricole()->getNom() == 'Pulvérisateur' || $equipement->getEquipementAgricole()->getNom() == 'Pulverisateur') {
+                    return $equipement->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrBrouette()
+    {
+        if ($this->nbrEquipementAgricoleAgriculteur != null) {
+            foreach ($this->nbrEquipementAgricoleAgriculteur as $equipement) {
+                if ($equipement->getEquipementAgricole()->getNom() == 'Brouette') {
+                    return $equipement->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrArrosoir()
+    {
+        if ($this->nbrEquipementAgricoleAgriculteur != null) {
+            foreach ($this->nbrEquipementAgricoleAgriculteur as $equipement) {
+                if ($equipement->getEquipementAgricole()->getNom() == 'Arrosoir') {
+                    return $equipement->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrHerse()
+    {
+        if ($this->nbrEquipementAgricoleAgriculteur != null) {
+            foreach ($this->nbrEquipementAgricoleAgriculteur as $equipement) {
+                if ($equipement->getEquipementAgricole()->getNom() == 'Herse') {
+                    return $equipement->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrBicyclette()
+    {
+        if ($this->nbrEquipementAgricoleAgriculteur != null) {
+            foreach ($this->nbrEquipementAgricoleAgriculteur as $equipement) {
+                if ($equipement->getEquipementAgricole()->getNom() == 'Bicyclette') {
+                    return $equipement->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrAngady()
+    {
+        if ($this->nbrEquipementAgricoleAgriculteur != null) {
+            foreach ($this->nbrEquipementAgricoleAgriculteur as $equipement) {
+                if ($equipement->getEquipementAgricole()->getNom() == 'Angady' || $equipement->getEquipementAgricole()->getNom() == 'Pelle') {
+                    return $equipement->getNbr();
+                }
+            }
+        }
+        return 0;
     }
 
     /**
@@ -821,6 +997,14 @@ class Agriculteur
         return $this->village;
     }
 
+    public function getVillageString()
+    {
+        if ($this->village != null) {
+            return $this->village->getNom();
+        }
+        return $this->village;
+    }
+
     public function setVillage(?Village $village): self
     {
         $this->village = $village;
@@ -830,6 +1014,14 @@ class Agriculteur
 
     public function getTerroir(): ?Terroir
     {
+        return $this->terroir;
+    }
+
+    public function getTerroirString()
+    {
+        if ($this->terroir != null) {
+            return $this->terroir->getNom();
+        }
         return $this->terroir;
     }
 
@@ -845,6 +1037,14 @@ class Agriculteur
         return $this->sousRegion;
     }
 
+    public function getSousRegionString()
+    {
+        if ($this->sousRegion != null) {
+            return $this->sousRegion->getNom();
+        }
+        return $this->sousRegion;
+    }
+
     public function setSousRegion(?SousRegion $sousRegion): self
     {
         $this->sousRegion = $sousRegion;
@@ -857,6 +1057,14 @@ class Agriculteur
         return $this->region;
     }
 
+    public function getRegionString()
+    {
+        if ($this->region != null) {
+            return $this->region->getNom();
+        }
+        return $this->region;
+    }
+
     public function setRegion(?Region $region): self
     {
         $this->region = $region;
@@ -866,6 +1074,14 @@ class Agriculteur
 
     public function getCommune(): ?Commune
     {
+        return $this->commune;
+    }
+
+    public function getCommuneString()
+    {
+        if ($this->commune != null) {
+            return $this->commune->getNom();
+        }
         return $this->commune;
     }
 
@@ -890,6 +1106,14 @@ class Agriculteur
 
     public function getTypeElevage(): ?TypeElevage
     {
+        return $this->typeElevage;
+    }
+
+    public function getTypeElevageString()
+    {
+        if ($this->typeElevage != null) {
+            return $this->typeElevage->getNom();
+        }
         return $this->typeElevage;
     }
 
@@ -1196,6 +1420,189 @@ class Agriculteur
     public function setLatitude(?string $latitude): self
     {
         $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getCereale(): ?int
+    {
+        return $this->cereale;
+    }
+
+    public function setCereale(?int $cereale): self
+    {
+        $this->cereale = $cereale;
+
+        return $this;
+    }
+
+    public function getLegumeSec(): ?int
+    {
+        return $this->legumeSec;
+    }
+
+    public function setLegumeSec(?int $legumeSec): self
+    {
+        $this->legumeSec = $legumeSec;
+
+        return $this;
+    }
+
+    public function getLegume(): ?int
+    {
+        return $this->legume;
+    }
+
+    public function setLegume(?int $legume): self
+    {
+        $this->legume = $legume;
+
+        return $this;
+    }
+
+    public function getFruit(): ?int
+    {
+        return $this->fruit;
+    }
+
+    public function setFruit(?int $fruit): self
+    {
+        $this->fruit = $fruit;
+
+        return $this;
+    }
+
+    public function getViande(): ?int
+    {
+        return $this->viande;
+    }
+
+    public function setViande(?int $viande): self
+    {
+        $this->viande = $viande;
+
+        return $this;
+    }
+
+    public function getLait(): ?int
+    {
+        return $this->lait;
+    }
+
+    public function setLait(?int $lait): self
+    {
+        $this->lait = $lait;
+
+        return $this;
+    }
+
+    public function getSucre(): ?int
+    {
+        return $this->sucre;
+    }
+
+    public function setSucre(?int $sucre): self
+    {
+        $this->sucre = $sucre;
+
+        return $this;
+    }
+
+    public function getHuile(): ?int
+    {
+        return $this->huile;
+    }
+
+    public function setHuile(?int $huile): self
+    {
+        $this->huile = $huile;
+
+        return $this;
+    }
+
+    public function complete($table): self
+    {
+
+        // $this->setId($table[0]);
+        $np = explode(" ", $table[1], 2);
+        $this->setNom($np[0]);
+        if (sizeof($np)>1) {
+            $this->setPrenom($np[1]);
+        }
+        // $this->setTypologie($table[2]);
+        if ($table[3] && $table[3] !== null) {
+            if( strpos($table[3], 'H') !== false ) {
+                $table[3] = 1;
+            } else if ( strpos($table[3], 'F') !== false ) {
+                $table[3] = 0;
+            }
+        }
+        $this->setGenre(intval($table[3]));
+
+        $this->setAge(intval($table[4]));
+        $this->setStatutFamille($table[5]);
+        $this->setNbrMenage(intval($table[6]));
+        $this->setNbrActif(intval($table[7]));
+        // $this->setSousRegionString($table[8]);
+        // $this->setCommuneString($table[9]);
+        // $this->setTerroirString($table[10]);
+        // $this->setVillageString($table[11]);
+        // $this->setCeString($table[12]);
+        // $this->setCultureString($table[13]);
+        $this->setPratiqueElevageRente($table[14]);
+        // $this->setTypeElevageString($table[15]);
+        $this->setAccesAuRiziere($table[16]);
+        $this->setOpBoolean($table[17]);
+        $this->setPratiqueActiviteNonAgricole($table[18]);
+        $this->setPratiquePeche($table[19]);
+        $this->setAutreProgramme($table[20]);
+        $this->setSurfaceTotaleExploitee($table[21]);
+        $this->setSurfaceTotaleRiziere($table[22]);
+        $this->setSurfaceParcelleLouee($table[23]);
+        $this->setSurfaceParcelleEnLocation($table[24]);
+        // $this->setNbrCaffe(intval($table[25]));
+        // $this->setNbrGirofle(intval($table[26]));
+        // $this->setNbrVanille(intval($table[27]));
+        // $this->setNbrPoivre(intval($table[28]));
+        // $this->setNbrPulverisateur(intval($table[29]));
+        // $this->setNbrBrouette(intval($table[30]));
+        // $this->setNbrArrosoir(intval($table[31]));
+        // $this->setNbrHerse(intval($table[32]));
+        // $this->setNbrBicyclette(intval($table[33]));
+        // $this->setNbrAngady(intval($table[34]));
+        $this->setNbrMoisSoudure(intval($table[35]));
+        $this->setCalendrier(intval($table[36]));
+        $this->setOutilAmeliore(intval($table[37]));
+        $this->setDifferenceBesoinsAlimentaire(intval($table[38]));
+        $this->setConnaissanceDifferenceBesoinsAlimentaire(intval($table[39]));
+        $this->setRegimeAlimentaireVariee(intval($table[40]));
+        $this->setAssuranceProduitNecessaireAlimentation(intval($table[41]));
+        $this->setEnregistrementMouvementArgent(intval($table[42]));
+        $this->setEnregistrementMouvementArgentWhy(intval($table[43]));
+        $this->setEpargne(intval($table[44]));
+        $this->setConnaissanceDemandeCoursProduitAgricole(intval($table[45]));
+        $this->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($table[46]));
+        $this->setAmeliorerQualiteProduit(intval($table[47]));
+        $this->setAmeliorerQualiteProduitWhy(intval($table[48]));
+        $this->setGroupement(intval($table[49]));
+        $this->setAvantageRegroupement(intval($table[50]));
+        $this->setAccesEauPotable(intval($table[51]));
+        $this->setToilette(intval($table[52]));
+        $this->setDouche(intval($table[53]));
+        $this->setAssainissement(intval($table[54]));
+        $this->setAccesEducation(intval($table[55]));
+        $this->setMedecinTraditionnel($table[56]);
+        $this->setMedecinConventionnel($table[57]);
+        $this->setLatitude($table[58]);
+        $this->setLongitude($table[59]);
+        $this->setCereale($table[60]);
+        $this->setLegumeSec($table[61]);
+        $this->setLegume($table[62]);
+        $this->setFruit($table[63]);
+        $this->setViande($table[64]);
+        $this->setLait($table[65]);
+        $this->setSucre($table[66]);
+        $this->setHuile($table[67]);
 
         return $this;
     }

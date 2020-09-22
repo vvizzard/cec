@@ -135,6 +135,13 @@ class Parcelle
         return $this->agriculteur;
     }
 
+    public function getAgriculteurString(): ?String
+    {
+        if ($this->agriculteur) {
+            return $this->agriculteur->getId();
+        }
+    }
+
     public function setAgriculteur(?Agriculteur $agriculteur): self
     {
         $this->agriculteur = $agriculteur;
@@ -159,6 +166,11 @@ class Parcelle
         return $this->type;
     }
 
+    public function getTypeString(): ?String
+    {
+        return $this->type ? $this->type->getNom() : null;
+    }
+
     public function setType(?type $type): self
     {
         $this->type = $type;
@@ -169,6 +181,11 @@ class Parcelle
     public function getTypeSol(): ?TypeSol
     {
         return $this->TypeSol;
+    }
+
+    public function getTypeSolString(): ?String
+    {
+        return $this->TypeSol ? $this->TypeSol->getNom() : null;
     }
 
     public function setTypeSol(?TypeSol $TypeSol): self
@@ -183,6 +200,11 @@ class Parcelle
         return $this->modeFaireValoir;
     }
 
+    public function getModeFaireValoirString(): ?String
+    {
+        return $this->modeFaireValoir ? $this->modeFaireValoir->getNom() : null;
+    }
+
     public function setModeFaireValoir(?ModeFaireValoir $modeFaireValoir): self
     {
         $this->modeFaireValoir = $modeFaireValoir;
@@ -195,6 +217,11 @@ class Parcelle
         return $this->localisation;
     }
 
+    public function getLocalisationString(): ?String
+    {
+        return $this->localisation ? $this->localisation->getNom() : null;
+    }
+
     public function setLocalisation(?localisation $localisation): self
     {
         $this->localisation = $localisation;
@@ -205,6 +232,11 @@ class Parcelle
     public function getMilieu(): ?Milieu
     {
         return $this->milieu;
+    }
+
+    public function getMilieuString(): ?String
+    {
+        return $this->milieu ? $this->milieu->getNom() : null;
     }
 
     public function setMilieu(?Milieu $milieu): self
@@ -386,6 +418,26 @@ class Parcelle
             }
         }
 
+        return $this;
+    }
+
+    public function complete($table): self
+    {
+        // $this->setAgriculteur();
+        $this->setSurface($table[2]);
+        // $this->setType($table[3]);
+        // $this->setTypeSol($table[4]);
+        // $this->setModeFaireValoir($table[5]);
+        // $this->setLocalisation($table[6]);
+        // $this->setMilieu($table[7]);
+        $this->setIrrigation($table[8]);
+        $this->setCompaction($table[9]);
+        $this->setContreSaison($table[10]);
+        $this->setZoneErodible($table[11]);
+        $this->setLongitude($table[12]);
+        $this->setLatitude($table[13]);
+        $this->setObservation($table[14]);
+        
         return $this;
     }
 }

@@ -1,36 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EquipementAgricoleController!{% endblock %}
+{% block title %}Equipement agricole | CEC{% endblock %}
+
+{% block h1 %}Equipement agricole{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Equipement agricole</li>
+{% endblock %}
 
 {% block body %}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(equipementAgricole_form) }}
 
-<h1>Equipement agricole</h1>
+        {{ form_widget(equipementAgricole_form) }}
 
-<h2>Ajout</h2>
+        <button type="submit" class="btn btn-success">Ajout</button>
 
-<div>
-    {{ form_start(equipementAgricole_form) }}
-
-    {{ form_widget(equipementAgricole_form) }}
-
-    <button type="submit" class="btn btn-success">Ajout</button>
-
-    {{ form_end(equipementAgricole_form) }}
+        {{ form_end(equipementAgricole_form) }}
+    </div>
 </div>
 
 <h2>Listes</h2>
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-    </tr>
-    {% for equipementAgricole in equipementAgricoles %}
-    <tr>
-        <td>{{ equipementAgricole.nom }}</td>
-        <td>{{ equipementAgricole.description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="row fit card">
+    <table class="table table-fit table-cec table-hover">
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th></th>
+                <th></th>
+            {% endif %}
+        </tr>
+        {% for equipementAgricole in equipementAgricoles %}
+        <tr>
+            <td>{{ equipementAgricole.nom }}</td>
+            <td>{{ equipementAgricole.description }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default" title="Modifier" 
+                            href="{{ path('update_equipement_agricole', {'id': equipementAgricole.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" title="Supprimer" 
+                            data-toggle="modal" data-target="#delete-modal"
+                            onclick="del('{{ path('delete_equipement_agricole', {'id': equipementAgricole.id}) }}')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

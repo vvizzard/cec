@@ -33,6 +33,12 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Services\ExcelService;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 class CultureMereController extends AbstractController
 {
 
@@ -631,7 +637,7 @@ class CultureMereController extends AbstractController
                     $request->request->get('itineraireCultural')
                 ));
             }
-            
+
             $objectManager->persist($cultureMere);
 
             foreach ($fumures as $fumure) {
@@ -684,5 +690,303 @@ class CultureMereController extends AbstractController
         $objectManager->remove($cultureMere);
         $objectManager->flush();
         return $this->redirectToRoute('culture_meres');
+    }
+
+    /**
+     * @Route("/export/culture", name="export_culture")
+     */
+    public function exportAction(CultureMereRepository $cultureMereRepository)
+    {
+        $filename = 'Cultures.xlsx';
+
+        $excelService = new ExcelService();
+
+        $spreadsheet = $excelService->writeCulture($cultureMereRepository);
+
+        $contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $writer = new Xlsx($spreadsheet);
+
+        $response = new StreamedResponse();
+        $response->headers->set('Content-Type', $contentType);
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename . '"');
+        $response->setPrivate();
+        $response->headers->addCacheControlDirective('no-cache', true);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        $response->setCallback(function () use ($writer) {
+            $writer->save('php://output');
+        });
+
+        return $response;
+    }
+
+    /**
+     * @Route("/upload/culture", name="upload_culture")
+     */
+    public function upload(
+        HttpFoundationRequest $request,
+        ObjectManager $objectManager,
+        CycleAgricoleRepository $cycleAgricoleRepository,
+        PrecedentCulturalRepository $precedentCulturalRepository,
+        SystemeCulturalRepository $systemeCulturalRepository,
+        ItineraireCulturalRepository $itineraireCulturalRepository,
+        ParcelleRepository $parcelleRepository,
+        FumureOrganiqueRepository $fumureOrganiqueRepository,
+        InsecticideRepository $insecticideRepository,
+        CultureMereRepository $cultureMereRepository,
+        CultureRepository $cultureRepository,
+        VarieteRepository $varieteRepository
+    ) {
+
+        $file = $request->files->get('file');
+
+        try {
+
+            $fileName = 'Culture_uploaded' . (microtime(true) * 1000) . '.xlsx';
+
+            $file->move($this->getParameter('upload_directory'), $fileName);
+
+            $reader = new ReaderXlsx();
+            $reader->setReadDataOnly(true);
+
+            $spreadSheet = $reader->load($this->getParameter('upload_directory') . $fileName);
+
+            $excelService = new ExcelService();
+
+            $row = $excelService->upload($spreadSheet);
+
+            foreach ($row as $r) {
+                $culture = new CultureMere();
+                try {
+                    if (strpos($r[0], 'CL_') !== false) {
+                        $r[0] = substr($r[0], 3);
+                    }
+                    if (intval($r[0]) > 0) {
+                        $culture = $cultureMereRepository->find(intval($r[0]));
+                    }
+                    if (strpos($r[1], 'PL_') !== false) {
+                        $r[1] = substr($r[0], 3);
+                    }
+                } catch (\Throwable $th) {
+                    //$r[0] is not an int so we add a new instance
+                }
+
+                $r[21] = $excelService->formatDate($r[21]);
+
+                // dump($r);
+
+                $culture->complete($r);
+
+                if ($r[1] != null) {
+                    $culture->setParcelle($parcelleRepository->find(intVal($r[1])));
+                }
+                if ($r[3] != null) {
+                    $culture->setCycleAgricole($cycleAgricoleRepository->findOneByNom($r[3]));
+                }
+                if ($r[5] != null) {
+                    $culture->setPrecedentCultural($precedentCulturalRepository->findOneByNom($r[5]));
+                }
+
+                if ($r[6] != null) {
+                    $culture->setSystemeCultural($systemeCulturalRepository->findOneByNom($r[6]));
+                }
+
+                if ($r[7] != null) {
+                    $culture->setItineraireCultural($itineraireCulturalRepository->findOneByNom($r[7]));
+                }
+
+                $objectManager->persist($culture);
+
+                if ($r[23] != null) {
+                    $plante = $cultureRepository->findOneByNom($r[23]);
+
+                    $principalFille = new CultureFille();
+
+                    if (sizeof($culture->getCultureFilles()) > 0) {
+                        $principalFille = $culture->getCultureFilles()[0];
+                    } else {
+                        $principalFille->setCultureMere($culture);
+                    }
+
+                    $principalFille->setPlante($plante);
+
+                    if ($r[24] != null) {
+                        $variete = $varieteRepository->findOneByNom($r[24]);
+                        $principalFille->setVariete($variete);
+                    }
+
+                    $r[25] = $excelService->formatDate($r[25]);
+                    $principalFille->setDatePlantationString($r[25]);
+                    $principalFille->setQteSemence(intval($r[26]));
+                    $principalFille->setPrixUnitaireSemence(intVal($r[27]));
+                    $principalFille->setProduction(floatVal($r[28]));
+                    $principalFille->setPrixUnitaireProduit(intval($r[29]));
+
+                    $objectManager->persist($principalFille);
+                }
+
+                if ($r[30] != null) {
+                    $plante = $cultureRepository->findOneByNom($r[30]);
+
+                    $secondaireFille = new CultureFille();
+
+                    if (sizeof($culture->getCultureFilles()) > 1) {
+                        $secondaireFille = $culture->getCultureFilles()[1];
+                    } else {
+                        $secondaireFille->setCultureMere($culture);
+                    }
+
+                    $secondaireFille->setPlante($plante);
+
+                    if ($r[31] != null) {
+                        $variete = $varieteRepository->findOneByNom($r[31]);
+                        $secondaireFille->setVariete($variete);
+                    }
+
+                    $r[32] = $excelService->formatDate($r[32]);
+                    $secondaireFille->setDatePlantationString($r[32]);
+                    $secondaireFille->setQteSemence(intval($r[33]));
+                    $secondaireFille->setPrixUnitaireSemence(intval($r[34]));
+                    $secondaireFille->setProduction(floatVal($r[35]));
+                    $secondaireFille->setPrixUnitaireProduit(intval($r[36]));
+
+                    $objectManager->persist($secondaireFille);
+                }
+
+
+                $fumures = $fumureOrganiqueRepository->findAll();
+
+                foreach ($fumures as $fumure) {
+                    if (strcasecmp($fumure->getNom(), 'NPK') == 0) {
+                        $nbr = new NbrFumureCultureM();
+                        if (sizeof($culture->getNbrFumureCultureMs()) > 0) {
+                            foreach ($culture->getNbrFumureCultureMs() as $fumureCulture) {
+                                if (strcasecmp($fumureCulture->getFumure()->getNom(), 'NPK') == 0) {
+                                    $nbr = $fumureCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setFumure($fumure);
+                        $nbr->setCulture($culture);
+                        $r[38] != null ? $nbr->setNbr(intval($r[38])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    } else if (strcasecmp($fumure->getNom(), 'Uree') == 0 || strcasecmp($fumure->getNom(), 'Urée') == 0) {
+                        $nbr = new NbrFumureCultureM();
+                        if (sizeof($culture->getNbrFumureCultureMs()) > 0) {
+                            foreach ($culture->getNbrFumureCultureMs() as $fumureCulture) {
+                                if (
+                                    strcasecmp($fumureCulture->getFumure()->getNom(), 'Uree') == 0
+                                    || strcasecmp($fumureCulture->getFumure()->getNom(), 'Urée') == 0
+                                ) {
+                                    $nbr = $fumureCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setFumure($fumure);
+                        $nbr->setCulture($culture);
+                        $r[39] != null ? $nbr->setNbr(intval($r[39])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    } else if (
+                        strcasecmp($fumure->getNom(), 'Autre') == 0 || strcasecmp($fumure->getNom(), 'Autre fumure') == 0
+                        || strcasecmp($fumure->getNom(), 'Autres fumures') == 0
+                    ) {
+                        $nbr = new NbrFumureCultureM();
+                        if (sizeof($culture->getNbrFumureCultureMs()) > 0) {
+                            foreach ($culture->getNbrFumureCultureMs() as $fumureCulture) {
+                                if (
+                                    strcasecmp($fumureCulture->getFumure()->getNom(), 'Autre') == 0
+                                    || strcasecmp($fumureCulture->getFumure()->getNom(), 'Autre fumure') == 0
+                                    || strcasecmp($fumureCulture->getFumure()->getNom(), 'Autres fumures') == 0
+                                ) {
+                                    $nbr = $fumureCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setFumure($fumure);
+                        $nbr->setCulture($culture);
+                        $r[40] != null ? $nbr->setNbr(intval($r[40])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    }
+                }
+
+                $insecticides = $insecticideRepository->findAll();
+
+                foreach ($insecticides as $insecticide) {
+                    if (strcasecmp($insecticide->getNom(), 'herbicide') == 0) {
+                        $nbr = new NbrInsecticideCultureM();
+                        if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
+                            foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
+                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'herbicide') == 0) {
+                                    $nbr = $insecticideCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setInsecticide($insecticide);
+                        $nbr->setCulture($culture);
+                        $r[42] != null ? $nbr->setNbr(intval($r[42])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    } else if (strcasecmp($insecticide->getNom(), 'fongicide') == 0) {
+                        $nbr = new NbrInsecticideCultureM();
+                        if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
+                            foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
+                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Fongicide') == 0) {
+                                    $nbr = $insecticideCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setInsecticide($insecticide);
+                        $nbr->setCulture($culture);
+                        $r[43] != null ? $nbr->setNbr(intval($r[43])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    } else if (
+                        strcasecmp($insecticide->getNom(), 'Autre') == 0 
+                        || strcasecmp($insecticide->getNom(), 'Autre insecticide') == 0
+                        || strcasecmp($insecticide->getNom(), 'Autres insecticides') == 0
+                    ) {
+                        $nbr = new NbrInsecticideCultureM();
+                        if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
+                            foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
+                                if (
+                                    strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Autre') == 0
+                                    || strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Autre insecticide') == 0
+                                    || strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Autres insecticides') == 0
+                                ) {
+                                    $nbr = $insecticideCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setInsecticide($insecticide);
+                        $nbr->setCulture($culture);
+                        $r[44] != null ? $nbr->setNbr(intval($r[44])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    }
+                }
+
+                $objectManager->flush();
+            }
+
+        } catch (FileException $e) {
+            return $this->redirectToRoute('upload_culture_form');
+        }
+
+        return $this->redirectToRoute('culture_meres');
+
+        // return $this->render('culture_mere/upload.html.twig');
+
+        // return $this->redirectToRoute('detail_parcelle', ['id' => $row[2][0]]);
+
+    }
+
+    /**
+     * @Route("/upload/parcelle_form", name="upload_culture_form")
+     */
+    public function uploads()
+    {
+        return $this->render('culture_mere/upload.html.twig');
     }
 }

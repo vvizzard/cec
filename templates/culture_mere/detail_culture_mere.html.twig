@@ -7,7 +7,7 @@
 {% block history %}
     <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
     <li class="breadcrumb-item"><a href="{{ path('culture_meres') }}">Liste des cultures</a></li>
-    <li class="breadcrumb-item active">AG_{{ culture.id }}</li>
+    <li class="breadcrumb-item active">CL_{{ culture.id }}</li>
 {% endblock %}
 
 {% block body %}
@@ -114,7 +114,7 @@
                         {{ cle.variete.nom }}
                     {% endif %}
                 </td>
-                <td>{{ cle.datePlantation | date("m/d/Y") }}</td>
+                <td>{{ cle.datePlantation | date("d/m/Y") }}</td>
                 <td class="text-right">{{ cle.QteSemence }}</td>
                 <td class="text-right">{{ cle.prixUnitaireSemence }}</td>
                 <td class="text-right">{{ cle.prixUnitaireSemence * cle.QteSemence }}</td>
@@ -221,10 +221,14 @@
                 <td>MO Ext Recolte</td>
                 <td>{{ culture.moExtRecolte }}</td>
             </tr>
+            <tr>
+                <td>Tarif pour les mains d'oeuvre</td>
+                <td>{{ culture.tarifMO }}</td>
+            </tr>
             
             <tr>
                 <td>Date de Plantation</td>
-                <td>{{ culture.datePlantation | date("m/d/Y")  }}</td>
+                <td>{{ culture.datePlantation | date("d/m/Y")  }}</td>
             </tr>
 
             <tr>

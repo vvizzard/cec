@@ -16,11 +16,17 @@ use App\Repository\TerroirRepository;
 use App\Repository\TypeElevageRepository;
 use App\Repository\TypologieRepository;
 use App\Repository\VillageRepository;
+use App\Services\ExcelService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AgriculteurController extends AbstractController
 {
@@ -138,6 +144,15 @@ class AgriculteurController extends AbstractController
             ->add('latitude')
             ->add('longitude')
 
+            ->add('cereale')
+            ->add('legumeSec')
+            ->add('legume')
+            ->add('fruit')
+            ->add('viande')
+            ->add('lait')
+            ->add('sucre')
+            ->add('huile')
+
             ->getForm();
 
 
@@ -180,8 +195,7 @@ class AgriculteurController extends AbstractController
                 $agriculteur->setConnaissanceDemandeCoursProduitAgricole(boolval($request->request->get('connaissanceDemandeCoursProduitAgricole')));
             }
             if (!is_null($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy'))) {
-                $agriculteur->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy'))
-                );
+                $agriculteur->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy')));
             }
             if (!is_null($request->request->get('ameliorerQualiteProduit'))) {
                 $agriculteur->setAmeliorerQualiteProduit(boolval($request->request->get('ameliorerQualiteProduit')));
@@ -367,6 +381,15 @@ class AgriculteurController extends AbstractController
             ->add('latitude')
             ->add('longitude')
 
+            ->add('cereale')
+            ->add('legumeSec')
+            ->add('legume')
+            ->add('fruit')
+            ->add('viande')
+            ->add('lait')
+            ->add('sucre')
+            ->add('huile')
+
             ->getForm();
 
 
@@ -409,8 +432,7 @@ class AgriculteurController extends AbstractController
                 $agriculteur->setConnaissanceDemandeCoursProduitAgricole(boolval($request->request->get('connaissanceDemandeCoursProduitAgricole')));
             }
             if (!is_null($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy'))) {
-                $agriculteur->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy'))
-                );
+                $agriculteur->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($request->request->get('connaissanceDemandeCoursProduitAgricoleWhy')));
             }
             if (!is_null($request->request->get('ameliorerQualiteProduit'))) {
                 $agriculteur->setAmeliorerQualiteProduit(boolval($request->request->get('ameliorerQualiteProduit')));
@@ -535,5 +557,311 @@ class AgriculteurController extends AbstractController
         $objectManager->remove($agriculteur);
         $objectManager->flush();
         return $this->redirectToRoute('agriculteurs');
+    }
+
+    /**
+     * @Route("/export/agriculteur", name="export_agriculteur")
+     */
+    public function exportAction(AgriculteurRepository $agriculteurRepository)
+    {
+        $filename = 'Agriculteurs.xlsx';
+
+        $excelService = new ExcelService();
+
+        $spreadsheet = $excelService->writeAgriculteur($agriculteurRepository);
+
+        $contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $writer = new Xlsx($spreadsheet);
+
+        $response = new StreamedResponse();
+        $response->headers->set('Content-Type', $contentType);
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename . '"');
+        $response->setPrivate();
+        $response->headers->addCacheControlDirective('no-cache', true);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        $response->setCallback(function () use ($writer) {
+            $writer->save('php://output');
+        });
+
+        return $response;
+    }
+
+    /**
+     * @Route("/upload/agriculteur", name="upload_agriculteur")
+     */
+    public function upload(
+        HttpFoundationRequest $request,
+        AgriculteurRepository $agriculteurRepository,
+        CeRepository $ceRepository,
+        CultureRepository $cultureRepository,
+        TypologieRepository $typologieRepository,
+        EquipementAgricoleRepository $equipementAgricoleRepository,
+        VillageRepository $villageRepository,
+        TerroirRepository $terroirRepository,
+        SousRegionRepository $sousRegionRepository,
+        CommuneRepository $communeRepository,
+        TypeElevageRepository $typeElevageRepository,
+        ObjectManager $objectManager
+    ) {
+
+        $file = $request->files->get('file');
+
+        try {
+            
+            $fileName = 'Agriculteur_uploaded'.(microtime(true) * 1000).'.xlsx';
+
+            $file->move($this->getParameter('upload_directory'), $fileName);
+
+            $reader = new ReaderXlsx();
+            $reader->setReadDataOnly(true);
+
+            $spreadSheet = $reader->load($this->getParameter('upload_directory') . $fileName);
+
+            $excelService = new ExcelService();
+
+            $row = $excelService->upload($spreadSheet);
+
+            foreach ($row as $r) {
+                $agriculteur = new Agriculteur();
+                try {
+                    if( strpos($r[0], 'AG_') !== false ) {
+                        $r[0] = substr($r[0], 3);
+                    }
+                    if(intval($r[0]) > 0) {
+                        $agriculteur = $agriculteurRepository->find(intval($r[0]));
+                    }
+                } catch (\Throwable $th) {
+                    //$r[0] is not an int so we add a new instance
+                }
+
+                $agriculteur->complete($r);
+
+                if ($r[12] != null) {
+                    $agriculteur->setCe($ceRepository->findOneByNom($r[12]));
+                }
+                if ($r[15] != null) {
+                    $agriculteur->setTypeElevage($typeElevageRepository->findOneByNom($r[15]));
+                }
+                if ($r[13] != null) {
+                    $agriculteur->setCulture($cultureRepository->findOneByNom($r[13]));
+                }
+
+                if ($r[11] != null) {
+                    $agriculteur->setVillage($villageRepository->findOneByNom($r[11]));
+                }
+
+                if ($r[10] != null) {
+                    $agriculteur->setTerroir($terroirRepository->findOneByNom($r[10]));
+                }
+
+                if ($r[8] != null) {
+                    $agriculteur->setSousRegion($sousRegionRepository->findOneByNom($r[8]));
+                }
+
+                if ($r[9]) {
+                    $agriculteur->setCommune($communeRepository->findOneByNom($r[9]));
+                }
+
+                if ($r[2] != null) {
+                    $agriculteur->setTypologie($typologieRepository->findOneByNom($r[2]));
+                }
+
+                $objectManager->persist($agriculteur);
+
+                $cultures = $cultureRepository->findByRente(true);
+                $equipements = $equipementAgricoleRepository->findAll();
+
+                foreach ($cultures as $culture) {
+
+                    if ($culture->getNom() == 'Café' || $culture->getNom() == 'Cafe') {
+                        $temp = new NbrCultureAgriculteur();
+                        if (sizeof($agriculteur->getNbrCultureAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrCultureAgriculteur() as $cult) {
+                                if ($cult->getCulture()->getId() == $culture->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setCulture($culture);
+                        $temp->setNbr(intval($r[25]));
+
+                        $objectManager->persist($temp);
+
+                    } else if ($culture->getNom() == 'Girofle') {
+                        $temp = new NbrCultureAgriculteur();
+                        if (sizeof($agriculteur->getNbrCultureAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrCultureAgriculteur() as $cult) {
+                                if ($cult->getCulture()->getId() == $culture->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setCulture($culture);
+                        $temp->setNbr(intval($r[26]));
+
+                        $objectManager->persist($temp);
+
+                    } elseif ($culture->getNom() == 'Vanille') {
+                        $temp = new NbrCultureAgriculteur();
+                        if (sizeof($agriculteur->getNbrCultureAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrCultureAgriculteur() as $cult) {
+                                if ($cult->getCulture()->getId() == $culture->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setCulture($culture);
+                        $temp->setNbr(intval($r[27]));
+
+                        $objectManager->persist($temp);
+
+                    } elseif ($culture->getNom() == 'Poivre') {
+                        $temp = new NbrCultureAgriculteur();
+                        if (sizeof($agriculteur->getNbrCultureAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrCultureAgriculteur() as $cult) {
+                                if ($cult->getCulture()->getId() == $culture->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setCulture($culture);
+                        $temp->setNbr(intval($r[28]));
+
+                        $objectManager->persist($temp);
+
+                    }
+
+                }
+
+                foreach ($equipements as $equipement) {
+
+                    if ($equipement->getNom() == 'Pulvérisateur' || $equipement->getNom() == 'Pulverisateur') {
+                        $temp = new NbrEquipementAgricoleAgriculteur();
+                        if (sizeof($agriculteur->getNbrEquipementAgricoleAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrEquipementAgricoleAgriculteur() as $cult) {
+                                if ($cult->getEquipementAgricole()->getId() == $equipement->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setEquipementAgricole($equipement);
+                        $temp->setNbr(intval($r[29]));
+
+                        $objectManager->persist($temp);
+
+                    } else if ($equipement->getNom() == 'Brouette') {
+                        $temp = new NbrEquipementAgricoleAgriculteur();
+                        if (sizeof($agriculteur->getNbrEquipementAgricoleAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrEquipementAgricoleAgriculteur() as $cult) {
+                                if ($cult->getEquipementAgricole()->getId() == $equipement->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setEquipementAgricole($equipement);
+                        $temp->setNbr(intval($r[30]));
+
+                        $objectManager->persist($temp);
+
+                    } else if ($equipement->getNom() == 'Arrosoir') {
+                        $temp = new NbrEquipementAgricoleAgriculteur();
+                        if (sizeof($agriculteur->getNbrEquipementAgricoleAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrEquipementAgricoleAgriculteur() as $cult) {
+                                if ($cult->getEquipementAgricole()->getId() == $equipement->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setEquipementAgricole($equipement);
+                        $temp->setNbr(intval($r[31]));
+
+                        $objectManager->persist($temp);
+
+                    } else if ($equipement->getNom() == 'Herse') {
+                        $temp = new NbrEquipementAgricoleAgriculteur();
+                        if (sizeof($agriculteur->getNbrEquipementAgricoleAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrEquipementAgricoleAgriculteur() as $cult) {
+                                if ($cult->getEquipementAgricole()->getId() == $equipement->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setEquipementAgricole($equipement);
+                        $temp->setNbr(intval($r[32]));
+
+                        $objectManager->persist($temp);
+
+                    } else if ($equipement->getNom() == 'Bicyclette') {
+                        $temp = new NbrEquipementAgricoleAgriculteur();
+                        if (sizeof($agriculteur->getNbrEquipementAgricoleAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrEquipementAgricoleAgriculteur() as $cult) {
+                                if ($cult->getEquipementAgricole()->getId() == $equipement->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setEquipementAgricole($equipement);
+                        $temp->setNbr(intval($r[33]));
+
+                        $objectManager->persist($temp);
+
+                    } else if ($equipement->getNom() == 'Angady' || $equipement->getNom() == 'Pelle') {
+                        $temp = new NbrEquipementAgricoleAgriculteur();
+                        if (sizeof($agriculteur->getNbrEquipementAgricoleAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrEquipementAgricoleAgriculteur() as $cult) {
+                                if ($cult->getEquipementAgricole()->getId() == $equipement->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setEquipementAgricole($equipement);
+                        $temp->setNbr(intval($r[34]));
+
+                        $objectManager->persist($temp);
+
+                    }
+
+                }
+
+                $objectManager->flush();
+            }
+        } catch (FileException $e) {
+            return $this->redirectToRoute('upload_agriculteur_form');
+        }
+
+        return $this->redirectToRoute('agriculteurs');
+
+        // return $this->render('agriculteur/upload.html.twig');
+
+        // return $this->redirectToRoute('detail_agriculteur', ['id' => $row[2][0]]);
+
+    }
+
+    /**
+     * @Route("/upload/agriculteur_form", name="upload_agriculteur_form")
+     */
+    public function uploads()
+    {
+        return $this->render('agriculteur/upload.html.twig');
     }
 }

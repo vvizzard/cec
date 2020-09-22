@@ -89,4 +89,12 @@
         {% endfor %}
     </table>
 </div>
+
+<a class="btn btn-primary" href="{{ path('export_agriculteur') }}" onclick="window.location.href = '{{ path('export_agriculteur') }}'"
+        data-toggle="modal" data-target="#loading-modal">
+    <i class="fas fa-download"></i>Télécharger
+</a>
+<br>
+<br>
+
 {% endblock %}

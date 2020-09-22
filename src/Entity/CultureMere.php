@@ -455,6 +455,11 @@ class CultureMere
         return $this->cycleAgricole;
     }
 
+    public function getCycleAgricoleString(): ?String
+    {
+        return $this->cycleAgricole ? $this->cycleAgricole->getNom() : null;
+    }
+
     public function setCycleAgricole(?CycleAgricole $cycleAgricole): self
     {
         $this->cycleAgricole = $cycleAgricole;
@@ -465,6 +470,11 @@ class CultureMere
     public function getPrecedentCultural(): ?PrecedentCultural
     {
         return $this->precedentCultural;
+    }
+
+    public function getPrecedentCulturalString(): ?String
+    {
+        return $this->precedentCultural ? $this->precedentCultural->getNom() : null;
     }
 
     public function setPrecedentCultural(?PrecedentCultural $precedentCultural): self
@@ -479,6 +489,11 @@ class CultureMere
         return $this->systemeCultural;
     }
 
+    public function getSystemeCulturalString(): ?String
+    {
+        return $this->systemeCultural ? $this->systemeCultural->getNom() : null;
+    }
+
     public function setSystemeCultural(?SystemeCultural $systemeCultural): self
     {
         $this->systemeCultural = $systemeCultural;
@@ -489,6 +504,11 @@ class CultureMere
     public function getItineraireCultural(): ?ItineraireCultural
     {
         return $this->itineraireCultural;
+    }
+
+    public function getItineraireCulturalString(): ?String
+    {
+        return $this->itineraireCultural ? $this->itineraireCultural->getNom() : null;
     }
 
     public function setItineraireCultural(?ItineraireCultural $itineraireCultural): self
@@ -506,6 +526,15 @@ class CultureMere
     public function setDatePlantation(?\DateTimeInterface $datePlantation): self
     {
         $this->datePlantation = $datePlantation;
+
+        return $this;
+    }
+
+    public function setDatePlantationString($datePlantation): self
+    {
+        if ($datePlantation != null) {
+            $this->datePlantation = \DateTime::createFromFormat('Y-m-d H:i:s', $datePlantation);
+        }
 
         return $this;
     }
@@ -858,6 +887,11 @@ class CultureMere
         return $this->parcelle;
     }
 
+    public function getParcelleString(): ?String
+    {
+        return $this->parcelle ? $this->parcelle->getId() : null;
+    }
+
     public function setParcelle(?Parcelle $parcelle): self
     {
         $this->parcelle = $parcelle;
@@ -871,6 +905,42 @@ class CultureMere
     public function getNbrFumureCultureMs(): Collection
     {
         return $this->nbrFumureCultureMs;
+    }
+
+    public function getNbrNPK()
+    {
+        if ($this->nbrFumureCultureMs != null) {
+            foreach ($this->nbrFumureCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'NPK')) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrUree()
+    {
+        if ($this->nbrFumureCultureMs != null) {
+            foreach ($this->nbrFumureCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'Urée') || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Uree')) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrAutreFumure()
+    {
+        if ($this->nbrFumureCultureMs != null) {
+            foreach ($this->nbrFumureCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autre') || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autre fumure') || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autres fumures')) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
     }
 
     public function addNbrFumureCultureM(NbrFumureCultureM $nbrFumureCultureM): self
@@ -904,6 +974,41 @@ class CultureMere
         return $this->nbrInsecticideCultureMs;
     }
 
+    public function getNbrHerbicide()
+    {
+        if ($this->nbrInsecticideCultureMs != null) {
+            foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'herbicide')) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+    public function getNbrFongicide()
+    {
+        if ($this->nbrInsecticideCultureMs != null) {
+            foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'fongicide')) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrAutrePesticide()
+    {
+        if ($this->nbrInsecticideCultureMs != null) {
+            foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autre') || strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autre pesticide') || strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autres pesticides')) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
     public function addNbrInsecticideCultureM(NbrInsecticideCultureM $nbrInsecticideCultureM): self
     {
         if (!$this->nbrInsecticideCultureMs->contains($nbrInsecticideCultureM)) {
@@ -935,6 +1040,38 @@ class CultureMere
     public function setTarifMO(?int $tarifMO): self
     {
         $this->tarifMO = $tarifMO;
+
+        return $this;
+    }
+
+    public function complete($table): self
+    {
+        // $this->setId();
+        // $this->setParcelleString();1
+        $this->setNouvellePlantation($table[2]);
+        // $this->setCycleAgricoleString();3
+        $this->setSurfaceCultive(intval($table[4]));
+        // $this->setPrecedentCulturalString();5
+        // $this->setSystemeCulturalString();6
+        // $this->setItineraireCulturalString();7
+        $this->setMoPreparationSol(intval($table[8]));
+        $this->setMoInstallationCulture(intval($table[9]));
+        $this->setMoEntretien1(intval($table[10]));
+        $this->setMoEntretien2(intval($table[11]));
+        $this->setMoEntretien3(intval($table[12]));
+        $this->setMoRecolte(intval($table[13]));
+        $this->setMoExtPreparationSol(intval($table[14]));
+        $this->setMoExtInstallationCulture(intval($table[15]));
+        $this->setMoExtEntretien1(intval($table[16]));
+        $this->setMoExtEntretien2(intval($table[17]));
+        $this->setMoExtEntretien3(intval($table[18]));
+        $this->setMoExtRecolte(intval($table[19]));
+        $this->setTarifMO(intval($table[20]));
+        $this->setDatePlantationString($table[21]);
+        $this->setAgePlantation(intval($table[22]));
+        $this->setQteFumureOrganique(intval($table[37]));
+        $this->setQteInsecticide(intval($table[41]));
+        $this->setMisEnCloture($table[45]);
 
         return $this;
     }

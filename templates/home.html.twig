@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CEC | Accueil{% endblock %}
+{% block title %}Accueil | CEC{% endblock %}
 
 {% block body %}
 
@@ -74,57 +74,65 @@
                 <div class="card-body">
                     <div class="tab-content p-0">
                     <!-- SCA content -->
-                        <div class="tab-pane active" style="position: relative; height: 300px;">
-                            <div class="info-box bg-gradient-success">
-                                <span class="info-box-icon"><i class="fas fa-hotdog"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Acceptable</span>
-                                    <span class="info-box-number">41,410</span>
-                                    
-                                    <div class="progress">
-                                    <div class="progress-bar" style="width: 50%"></div>
+                        <div class="tab-pane active" style="position: relative; height: 100px;">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="info-box bg-gradient-success">
+                                        {# <span class="info-box-icon"><i class="fas fa-hotdog"></i></span> #}
+                                        
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Acceptable (SCA > 42)</span>
+                                            <span class="info-box-number">{{sca['acceptable']}}</span>
+                                            
+                                            <div class="progress">
+                                            <div class="progress-bar" style="width: {{ sca['acceptable']*100/sca['total'] }}%"></div>
+                                            </div>
+                                            <span class="progress-description">
+                                                {{ (sca['acceptable']*100/sca['total'])|round(1) }}% des agriculteurs
+                                            </span>
+                                        </div>
+                                        <!-- /.info-box-content -->
                                     </div>
-                                    <span class="progress-description">
-                                        50% des agriculteurs
-                                    </span>
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            
-                            <div class="info-box bg-gradient-warning">
-                                <span class="info-box-icon"><i class="fas fa-apple-alt"></i></span>
+                                
+                                <div class="col-md-4">
+                                    <div class="info-box bg-gradient-warning">
+                                        {# <span class="info-box-icon"><i class="fas fa-apple-alt"></i></span> #}
 
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Limite</span>
-                                    <span class="info-box-number">10,410</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Limite (SCA entre 28 et 42 )</span>
+                                            <span class="info-box-number">{{sca['limite']}}</span>
 
-                                    <div class="progress">
-                                    <div class="progress-bar" style="width: 40%"></div>
+                                            <div class="progress">
+                                            <div class="progress-bar" style="width: {{ sca['limite']*100/sca['total'] }}%"></div>
+                                            </div>
+                                            <span class="progress-description">
+                                                {{ (sca['limite']*100/sca['total'])|round(1) }}% des agriculteurs
+                                            </span>
+                                        </div>
+                                        <!-- /.info-box-content -->
                                     </div>
-                                    <span class="progress-description">
-                                        40% des agriculteurs
-                                    </span>
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            
-                            <div class="info-box bg-gradient-danger">
-                                <span class="info-box-icon"><i class="fas fa-drumstick-bite"></i></span>
+                                
+                                <div class="col-md-4">
+                                    <div class="info-box bg-gradient-danger">
+                                        {# <span class="info-box-icon"><i class="fas fa-drumstick-bite"></i></span> #}
 
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Pauvre</span>
-                                    <span class="info-box-number">1,410</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Pauvre (SCA < 28)</span>
+                                            <span class="info-box-number">{{sca['pauvre']}}</span>
 
-                                    <div class="progress">
-                                    <div class="progress-bar" style="width: 10%"></div>
+                                            <div class="progress">
+                                            <div class="progress-bar" style="width: {{ sca['pauvre']*100/sca['total'] }}%"></div>
+                                            </div>
+                                            <span class="progress-description">
+                                            {{ (sca['pauvre']*100/sca['total'])|round(1) }}% des agriculteurs
+                                            </span>
+                                        </div>
+                                        <!-- /.info-box-content -->
                                     </div>
-                                    <span class="progress-description">
-                                    10% des agriculteurs
-                                    </span>
                                 </div>
-                                <!-- /.info-box-content -->
                             </div>
-                            
                         </div>
                     </div>
                 </div><!-- /.card-body -->
@@ -219,6 +227,56 @@
     <!-- Stat -->
     <div class="row">
 
+        <section class="col-md-6">
+            <h4>Accès à l'éducation</h4>
+
+            <!-- Education -->
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title">Education</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="education" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <!-- /.card -->
+            </div>
+
+        </section>
+
+        <section class="col-md-6">
+            <h4>Système de santé</h4>
+
+            <!-- Santé -->
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Système de santé</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="sante" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <!-- /.card -->
+            </div>
+
+        </section>
+
         <div class="col-sm-12">
             <h4>Condition d'hygiene</h4>
         </div>
@@ -288,56 +346,6 @@
             </div>
             <!-- /.card -->
         </div>
-
-        <section class="col-md-6">
-            <h4>Accès à l'éducation</h4>
-
-            <!-- Education -->
-            <div class="card card-success">
-                <div class="card-header">
-                    <h3 class="card-title">Education</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart">
-                        <canvas id="education" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                <!-- /.card -->
-            </div>
-
-        </section>
-
-        <section class="col-md-6">
-            <h4>Système de santé</h4>
-
-            <!-- Santé -->
-            <div class="card card-info">
-                <div class="card-header">
-                    <h3 class="card-title">Système de santé</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart">
-                        <canvas id="sante" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                <!-- /.card -->
-            </div>
-
-        </section>
 
     </div>
     <!-- /.row (stat) -->
@@ -443,7 +451,7 @@
             //---------------------
             //- Assainissement -
             //---------------------
-            var toilette = {
+            var assainissement = {
                 labels  : ['Haut', 'Moyen', 'Bas', 'Aucun'],
                 datasets: [
                     {

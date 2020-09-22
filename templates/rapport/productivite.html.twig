@@ -26,8 +26,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="campaigne">Campaigne</label>
-                <select name="compaigne" id="campaigne" class="form-control">
+                <label for="campagne">Campagne</label>
+                <select name="compaigne" id="campagne" class="form-control">
                     {% for compaigne in compaignes %}
                         <option {% if selectedCompaigne is not null and selectedCompaigne == compaigne.compaigne %} selected {% endif %} 
                                 value="{{ compaigne.compaigne }}">{{ compaigne.compaigne }}</option>

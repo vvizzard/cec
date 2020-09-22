@@ -105,18 +105,24 @@
                     </p>
                     </a>
                     <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ path('add_agriculteur') }}" class="nav-link active">
-                        <i class=""></i>
-                        <p>Ajouter un agriculteur</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('agriculteurs') }}" class="nav-link">
-                        <i class=""></i>
-                        <p>Liste des agriculteurs</p>
-                        </a>
-                    </li>
+                        <li class="nav-item">
+                            <a href="{{ path('add_agriculteur') }}" class="nav-link active">
+                            <i class=""></i>
+                            <p>Ajouter un agriculteur</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('agriculteurs') }}" class="nav-link">
+                            <i class=""></i>
+                            <p>Liste des agriculteurs</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('upload_agriculteur_form') }}" class="nav-link">
+                            <i class=""></i>
+                            <p>Ajout depuis Excel</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
@@ -128,18 +134,24 @@
                     </p>
                     </a>
                     <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ path('add_parcelle') }}" class="nav-link">
-                        <i class=""></i>
-                        <p>Ajouter un nouveau parcelle</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('parcelles') }}" class="nav-link">
-                        <i class=""></i>
-                        <p>Liste des parcelles</p>
-                        </a>
-                    </li>
+                        <li class="nav-item">
+                            <a href="{{ path('add_parcelle') }}" class="nav-link">
+                            <i class=""></i>
+                            <p>Ajouter un nouveau parcelle</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('parcelles') }}" class="nav-link">
+                            <i class=""></i>
+                            <p>Liste des parcelles</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('upload_parcelle_form') }}" class="nav-link">
+                            <i class=""></i>
+                            <p>Ajout depuis Excel</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
@@ -162,6 +174,12 @@
                         <i class=""></i>
                         <p>Liste des cultures</p>
                         </a>
+                        <li class="nav-item">
+                        <a href="{{ path('upload_parcelle_form') }}" class="nav-link">
+                        <i class=""></i>
+                        <p>Ajout depuis Excel</p>
+                        </a>
+                    </li>
                     </li>
                     </ul>
                 </li>
@@ -242,10 +260,16 @@
                         </a>
                         </li>
                         <li class="nav-item">
-                        <a href="{{ path('typologie') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Typologie</p>
-                        </a>
+                            <a href="{{ path('typologie') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Typologie</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('equipement_agricole') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Equipement agricole</p>
+                            </a>
                         </li>
                     </ul>
                     </li>
@@ -418,6 +442,30 @@
                         {# <button type="button" class="btn btn-danger" data-dismiss="modal">OUI</button> #}
                     </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">NON</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal loading -->
+    <div class="modal" id="loading-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Chargement</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Veuillez patienter, préparation et chargement des données ...
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
                 </div>
 
             </div>

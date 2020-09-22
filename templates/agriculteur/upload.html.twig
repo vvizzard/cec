@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'un agriculteur | CEC
+{% endblock %}
+
+{% block h1 %}Ajout d'un nouvel agriculteur via Excel{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Ajout d'un agriculteur</li>
+{% endblock %}
+
+{% block body %}
+
+	<div class="card">
+        <div class="card-body">
+            <form action="{{ path('upload_agriculteur') }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="email">Fichier Excel: </label>
+                    <input type="file" required id="email" name="file" class="form-control">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#loading-modal">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
