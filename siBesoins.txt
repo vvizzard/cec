@@ -10,6 +10,7 @@ composer require annotation
 composer require symfony/security-bundle
 composer require symfony/validator doctrine/annotations
 composer require phpoffice/phpspreadsheet
+composer require symfony/serializer
 
 
 ### Faire la modification suivante pour utiliser ObjectManager ###

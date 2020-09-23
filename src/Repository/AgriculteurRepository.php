@@ -278,4 +278,18 @@ class AgriculteurRepository extends ServiceEntityRepository
         return $result;
     }
 
+    public function getForMap()
+    {
+        $res = new ResultSetMapping();
+        $res->addScalarResult('id', 'id');
+        $res->addScalarResult('latitude', 'latitude');
+        $res->addScalarResult('longitude', 'longitude');
+
+        $query = $this->getEntityManager()->createNativeQuery(
+            'SELECT id, latitude, longitude FROM agriculteur WHERE latitude IS NOT NULL AND longitude IS NOT NULL ', $res
+        );
+
+        return $query->getScalarResult();
+    }
+
 }

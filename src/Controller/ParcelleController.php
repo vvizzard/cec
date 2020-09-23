@@ -444,4 +444,15 @@ class ParcelleController extends AbstractController
     {
         return $this->render('parcelle/upload.html.twig');
     }
+
+    /**
+     * @Route("/map/parcelles", name="map_parcelles")
+     */
+    public function map(
+        ParcelleRepository $parcelleRepository
+    ) {
+        $parcelles = $parcelleRepository->getForMap();
+
+        return $this->json($parcelles);
+    }
 }

@@ -864,4 +864,40 @@ class AgriculteurController extends AbstractController
     {
         return $this->render('agriculteur/upload.html.twig');
     }
+
+    /**
+     * @Route("/map/agriculteurs", name="map_agriculteurs")
+     */
+    public function map(
+        AgriculteurRepository $agriculteurRepository
+    ) {
+        $agriculteurs = $agriculteurRepository->getForMap();
+
+        return $this->json($agriculteurs);
+    }
+
+    /**
+     * @Route("/map/agriculteur/{id}", name="map_agriculteur")
+     */
+    public function mapAgriculteur(Agriculteur $agriculteur) {
+        $parcelles = array();
+        foreach ($agriculteur->getParcelles() as $p) {
+            if ($p->getLatitude()!==null && $p->getLongitude()!==null) {
+                $parcelles[] = [
+                    "id" => $p->getId(),
+                    "latitude" => $p->getLatitude(),
+                    "longitude" => $p->getLongitude(),
+                ];
+            }
+        }
+        $val = [
+            "agriculteur" => [
+                "id" => $agriculteur->getId(), 
+                "latitude" => $agriculteur->getLatitude(),
+                "longitude" => $agriculteur->getLongitude()
+            ],
+            "parcelles" => $parcelles
+        ];
+        return $this->json($val);
+    }
 }

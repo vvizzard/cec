@@ -115,4 +115,19 @@ class ParcelleRepository extends ServiceEntityRepository
 
         return $agriculteurs;
     }
+
+    public function getForMap()
+    {
+        $res = new ResultSetMapping();
+        $res->addScalarResult('id', 'id');
+        $res->addScalarResult('agriculteur_id', 'agriculteur_id');
+        $res->addScalarResult('latitude', 'latitude');
+        $res->addScalarResult('longitude', 'longitude');
+
+        $query = $this->getEntityManager()->createNativeQuery(
+            'SELECT id, agriculteur_id, latitude, longitude FROM parcelle WHERE latitude IS NOT NULL AND longitude IS NOT NULL ', $res
+        );
+
+        return $query->getScalarResult();
+    }
 }

@@ -2,6 +2,14 @@
 
 {% block title %}Accueil | CEC{% endblock %}
 
+{% block specificCss %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" 
+            integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" 
+            crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" crossorigin=""/>
+{% endblock %}
+
 {% block body %}
 
     <!-- General stat -->
@@ -81,7 +89,7 @@
                                         {# <span class="info-box-icon"><i class="fas fa-hotdog"></i></span> #}
                                         
                                         <div class="info-box-content">
-                                            <span class="info-box-text">Acceptable (SCA > 42)</span>
+                                            <span class="info-box-text">SCA > 42 : Acceptable</span>
                                             <span class="info-box-number">{{sca['acceptable']}}</span>
                                             
                                             <div class="progress">
@@ -100,7 +108,7 @@
                                         {# <span class="info-box-icon"><i class="fas fa-apple-alt"></i></span> #}
 
                                         <div class="info-box-content">
-                                            <span class="info-box-text">Limite (SCA entre 28 et 42 )</span>
+                                            <span class="info-box-text">SCA entre 28 et 42 : Limite</span>
                                             <span class="info-box-number">{{sca['limite']}}</span>
 
                                             <div class="progress">
@@ -119,7 +127,7 @@
                                         {# <span class="info-box-icon"><i class="fas fa-drumstick-bite"></i></span> #}
 
                                         <div class="info-box-content">
-                                            <span class="info-box-text">Pauvre (SCA < 28)</span>
+                                            <span class="info-box-text">SCA < 28 : Pauvre</span>
                                             <span class="info-box-number">{{sca['pauvre']}}</span>
 
                                             <div class="progress">
@@ -168,54 +176,40 @@
         <section class="col-lg-5 connectedSortable">
 
             <!-- Map card -->
-            <div class="card bg-gradient-primary">
-            <div class="card-header border-0">
-                <h3 class="card-title">
-                <i class="fas fa-map-marker-alt mr-1"></i>
-                Visitors
-                </h3>
-                <!-- card tools -->
-                <div class="card-tools">
-                <button type="button"
-                        class="btn btn-primary btn-sm daterange"
-                        data-toggle="tooltip"
-                        title="Date range">
-                    <i class="far fa-calendar-alt"></i>
-                </button>
-                <button type="button"
-                        class="btn btn-primary btn-sm"
-                        data-card-widget="collapse"
-                        data-toggle="tooltip"
-                        title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
+            <div class="card card-warning">
+                <div class="card-header border-0">
+                    <h3 class="card-title">
+                    <i class="fas fa-map-marker-alt mr-1"></i>
+                    Carte
+                    </h3>
+                    <!-- card tools -->
+                    <div class="card-tools">
+                        <button type="button"
+                                id="btn-map-agriculteurs"
+                                class="btn btn-sm"
+                                title="Agriculteurs">
+                            <i class="fas fa-users"></i>
+                        </button>
+                        <button type="button"
+                                id="btn-map-parcelles"
+                                class="btn btn-sm"
+                                title="Parcelles">
+                            <i class="fas fa-chart-pie"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-sm"
+                                data-card-widget="collapse"
+                                data-toggle="tooltip"
+                                title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
                 </div>
-                <!-- /.card-tools -->
-            </div>
-            <div class="card-body">
-                <div id="world-map" style="height: 250px; width: 100%;"></div>
-            </div>
-            <!-- /.card-body-->
-            <div class="card-footer bg-transparent">
-                <div class="row">
-                <div class="col-4 text-center">
-                    <div id="sparkline-1"></div>
-                    <div class="text-white">Visitors</div>
+                <div class="card-body">
+                    <div id="world-map" style="height: 300px; width: 100%;"></div>
                 </div>
-                <!-- ./col -->
-                <div class="col-4 text-center">
-                    <div id="sparkline-2"></div>
-                    <div class="text-white">Online</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-4 text-center">
-                    <div id="sparkline-3"></div>
-                    <div class="text-white">Sales</div>
-                </div>
-                <!-- ./col -->
-                </div>
-                <!-- /.row -->
-            </div>
+                <!-- /.card-body-->
             </div>
             <!-- /.card -->
 
@@ -354,9 +348,137 @@
 
 {% block javascripts %}
     <script src="{{ asset('assets/plugins/chart.js/Chart.min.js') }}"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin=""></script>
 
     <script>
+
+        //---------------------
+        //- Map -
+        //---------------------
+
+        // Init
+        var map = L.map('world-map').setView([-18.91368, 47.53613], 7);
+        var markers = L.markerClusterGroup();
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemFjaGFyaWUiLCJhIjoiY2p0cXlubW83MGEyNjRkbDgwYjgzbHpyMCJ9.I_05xIIXbm5EqhqSXTDbJQ', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a> <br>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoiemFjaGFyaWUiLCJhIjoiY2p0cXlubW83MGEyNjRkbDgwYjgzbHpyMCJ9.I_05xIIXbm5EqhqSXTDbJQ'
+        }).addTo(map);
+
+        // Show
+        function showMarkers(map, markers, url, prefix) {
+            $.ajax({
+                method: "GET",
+                url: url,
+                dataType: "json",
+                success: function( response ) {
+
+                    markers.clearLayers();
+
+                    response.forEach(element => {
+                        var marker = L.marker([element.latitude, element.longitude])
+                                .bindTooltip(prefix+element.id).openTooltip();
+                        marker.on('click', function() {
+                            var id = element.id;
+                            if (prefix == 'PL_') {
+                                id = element.agriculteur_id;
+                            }
+                            showMarkersLinked(map, markers, id);
+                        });
+                        markers.addLayer(marker);
+                    });
+
+                    map.addLayer(markers);
+
+                    map.fitBounds(markers.getBounds());
+
+                },
+                error: function( response, status ) {
+                    console.log("Status de l'erreur: " + status);
+                }
+            }).done(function( gest ) {
+
+            });
+        }
+
+        // Show linked Agriculteur-parcelle
+        function showMarkersLinked(map, markers, AGid) {
+            $.ajax({
+                method: "GET",
+                url: "map/agriculteur/"+AGid,
+                dataType: "json",
+                success: function( response ) {
+
+                    console.log("response");
+                    console.log(response);
+
+                    markers.clearLayers();
+
+                    var agIcon = L.icon({
+                        iconUrl: '{{ asset('assets/img/placeholder.svg') }}',
+                        iconSize:     [24, 24],
+                        iconAnchor:   [12, 24],
+                    });
+                    var AGmarker = L.marker([response.agriculteur.latitude, response.agriculteur.longitude], {icon: agIcon})
+                            .bindTooltip("AG_"+response.agriculteur.id).openTooltip();
+                    markers.addLayer(AGmarker);
+
+                    for(var i = 0; i < response.parcelles.length; i++) {
+                        var marker = L.marker([response.parcelles[i].latitude, response.parcelles[i].longitude])
+                                .bindTooltip("PL_"+response.parcelles[i].id).openTooltip();
+                        markers.addLayer(marker);
+                    }
+
+                    map.addLayer(markers);
+
+                    map.fitBounds(markers.getBounds());
+
+                },
+                error: function( response, status ) {
+                    console.log("Status de l'erreur: " + status);
+                }
+            }).done(function( gest ) {
+
+            });
+        }
+
+        // Show agriculteurs
+        function showAgriculteurs(map, markers) {
+            showMarkers(map, markers, "{{ path('map_agriculteurs') }}", "AG_");
+        }
+
+        $('#btn-map-agriculteurs').click(function () {
+                showAgriculteurs(map, markers);
+            }
+        );
+
+        // Show parcelles
+        function showParcelles(map, markers) {
+            showMarkers(map, markers, "{{ path('map_parcelles') }}", "PL_");
+        }
+
+        $('#btn-map-parcelles').click(function () {
+                showParcelles(map, markers);
+            }
+        );
+
+
+        //---------------------
+        //- Document ready -
+        //---------------------
+
         $(function () {
+
+            // MAP
+            showAgriculteurs(map, markers);
+
 
             //---------------------
             //- Toilette -
