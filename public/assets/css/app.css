@@ -7,15 +7,14 @@
     color: white;
 }
 
-/* Footer */
-/* .main-footer {
-    background: url('../img/bckgCec.jpg') repeat !important;
-} */
-
 /* Form */
 
 .form-control {
     margin-bottom: 5px !important;
+}
+
+.map-form-group {
+    margin-bottom:0px;
 }
 
 /* Left navbar */

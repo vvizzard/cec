@@ -1,0 +1,278 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carte | CEC{% endblock %}
+
+{% block specificCss %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" 
+            integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" 
+            crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" crossorigin=""/>
+{% endblock %}
+
+{% block h1 %}Carte{% endblock %}
+
+{% block history %}
+    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item active">Carte</li>
+{% endblock %}
+
+{% block body %}
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Left col -->
+        <section class="col-md-3">
+            <!-- SCA Card-->
+            <div class="card" id="agriculteur-form">
+                <div class="card-header border-0" style="padding-bottom: 2px;">
+                    <h3 class="card-title">
+                        Agriculteur
+                    </h3>
+                    <!-- card tools -->
+                    <div class="card-tools">
+                        <button type="button"
+                                id=""
+                                class="btn btn-sm"
+                                title="Parcelles"
+                                onclick="parcelle()">
+                            <i class="fas fa-chart-pie"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <div class="card-body" style="padding-top: 3px;">
+                    {# <div> #}
+                        <input type="text" id="text_agriculteur" placeholder="rechercher" class="form-control">
+                        <div class="form-group map-form-group">
+                            <input type="checkbox" id="elevage"> <label for="elevage">Elevage</label>
+                        </div>
+                        <div class="form-group  map-form-group">
+                            <input type="checkbox" id="riziere"> <label for="riziere">Accès Rizière</label>
+                        </div>
+                        <div class="form-group  map-form-group">
+                            <input type="checkbox" id="op"> <label for="op">OP</label>
+                        </div>
+                        <div class="form-group  map-form-group">
+                            <input type="checkbox" id="nagricole"> <label for="nagricole">Activité non agricole</label>
+                        </div>
+                        <div class="form-group  map-form-group">
+                            <input type="checkbox" id="peche"> <label for="peche">Pêche</label>
+                        </div>
+                        <div class="form-group  map-form-group">
+                            <input type="checkbox" id="eau"> <label for="eau">Eau potable</label>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="education" id="education">
+                                <option value="0">Education</option>
+                                <option value="1">Aucun</option>
+                                <option value="2">Education de Base</option>
+                                <option value="3">Secondaire</option>
+                                <option value="4">Universitaire</option>
+                            </select>                            
+                        </div>
+                    {# </div> #}
+                    <button id="btn-map-agriculteurs" class="btn btn-primary">Rechercher</button>
+                </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <div class="card" style="display:none;" id="parcelle-form">
+                <div class="card-header border-0" style="padding-bottom: 2px;">
+                    <h3 class="card-title">
+                        Parcelle
+                    </h3>
+                    <!-- card tools -->
+                    <div class="card-tools">
+                        <button type="button"
+                                id=""
+                                class="btn btn-sm"
+                                title="Agriculteurs"
+                                onclick="agriculteur()">
+                            <i class="fas fa-users"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <div class="card-body" style="padding-top: 3px;">
+                    {# <div> #}
+                        <input id="text_parcelle" type="text" placeholder="rechercher" class="form-control">
+                        <div class="form-group map-form-group">
+                            <input type="checkbox" id="irrigation"> <label for="irrigation">Irrigation</label>
+                        </div>
+                        <div class="form-group  map-form-group">
+                            <input type="checkbox" id="compaction"> <label for="compaction">compaction</label>
+                        </div>
+                        <div class="form-group  map-form-group">
+                            <input type="checkbox" id="contre_saison"> <label for="contre_saison">Contre saison</label>
+                        </div>
+                        <div class="form-group  map-form-group">
+                            <input type="checkbox" id="zone_erodible"> <label for="zone_erodible">Zone érodible</label>
+                        </div>
+                    {# </div> #}
+                    <button id="btn-map-parcelles" class="btn btn-primary">Rechercher</button>
+                </div><!-- /.card-body -->
+            </div>
+
+        </section>
+        <!-- /.Left col -->
+
+        <section class="col-md-9">
+            <div class="card">
+                <div id="world-map" class="card-body" style="height: 512px;">
+                {# <div id="world-map" style="height: 300px; width: 100%;"></div> #}
+                </div>
+            </div>
+        </section>
+        
+    </div>
+    <!-- /.row (main row) -->
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin=""></script>
+
+    <script>
+        function parcelle() {
+            $('#agriculteur-form').hide();
+            $('#parcelle-form').show();
+        }
+        function agriculteur() {
+            $('#parcelle-form').hide();
+            $('#agriculteur-form').show();
+        }
+
+        //---------------------
+        //- Map -
+        //---------------------
+
+        // Init
+        var map = L.map('world-map').setView([-18.91368, 47.53613], 7);
+        var markers = L.markerClusterGroup();
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemFjaGFyaWUiLCJhIjoiY2p0cXlubW83MGEyNjRkbDgwYjgzbHpyMCJ9.I_05xIIXbm5EqhqSXTDbJQ', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a> <br>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoiemFjaGFyaWUiLCJhIjoiY2p0cXlubW83MGEyNjRkbDgwYjgzbHpyMCJ9.I_05xIIXbm5EqhqSXTDbJQ'
+        }).addTo(map);
+
+        // Show
+        function showMarkers(map, markers, url, prefix) {
+            $.ajax({
+                method: "GET",
+                url: url,
+                dataType: "json",
+                success: function( response ) {
+
+                    markers.clearLayers();
+
+                    response.forEach(element => {
+                        var marker = L.marker([element.latitude, element.longitude])
+                                .bindTooltip(prefix+element.id).openTooltip();
+                        marker.on('click', function() {
+                            var id = element.id;
+                            if (prefix == 'PL_') {
+                                id = element.agriculteur_id;
+                            }
+                            showMarkersLinked(map, markers, id);
+                        });
+                        markers.addLayer(marker);
+                    });
+
+                    map.addLayer(markers);
+
+                    map.fitBounds(markers.getBounds());
+
+                },
+                error: function( response, status ) {
+                    console.log("Status de l'erreur: " + status);
+                    alert("Une erreur est survenu lors du chargement des données, veuillez vérifier que tous les données on des coordonnées géographiques ");
+                }
+            }).done(function( gest ) {
+
+            });
+        }
+
+        // Show linked Agriculteur-parcelle
+        function showMarkersLinked(map, markers, AGid) {
+            $.ajax({
+                method: "GET",
+                url: "agriculteur/"+AGid,
+                dataType: "json",
+                success: function( response ) {
+
+                    if (response.parcelles.length > 0) {
+
+                        markers.clearLayers();
+
+                        var agIcon = L.icon({
+                            iconUrl: '{{ asset('assets/img/placeholder.svg') }}',
+                            iconSize:     [24, 24],
+                            iconAnchor:   [12, 24],
+                        });
+                        var AGmarker = L.marker([response.agriculteur.latitude, response.agriculteur.longitude], {icon: agIcon})
+                                .bindTooltip("AG_"+response.agriculteur.id).openTooltip();
+                        markers.addLayer(AGmarker);
+
+                        for(var i = 0; i < response.parcelles.length; i++) {
+                            var marker = L.marker([response.parcelles[i].latitude, response.parcelles[i].longitude])
+                                    .bindTooltip("PL_"+response.parcelles[i].id).openTooltip();
+                            markers.addLayer(marker);
+                        }
+
+                        map.addLayer(markers);
+                        map.fitBounds(markers.getBounds());
+                    } else {
+                        alert('L\'agriculteur n\'a pas encore de Parcelle');
+                    }
+
+                },
+                error: function( response, status ) {
+                    console.log("Status de l'erreur: " + status);
+                    alert("Une erreur est survenu lors du chargement des données, veuillez vérifier que tous les données on des coordonnées géographiques ");
+                }
+            }).done(function( gest ) {
+
+            });
+        }
+
+        // Show agriculteurs
+        function showAgriculteurs(map, markers) {
+            showMarkers(map, markers, "{{ path('search_agriculteur') }}?text="+$('#text_agriculteur').val()+"&elevage="+$('#elevage').is(":checked")+"&riziere="+$('#riziere').is(":checked")+"&op="+$('#op').is(":checked")+"&nagricole="+$('#nagricole').is(":checked")+"&peche="+$('#peche').is(":checked")+"&eau="+$('#eau').is(":checked")+"&education="+$('#education').val(), "AG_");
+        }
+
+        $('#btn-map-agriculteurs').click(function () {
+                showAgriculteurs(map, markers);
+            }
+        );
+
+        // Show parcelles
+        function showParcelles(map, markers) {
+            showMarkers(map, markers, "{{ path('search_parcelle') }}?text="+$('#text_parcelle').val()+"&irrigation="+$('#irrigation').is(":checked")+"&compaction="+$('#compaction').is(":checked")+"&zone_erodible="+$('#zone_erodible').is(":checked")+"&contre_saison="+$('#contre_saison').is(":checked"), "PL_");
+        }
+
+        $('#btn-map-parcelles').click(function () {
+                showParcelles(map, markers);
+            }
+        );
+
+
+        //---------------------
+        //- Document ready -
+        //---------------------
+
+        $(function () {
+
+            // MAP
+            showAgriculteurs(map, markers);
+
+        });
+    </script>
+
+{% endblock %}

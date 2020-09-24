@@ -217,4 +217,11 @@ class RapportController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/map/map_viewer", name="map_viewer")
+     */
+    public function map () {
+        return $this->render('map.html.twig');
+    }
+
 }

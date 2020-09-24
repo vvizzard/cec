@@ -900,4 +900,106 @@ class AgriculteurController extends AbstractController
         ];
         return $this->json($val);
     }
+
+    /**
+     * @Route("/map/search/agriculteur", name="search_agriculteur")
+     */
+    public function search (
+        HttpFoundationRequest $request,
+        AgriculteurRepository $agriculteurRepository
+    ) {
+
+        $criterya = array();
+
+        $text = null;
+
+        // get research parameter
+        if ($request->query->get('text') && $request->query->get('text')!=='' && $request->query->get('text')!==' ') {
+            $text = $request->query->get('text');
+        }
+        if ($request->query->get('elevage') == 'true') {
+            $criterya["pratiqueElevageRente"] = true;
+        }
+        if ($request->query->get('riziere') == 'true') {
+            $criterya["accesAuRiziere"] = true;
+        }
+        if ($request->query->get('op') == 'true') {
+            $criterya["opBoolean"] = true;
+        }
+        if ($request->query->get('nagricole') == 'true') {
+            $criterya["pratiqueActiviteNonAgricole"] = true;
+        }
+        if ($request->query->get('peche') == 'true') {
+            $criterya["pratiquePeche"] = true;
+        }
+        if ($request->query->get('eau') == 'true') {
+            $criterya["accesEauPotable"] = true;
+        }
+        if (intval($request->query->get('education')) > 0) {
+            $criterya["accesEducation"] = $request->query->get('education');
+        }
+
+        $agriculteurs = [];
+        
+        $text == null ? $agriculteurs = $agriculteurRepository->findBy($criterya) : $agriculteurs = $agriculteurRepository->globalSearch($text);
+        
+        $res = array();
+
+        foreach ($agriculteurs as $a) {
+            if($a->getLongitude() == null || $a->getLatitude() == null) {
+                continue;
+            }
+
+            try {
+                if ($a->getPratiqueElevageRente() !== $criterya["pratiqueElevageRente"]) {
+                    continue;
+                }
+            } catch (\Throwable $th) {}
+                
+            try {
+                if ($a->getAccesAuRiziere() !== $criterya["accesAuRiziere"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+
+            try {
+                if ($a->getOpBoolean() !== $criterya["opBoolean"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+
+            try {
+                if ($a->getPratiqueActiviteNonAgricole() !== $criterya["pratiqueActiviteNonAgricole"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+
+            try {
+                if ($a->getPratiquePeche() !== $criterya["pratiquePeche"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+
+            try {
+                if ($a->getAccesEauPotable() !== $criterya["accesEauPotable"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+
+            try {
+                if ($a->getAccesEducation() !== $criterya["accesEducation"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+
+            
+            $res[] = [
+                "id" => $a->getId(),
+                "longitude" => $a->getLongitude(),
+                "latitude" => $a->getLatitude(),
+            ];
+        }
+
+        return $this->json( $res);
+    }
 }

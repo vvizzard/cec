@@ -455,4 +455,78 @@ class ParcelleController extends AbstractController
 
         return $this->json($parcelles);
     }
+
+    /**
+     * @Route("/map/search/parcelle", name="search_parcelle")
+     */
+    public function search (Request $request, ParcelleRepository $parcelleRepository) {
+
+        $criterya = array();
+
+        $text = null;
+
+        // get research parameter
+        if ($request->query->get('text') && $request->query->get('text')!=='' && $request->query->get('text')!==' ') {
+            $text = $request->query->get('text');
+        }
+
+        if ($request->query->get('irrigation') == 'true') {
+            $criterya["irrigation"] = true;
+        }
+        if ($request->query->get('compaction') == 'true') {
+            $criterya["compaction"] = true;
+        }
+        if ($request->query->get('contre_saison') == 'true') {
+            $criterya["contreSaison"] = true;
+        }
+        if ($request->query->get('zone_erodible') == 'true') {
+            $criterya["zoneErodible"] = true;
+        }
+
+        $parcelles = [];
+        
+        $text == null ? $parcelles = $parcelleRepository->findBy($criterya) : $parcelles = $parcelleRepository->globalSearch($text);
+        
+        $res = array();
+
+        foreach ($parcelles as $a) {
+
+            if($a->getLongitude() == null || $a->getLatitude() == null) {
+                continue;
+            }
+
+            try {
+                if ($a->getIrrigation() !== $criterya["irrigation"]) {
+                    continue;
+                }
+            } catch (\Throwable $th) {}
+                
+            try {
+                if ($a->getCompaction() !== $criterya["compaction"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+
+            try {
+                if ($a->getContreSaison() !== $criterya["contreSaison"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+
+            try {
+                if ($a->getZoneErodible() !== $criterya["zoneErodible"]) {
+                    continue;
+                }
+            } catch(\Throwable $th){}
+            
+            $res[] = [
+                "id" => $a->getId(),
+                "agriculteur_id" => $a->getAgriculteur()->getId(),
+                "longitude" => $a->getLongitude(),
+                "latitude" => $a->getLatitude(),
+            ];
+        }
+
+        return $this->json( $res);
+    }
 }
