@@ -15,170 +15,198 @@
 
         {{ form_start(base_form) }}
 
-        <label for="parcelle"> Parcelle: </label>
-        <select name="parcelle" id="parcelle" class="form-control">
-        {% for parcelle in parcelles %}
-            <option {% if culture is not null and parcelle.id == culture.parcelle.id %}selected{% endif %} 
-                    value="{{ parcelle.id }}">
-                PL_{{ parcelle.id }}
-            </option>
-        {% endfor %}
-        </select>
+        <div class="row">
 
-        <div class="form-group">
-            {{ form_widget(base_form.nouvellePlantation) }}
-        </div>
+            <div class="form-group col-md-12">
+                <label for="parcelle"> Parcelle: </label>
+                <select name="parcelle" id="parcelle" class="form-control">
+                {% for parcelle in parcelles %}
+                    <option {% if culture is not null and parcelle.id == culture.parcelle.id %}selected{% endif %} 
+                            value="{{ parcelle.id }}">
+                        PL_{{ parcelle.id }}
+                    </option>
+                {% endfor %}
+                </select>
+            </div>
 
-        <label for="cycleAgricole"> Cycle agricole: </label>
-        <select name="cycleAgricole" id="cycleAgricole" class="form-control">
-        <option></option>
-        {% for cycleAgricole in cycleAgricoles %}
-            <option {% if culture is not null and culture.cycleAgricole.id == cycleAgricole.id %}selected{% endif %} value="{{ cycleAgricole.id }}">
-                {{ cycleAgricole.nom }}
-            </option>
-        {% endfor %}
-        </select>
+            <div class="col-md-4">
+                <label for=""><br></label>
+                <div class="form-group form-control form-group-bottom">
+                    {{ form_widget(base_form.nouvellePlantation) }}
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="cycleAgricole"> Cycle agricole: </label>
+                <select name="cycleAgricole" id="cycleAgricole" class="form-control">
+                <option></option>
+                {% for cycleAgricole in cycleAgricoles %}
+                    <option {% if culture is not null and culture.cycleAgricole.id == cycleAgricole.id %}selected{% endif %} value="{{ cycleAgricole.id }}">
+                        {{ cycleAgricole.nom }}
+                    </option>
+                {% endfor %}
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="form_nom" class="required">Surface cultivée (ha)</label>
-            {{ form_widget(base_form.surfaceCultive, {'attr': {'placeholder': 'Taper ici la surface cultivé en ha'}}) }}
-        </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">Surface cultivée (ha)</label>
+                {{ form_widget(base_form.surfaceCultive, {'attr': {'placeholder': 'Taper ici la surface cultivé en ha'}}) }}
+            </div>
 
-        <label for="precedentCultural"> Précédent cultural: </label>
-        <select name="precedentCultural" id="precedentCultural" class="form-control">
-        <option></option>
-        {% for precedentCultural in precedentCulturals %}
-            <option {% if culture is not null and culture.precedentCultural.id == precedentCultural.id %}selected{% endif %} 
-                    value="{{ precedentCultural.id }}">
-                {{ precedentCultural.nom }}
-            </option>
-        {% endfor %}
-        </select>
+            <div class="form-group col-md-4">
+                <label for="precedentCultural"> Précédent cultural: </label>
+                <select name="precedentCultural" id="precedentCultural" class="form-control">
+                <option></option>
+                {% for precedentCultural in precedentCulturals %}
+                    <option {% if culture is not null and culture.precedentCultural.id == precedentCultural.id %}selected{% endif %} 
+                            value="{{ precedentCultural.id }}">
+                        {{ precedentCultural.nom }}
+                    </option>
+                {% endfor %}
+                </select>
+            </div>
 
-        <label for="systemeCultural"> Système cultural: </label>
-        <select name="systemeCultural" id="systemeCultural" class="form-control">
-        <option></option>
-        {% for systemeCultural in systemeCulturals %}
-            <option {% if culture is not null and culture.systemeCultural.id == systemeCultural.id %}selected{% endif %} 
-                    value="{{ systemeCultural.id }}">
-                {{ systemeCultural.nom }}
-            </option>
-        {% endfor %}
-        </select>
+            <div class="form-group col-md-4">
+                <label for="systemeCultural"> Système cultural: </label>
+                <select name="systemeCultural" id="systemeCultural" class="form-control">
+                <option></option>
+                {% for systemeCultural in systemeCulturals %}
+                    <option {% if culture is not null and culture.systemeCultural.id == systemeCultural.id %}selected{% endif %} 
+                            value="{{ systemeCultural.id }}">
+                        {{ systemeCultural.nom }}
+                    </option>
+                {% endfor %}
+                </select>
+            </div>
 
-        <label for="itineraireCultural"> Itinéraire cultural: </label>
-        <select name="itineraireCultural" id="itineraireCultural" class="form-control">
-        <option></option>
-        {% for itineraireCultural in itineraireCulturals %}
-            <option {% if culture is not null and culture.itineraireCultural.id == itineraireCultural.id == 0 %}selected{% endif %}
-                    value="{{ itineraireCultural.id }}">
-                {{ itineraireCultural.nom }}
-            </option>
-        {% endfor %}
-        </select>
+            <div class="form-group col-md-4">
+                <label for="itineraireCultural"> Itinéraire cultural: </label>
+                <select name="itineraireCultural" id="itineraireCultural" class="form-control">
+                <option></option>
+                {% for itineraireCultural in itineraireCulturals %}
+                    <option {% if culture is not null and culture.itineraireCultural.id == itineraireCultural.id == 0 %}selected{% endif %}
+                            value="{{ itineraireCultural.id }}">
+                        {{ itineraireCultural.nom }}
+                    </option>
+                {% endfor %}
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="form_nom" class="required">MO préparation du sol</label>
-            {{ form_widget(base_form.moPreparationSol, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO installation culture</label>
-            {{ form_widget(base_form.moInstallationCulture, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO entretien 1</label>
-            {{ form_widget(base_form.moEntretien1, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO entretien 2</label>
-            {{ form_widget(base_form.moEntretien2, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO entretien 3</label>
-            {{ form_widget(base_form.moEntretien3, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO récolte</label>
-            {{ form_widget(base_form.moRecolte, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO Exté préparation du sol</label>
-            {{ form_widget(base_form.moExtPreparationSol, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO Exté installation culture</label>
-            {{ form_widget(base_form.moExtInstallationCulture, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO Exté entretien 1</label>
-            {{ form_widget(base_form.moExtEntretien1, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO Exté entretien 2</label>
-            {{ form_widget(base_form.moExtEntretien2, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO Exté entretien 3</label>
-            {{ form_widget(base_form.moExtEntretien3, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">MO Exté récolte</label>
-            {{ form_widget(base_form.moExtRecolte, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">Tarif main oeuvre (Ar)</label>
-            {{ form_widget(base_form.tarifMO, {'attr': {'placeholder': ''}}) }}
-        </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO préparation du sol</label>
+                {{ form_widget(base_form.moPreparationSol, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO installation culture</label>
+                {{ form_widget(base_form.moInstallationCulture, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO entretien 1</label>
+                {{ form_widget(base_form.moEntretien1, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO entretien 2</label>
+                {{ form_widget(base_form.moEntretien2, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO entretien 3</label>
+                {{ form_widget(base_form.moEntretien3, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO récolte</label>
+                {{ form_widget(base_form.moRecolte, {'attr': {'placeholder': ''}}) }}
+            </div>
 
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO Exté préparation du sol</label>
+                {{ form_widget(base_form.moExtPreparationSol, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO Exté installation culture</label>
+                {{ form_widget(base_form.moExtInstallationCulture, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO Exté entretien 1</label>
+                {{ form_widget(base_form.moExtEntretien1, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO Exté entretien 2</label>
+                {{ form_widget(base_form.moExtEntretien2, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO Exté entretien 3</label>
+                {{ form_widget(base_form.moExtEntretien3, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">MO Exté récolte</label>
+                {{ form_widget(base_form.moExtRecolte, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">Tarif main oeuvre (Ar)</label>
+                {{ form_widget(base_form.tarifMO, {'attr': {'placeholder': ''}}) }}
+            </div>
 
-        <div class="form-group">
-            <label for="form_nom" class="required">Date de plantation</label>
-            {{ form_widget(base_form.datePlantation, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">Age de plantation</label>
-            {{ form_widget(base_form.agePlantation, {'attr': {'placeholder': ''}}) }}
-        </div>
-        <div class="form-group">
-            <label for="form_nom" class="required">Qté fumure organique</label>
-            {{ form_widget(base_form.qteFumureOrganique, {'attr': {'placeholder': ''}}) }}
-        </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">Date de plantation</label>
+                {{ form_widget(base_form.datePlantation, {'attr': {'placeholder': ''}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">Age de plantation</label>
+                {{ form_widget(base_form.agePlantation, {'attr': {'placeholder': ''}}) }}
+            </div>
 
-        {% for fumure in fumures %}
-            {% set add = true %}
-            <label for="nbr_{{ fumure.nom }}"> {{ fumure.nom }}</label>
-            {% for nbr in culture.nbrFumureCultureMs %}
-                {% if nbr.fumure.id == fumure.id %}
-                    {% set add = false %}
-                    <input type="number" name="fumure_{{ fumure.id }}" id="nbr_{{ fumure.nom }}" value="{{ nbr.nbr }}" class="form-control">
-                {% endif %}
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">Qté fumure organique</label>
+                {{ form_widget(base_form.qteFumureOrganique, {'attr': {'placeholder': ''}}) }}
+            </div>
+
+            {% for fumure in fumures %}
+                {% set add = true %}
+                <div class="form-group col-md-4">
+                    <label for="nbr_{{ fumure.nom }}"> {{ fumure.nom }}</label>
+                    {% if culture is not null and culture.nbrFumureCultureMs is not null %}
+                        {% for nbr in culture.nbrFumureCultureMs %}
+                            {% if nbr.fumure.id == fumure.id %}
+                                {% set add = false %}
+                                <input type="number" name="fumure_{{ fumure.id }}" id="nbr_{{ fumure.nom }}" value="{{ nbr.nbr }}" class="form-control">
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if add == true %}
+                        <input type="number" name="fumure_{{ fumure.id }}" id="nbr_{{ fumure.nom }}" class="form-control">
+                    {% endif %}
+                </div>
             {% endfor %}
-            {% if add == true %}
-                <input type="number" name="fumure_{{ fumure.id }}" id="nbr_{{ fumure.nom }}" class="form-control">
-            {% endif %}
-        {% endfor %}
 
-        <div class="form-group">
-            <label for="form_nom" class="required">Qté insecticides</label>
-            {{ form_widget(base_form.qteInsecticide, {'attr': {'placeholder': ''}}) }}
-        </div>
+            <div class="form-group col-md-4">
+                <label for="form_nom" class="required">Qté insecticides</label>
+                {{ form_widget(base_form.qteInsecticide, {'attr': {'placeholder': ''}}) }}
+            </div>
 
-        {% for insecticide in insecticides %}
-            {% set add = true %}
-            <label for="nbr_{{ insecticide.nom }}"> {{ insecticide.nom }}</label>
-            {% for nbr in culture.nbrInsecticideCultureMs %}
-                {% if insecticide.id == nbr.insecticide.id %}
-                {% set add = false %}
-                    <input type="number" name="insecticide_{{ insecticide.id }}" id="nbr_{{ insecticide.nom }}" value="{{ nbr.nbr }}" class="form-control">    
-                {% endif %}
+            {% for insecticide in insecticides %}
+                {% set add = true %}
+                <div class="form-group col-md-4">
+                    <label for="nbr_{{ insecticide.nom }}"> {{ insecticide.nom }}</label>
+                    {% if culture is not null and culture.nbrInsecticideCultureMs is not null %}
+                        {% for nbr in culture.nbrInsecticideCultureMs %}
+                            {% if insecticide.id == nbr.insecticide.id %}
+                            {% set add = false %}
+                                <input type="number" name="insecticide_{{ insecticide.id }}" id="nbr_{{ insecticide.nom }}" value="{{ nbr.nbr }}" class="form-control">    
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if add == true %}
+                        <input type="number" name="insecticide_{{ insecticide.id }}" id="nbr_{{ insecticide.nom }}" class="form-control">
+                    {% endif %}
+                </div>
             {% endfor %}
-            {% if add == true %}
-                <input type="number" name="insecticide_{{ insecticide.id }}" id="nbr_{{ insecticide.nom }}" class="form-control">
-            {% endif %}
-        {% endfor %}
 
-        <div class="form-group">
-            {{ form_widget(base_form.misEnCloture) }}
+            <div class="col-md-4">
+                <label for=""><br></label>
+                <div class="form-group form-control form-group-bottom">
+                    {{ form_widget(base_form.misEnCloture) }}
+                </div>
+            </div>
+
         </div>
 
         <button type="submit" class="btn btn-success">Enregistrer</button>

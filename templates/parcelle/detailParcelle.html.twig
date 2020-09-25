@@ -29,10 +29,10 @@
         {% endif %}
     </div>
     <div class="card-body">
-        <table class="table table-hover table-fit">
+        <table class="table table-hover table-list">
 
             <tr>
-                <td>Agriculteur</td>
+                <th>Agriculteur</th>
                 <td>
                     <a class="" title="{{ parcelle.agriculteur.nom }} {{ parcelle.agriculteur.prenom }}" 
                             href="{{ path('detail_agriculteur', {'id': parcelle.agriculteur.id}) }}">
@@ -41,30 +41,23 @@
                 </td>
             </tr>
             <tr>
-                <td>Surface</td>
+                <th>Surface</th>
                 <td>{{ parcelle.surface }}</td>
-            </tr>
-            
-            <tr>
-                <td>Type : </td>
+                <th>Type : </th>
                 <td>
                     {% if parcelle.type is not null %}
                         {{ parcelle.type.nom }}
                     {% endif %}
                 </td>
             </tr>
-
             <tr>
-                <td>Type de sol : </td>
+                <th>Type de sol : </th>
                 <td>
                     {% if parcelle.typeSol is not null %}
                         {{ parcelle.typeSol.nom }}
                     {% endif %}
                 </td>
-            </tr>
-
-            <tr>
-                <td>Mode de faire valoir : </td>
+                <th>Mode de faire valoir : </th>
                 <td>
                     {% if parcelle.modeFaireValoir is not null %}
                         {{ parcelle.modeFaireValoir.nom }}
@@ -73,16 +66,13 @@
             </tr>
 
             <tr>
-                <td>Localisation : </td>
+                <th>Localisation : </th>
                 <td>
                     {% if parcelle.localisation is not null %}
                         {{ parcelle.localisation.nom }}
                     {% endif %}
                 </td>
-            </tr>
-
-            <tr>
-                <td>Milieu : </td>
+                <th>Milieu : </th>
                 <td>
                     {% if parcelle.milieu is not null %}
                         {{ parcelle.milieu.nom }}
@@ -91,7 +81,7 @@
             </tr>
 
             <tr>
-                <td>Irrigation</td>
+                <th>Irrigation</th>
                 <td>
                     {% if parcelle.irrigation == true %}
                         Oui
@@ -99,9 +89,7 @@
                         Non
                     {% endif %}
                 </td>
-            </tr>
-            <tr>
-                <td>Compaction</td>
+                <th>Compaction</th>
                 <td>
                     {% if parcelle.compaction == true %}
                         Oui
@@ -111,7 +99,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Contre saison</td>
+                <th>Contre saison</th>
                 <td>
                     {% if parcelle.contreSaison == true %}
                         Oui
@@ -119,9 +107,7 @@
                         Non
                     {% endif %}
                 </td>
-            </tr>
-            <tr>
-                <td>Zone erodible</td>
+                <th>Zone erodible</th>
                 <td>
                     {% if parcelle.zoneErodible == true %}
                         Oui
@@ -131,16 +117,16 @@
                 </td>
             </tr>
             <tr>
-                <td>Longitude</td>
+                <th>Longitude</th>
                 <td>{{ parcelle.longitude }}</td>
-            </tr>
-            <tr>
-                <td>Latitude</td>
+                <th>Latitude</th>
                 <td>{{ parcelle.latitude }}</td>
             </tr>
             <tr>
-                <td>Observation</td>
+                <th>Observation</th>
                 <td>{{ parcelle.observation }}</td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
     </div>

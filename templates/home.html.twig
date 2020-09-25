@@ -14,7 +14,7 @@
 
     <!-- General stat -->
     <div class="row">
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-2 col-6">
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
@@ -27,7 +27,7 @@
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-2 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
@@ -40,7 +40,7 @@
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-2 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
@@ -53,7 +53,7 @@
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-2 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
@@ -65,6 +65,30 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box">
+                <div class="inner">
+                    <h3>{{ reboisement }}</h3>
+                    <p>Reboisement</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-leaf"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ accesEauPotable }}</h3>
+                    <p>Ayant de l'eau potable</p>
+                </div>
+                <div class="icon">
+                    <i class="ion md-water"></i>
+                </div>
+            </div>
+        </div>
         <!-- ./col -->
     </div>
     <!-- /.row -->
@@ -72,6 +96,51 @@
     <div class="row">
         <!-- Left col -->
         <section class="col-lg-7 connectedSortable">
+            <!-- Education -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Education</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <canvas id="education" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <!-- /.card -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- Santé -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Système de santé</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <canvas id="sante" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+
             <!-- SCA Card-->
             <div class="card">
                 <div class="card-header">
@@ -82,7 +151,7 @@
                 <div class="card-body">
                     <div class="tab-content p-0">
                     <!-- SCA content -->
-                        <div class="tab-pane active" style="position: relative; height: 100px;">
+                        <div class="tab-pane active" style="position: relative; min-height: 100px;">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="info-box bg-gradient-success">
@@ -146,29 +215,6 @@
                 </div><!-- /.card-body -->
             </div>
             <!-- /.card -->
-            
-            <div class="info-box">
-                <span class="info-box-icon bg-brown"><i class="fas fa-tree"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Reboisement</span>
-                    <span class="info-box-number">{{ reboisement }}</span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-
-            <div class="info-box">
-                <span class="info-box-icon bg-info"><i class="fas fa-glass-whiskey"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Nbr agriculteur ayant accès à l'eau potable</span>
-                    <span class="info-box-number">{{ accesEauPotable }}</span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-
 
         </section>
         <!-- /.Left col -->
@@ -176,7 +222,7 @@
         <section class="col-lg-5 connectedSortable">
 
             <!-- Map card -->
-            <div class="card card-warning">
+            <div class="card">
                 <div class="card-header border-0">
                     <h3 class="card-title">
                     <i class="fas fa-map-marker-alt mr-1"></i>
@@ -207,7 +253,7 @@
                     <!-- /.card-tools -->
                 </div>
                 <div class="card-body">
-                    <div id="world-map" style="height: 300px; width: 100%;"></div>
+                    <div id="world-map" style="height: 380px; width: 100%;"></div>
                 </div>
                 <!-- /.card-body-->
             </div>
@@ -220,56 +266,6 @@
     
     <!-- Stat -->
     <div class="row">
-
-        <section class="col-md-6">
-            <h4>Accès à l'éducation</h4>
-
-            <!-- Education -->
-            <div class="card card-success">
-                <div class="card-header">
-                    <h3 class="card-title">Education</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart">
-                        <canvas id="education" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                <!-- /.card -->
-            </div>
-
-        </section>
-
-        <section class="col-md-6">
-            <h4>Système de santé</h4>
-
-            <!-- Santé -->
-            <div class="card card-info">
-                <div class="card-header">
-                    <h3 class="card-title">Système de santé</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart">
-                        <canvas id="sante" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                <!-- /.card -->
-            </div>
-
-        </section>
 
         <div class="col-sm-12">
             <h4>Condition d'hygiene</h4>
@@ -665,7 +661,7 @@
             //---------------------
             var sante = {
                 labels  : [
-                    'Traditionnelle et conventionnelle', 
+                    'Mixte', 
                     'Conventionnelle', 
                     'Traditionnelle', 
                 ],

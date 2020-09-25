@@ -131,3 +131,75 @@ h2 {
     white-space: nowrap;
     width: 1%;
 }
+
+/* Pour compact : sur demande */
+.content-header {
+    padding: 0.1rem .5rem!important;
+}
+body {
+    line-height: 0.5;
+}
+.small-box {
+    margin-bottom: 10px;
+}
+
+.card {
+    margin-bottom: .25rem;
+}
+
+.card-header {
+    padding: .25rem 1.25rem;
+}
+
+.card-body {
+    padding: .5rem;
+}
+
+.info-box {
+    margin-bottom: .25rem;
+    min-height: 65px;
+    padding: .25rem;
+}
+
+.mb-2, .my-2 {
+    margin-bottom: 0!important;
+}
+
+.small-box h3 {
+    font-size: 1.25rem!important;
+    margin: 0 0 0px 0;
+}
+
+.small-box>.inner {
+    padding: 5px;
+}
+
+.small-box .icon>i.fa, .small-box .icon>i.fab, .small-box .icon>i.far, .small-box .icon>i.fas, .small-box .icon>i.glyphicon, .small-box .icon>i.ion {
+    font-size: 60px;
+    top: 0px;
+}
+
+.form-group-bottom {
+    margin-bottom: 1rem!important;
+}
+
+.table-list {
+    line-height: 1rem;
+}
+
+.table-limit th {
+    max-width: 240px;
+}
+
+.table-cell-righ td {
+    text-align: right;
+}
+
+.table-form select {
+    padding: 0px;
+}
+
+.table-form th, .table-form td {
+    padding-left: 5px;
+    padding-right: 5px;
+}

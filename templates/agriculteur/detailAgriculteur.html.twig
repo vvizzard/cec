@@ -31,16 +31,14 @@
 			
 		</div>
 		<div class="card-body">
-			<table class="table table-hover">
+			<table class="table table-hover table-list">
 				<tr>
-					<td>Nom et prénom :
-					</td>
+					<th>Nom et prénom :
+					</th>
 					<td>{{ agriculteur.nom }}
 						{{ agriculteur.prenom }}</td>
-				</tr>
-				<tr>
-					<td>Typologie :
-					</td>
+					<th>Typologie :
+					</th>
 					<td>
 						{% if agriculteur.typologie is not null %}
 							{{ agriculteur.typologie.nom }}
@@ -48,8 +46,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Genre :
-					</td>
+					<th>Genre :
+					</th>
 					<td>
 						{% if agriculteur.genre == 0  %}
 							Femme
@@ -57,39 +55,35 @@
 							Homme
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Age :
-					</td>
+					<th>Age :
+					</th>
 					<td>{{ agriculteur.age }}</td>
 				</tr>
 				<tr>
-					<td>Statut au sein de la Famille :
-					</td>
+					<th>Statut au sein de la Famille :
+					</th>
 					<td>{{ agriculteur.statutFamille }}</td>
-				</tr>
-				<tr>
-					<td>Taille de ménage :
-					</td>
+					<th>Taille de ménage :
+					</th>
 					<td>{{ agriculteur.nbrMenage }}</td>
 				</tr>
 				<tr>
-					<td>Nombre d'actif :
-					</td>
+					<th>Nombre d'actif :
+					</th>
 					<td>{{ agriculteur.nbrActif }}</td>
+					<td></td>
+					<td></td>
 				</tr>
-				<tr>
-					<td>District :
-					</td>
+				<tr>	
+					<th>District :
+					</th>
 					<td>
 						{% if agriculteur.sousRegion is not null %}
 							{{ agriculteur.sousRegion.nom }}
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Commune :
-					</td>
+					<th>Commune :
+					</th>
 					<td>
 						{% if agriculteur.commune is not null %}
 							{{ agriculteur.commune.nom }}
@@ -97,17 +91,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Fokontany :
-					</td>
+					<th>Fokontany :
+					</th>
 					<td>
 						{% if agriculteur.terroir is not null %}
 							{{ agriculteur.terroir.nom }}
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Village :
-					</td>
+					<th>Village :
+					</th>
 					<td>
 						{% if agriculteur.village is not null %}
 							{{ agriculteur.village.nom }}
@@ -115,17 +107,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Champ école :
-					</td>
+					<th>Champ école :
+					</th>
 					<td>
 						{% if agriculteur.ce is not null %}
 							{{ agriculteur.ce.nom }}
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Culture rente prioritaire :
-					</td>
+					<th>Culture rente prioritaire :
+					</th>
 					<td>
 						{% if agriculteur.culture is not null %}
 							{{ agriculteur.culture.nom }}
@@ -133,8 +123,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Elevage :
-					</td>
+					<th>Elevage :
+					</th>
 					<td>
 						{% if agriculteur.pratiqueElevageRente == true  %}
 							oui
@@ -142,19 +132,20 @@
 							non
 						{% endif %}
 					</td>
+					<td></td>
+					<td></td>
 				</tr>
-				<tr>
-					<td>Type d'élevage prioritaire :
-					</td>
+
+				<tr>	
+					<th>Type d'élevage prioritaire :
+					</th>
 					<td>
 						{% if agriculteur.typeElevage is not null %}
 							{{ agriculteur.typeElevage.nom }}
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Acces riziere :
-					</td>
+					<th>Acces riziere :
+					</th>
 					<!---->
 					<td>
 						{% if agriculteur.accesAuRiziere == true  %}
@@ -165,8 +156,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td>OP :
-					</td>
+					<th>OP :
+					</th>
 					<!---->
 					<td>
 						{% if agriculteur.opBoolean == true  %}
@@ -175,10 +166,12 @@
 							non
 						{% endif %}
 					</td>
+					<td></td>
+					<td></td>
 				</tr>
 				<tr>
-					<td>Pratique d'activité non agricole :
-					</td>
+					<th>Pratique d'activité non agricole :
+					</th>
 					<!---->
 					<td>
 						{% if agriculteur.pratiqueActiviteNonAgricole == true  %}
@@ -187,10 +180,8 @@
 							non
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Pratique de pêche :
-					</td>
+					<th>Pratique de pêche :
+					</th>
 					<!---->
 					<td>
 						{% if agriculteur.pratiquePeche == true  %}
@@ -201,8 +192,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Actif dans d'autre projet et programme :
-					</td>
+					<th>Actif dans d'autre projet et programme :
+					</th>
 					<!---->
 					<td>
 						{% if agriculteur.autreProgramme == true  %}
@@ -211,232 +202,57 @@
 							non
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Surface totale exploitée (ha) :
-					</td>
-					<td>{{ agriculteur.surfaceTotaleExploitee }}</td>
-				</tr>
-				<tr>
-					<td>Surface totale de riziere (ha) :
-					</td>
-					<td>{{ agriculteur.surfaceTotaleRiziere }}</td>
-				</tr>
-				<tr>
-					<td>Surface de parcelle louée (ha) :
-					</td>
-					<td>{{ agriculteur.surfaceParcelleLouee }}</td>
-				</tr>
-				<tr>
-					<td>Surface de parcelle en location (ha) :
-					</td>
-					<td>{{ agriculteur.surfaceParcelleEnLocation }}</td>
-				</tr>
-				{% for nbrCulture in agriculteur.nbrCultureAgriculteur %}
-					<tr>
-						<td>Nombre de pieds de
-							{{ nbrCulture.culture.nom }}
-							:
-						</td>
-						<td>{{ nbrCulture.nbr }}</td>
-					</tr>
-				{% endfor %}
-				{% for nbrEquipementAgricole in agriculteur.nbrEquipementAgricoleAgriculteur %}
-					<tr>
-						<td>Nombre de
-							{{ nbrEquipementAgricole.equipementAgricole.nom }}
-							:
-						</td>
-						<td>{{ nbrEquipementAgricole.nbr }}</td>
-					</tr>
-				{% endfor %}
-				<tr>
-					<td>Nombre de soudure en mois :
-					</td>
-					<td>{{ agriculteur.nbrMoisSoudure }}</td>
-				</tr>
-				<tr>
-					<td><br></td>
+					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>Comment vous planifiez vos activités de production ?
-					</td>
-					<td>
-						{% if agriculteur.calendrier == 1 %}
-							1. Sur la base des pratiques ancestrales
-						{% elseif agriculteur.calendrier == 2 %}
-							2. Sur la base de la perception des conditions météorologiques
-						{% elseif agriculteur.calendrier == 3 %}
-							3. Sur la base du calendrier agricole
-						{% endif %}
-					</td>
+					<th>Surface totale exploitée (ha) :
+					</th>
+					<td>{{ agriculteur.surfaceTotaleExploitee }}</td>
+					<th>Surface totale de riziere (ha) :
+					</th>
+					<td>{{ agriculteur.surfaceTotaleRiziere }}</td>
 				</tr>
 				<tr>
-					<td>Comment mesurez-vous vos parcelles et les intrants nécessaires à votre exploitation ?
-					</td>
-					<td>
-						{% if agriculteur.outilAmeliore == 1 %}
-							1. Utilisation de décamètre pour mesurer la surface et de balance pour le dosage des intrants
-						{% elseif agriculteur.outilAmeliore == 2 %}
-							2. Utilisation de corde avec un étalon de mesure et utilisation de boîte de lait concentré ou gobelet pour le dosage d’engrais
-						{% elseif agriculteur.outilAmeliore == 3 %}
-							3. Technique de mesure traditionnel, avec estimation par pas et dosage d’engrais par poignée de main
-						{% endif %}
-					</td>
+					<th>Surface de parcelle louée (ha) :
+					</th>
+					<td>{{ agriculteur.surfaceParcelleLouee }}</td>
+					<th>Surface de parcelle en location (ha) :
+					</th>
+					<td>{{ agriculteur.surfaceParcelleEnLocation }}</td>
 				</tr>
+				{% for nbrCulture in agriculteur.nbrCultureAgriculteur %}
+					{% if loop.index0 is divisible by(2) %}
+						<tr>
+					{% endif %}
+						<th>Nombre de pieds de
+							{{ nbrCulture.culture.nom }}
+							:
+						</th>
+						<td>{{ nbrCulture.nbr }}</td>
+					{% if loop.index0 is not divisible by(2) %}
+						</tr>
+					{% endif %}
+				{% endfor %}
+				{% for nbrEquipementAgricole in agriculteur.nbrEquipementAgricoleAgriculteur %}
+					{% if loop.index0 is divisible by(2) %}
+						<tr>
+					{% endif %}
+						<th>Nombre de
+							{{ nbrEquipementAgricole.equipementAgricole.nom }}
+							:
+						</th>
+						<td>{{ nbrEquipementAgricole.nbr }}</td>
+					{% if loop.index0 is not divisible by(2) %}
+						</tr>
+					{% endif %}
+				{% endfor %}
 				<tr>
-					<td>Selon vous, les besoins en alimentation sont-ils les mêmes pour chaque membre du ménage ?
-					</td>
-					<td>
-						{% if agriculteur.differenceBesoinsAlimentaire == true %}
-							Oui
-						{% else %}
-							Non
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Si non, connaissez-vous cette différence de besoin ?
-					</td>
-					<td>
-						{% if agriculteur.connaissanceDifferenceBesoinsAlimentaire == true %}
-							Oui
-						{% else %}
-							Non
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Votre régime alimentaire est-il varié ?
-					</td>
-					<td>
-						{% if agriculteur.regimeAlimentaireVariee == true %}
-							Oui
-						{% else %}
-							Non
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Comment assurez-vous la disponibilité des produits nécessaires à l’alimentation tout au long de l’année ?
-					</td>
-					<td>
-						{% if agriculteur.assuranceProduitNecessaireAlimentation == 1 %}
-							1. Le producteur garde une partie de sa production agricole pour assurer la disponibilité d’une nourriture variée tout au long de l’année
-						{% elseif agriculteur.assuranceProduitNecessaireAlimentation == 2 %}
-							2. Le producteur vend la totalité de sa production sur un produit et achète le même produit à une période ultérieure pour satisfaire les besoins nutritionnels
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Vous enregistrez vos entrées et sorties d’argent ?
-					</td>
-					<td>
-						{% if agriculteur.enregistrementMouvementArgent == true %}
-							Oui
-						{% else %}
-							Non
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Si oui, pourquoi faire ?
-					</td>
-					<td>
-						{% if agriculteur.enregistrementMouvementArgentWhy == 1 %}
-							1. Pour évaluer le profit ou la perte
-						{% elseif agriculteur.enregistrementMouvementArgentWhy == 2 %}
-							2. Pour justifier les recettes et les dépenses
-						{% elseif agriculteur.enregistrementMouvementArgentWhy == 3 %}
-							3. Pour gérer la trésorerie
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Comment vous épargnez votre argent ?
-					</td>
-					<td>
-						{% if agriculteur.epargne == 1 %}
-							1. Le producteur garde son argent à la maison
-						{% elseif agriculteur.epargne == 2 %}
-							2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Vous connaissez la demande et le cours des produits agricoles sur le marché ?
-					</td>
-					<td>
-						{% if agriculteur.connaissanceDemandeCoursProduitAgricole == true %}
-							Oui
-						{% else %}
-							Non
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Pourquoi faire ?
-					</td>
-					<td>
-						{% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 1 %}
-							1. Le prix et la demande conditionnent l’orientation vers une spéculation compte tenu des dépenses et des risques encourus
-						{% elseif agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 2 %}
-							2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Selon vous, est-il important d’améliorer la qualité de vos produits ?
-					</td>
-					<td>
-						{% if agriculteur.ameliorerQualiteProduit == true %}
-							Oui
-						{% else %}
-							Non
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Si oui, pourquoi ? :
-					</td>
-					<td>
-						{% if agriculteur.ameliorerQualiteProduitWhy == 1 %}
-							1. Parce que la valeur marchande du produit peut augmenter en fonction de la qualité et de la même manière le revenu du producteur
-						{% elseif agriculteur.ameliorerQualiteProduitWhy == 2 %}
-							2. Le défaut de qualité entraine des pertes lors de la commercialisation
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Vous faites partie d’un groupement ou d’une coopérative ?
-					</td>
-					<td>
-						{% if agriculteur.groupement == true %}
-							Oui
-						{% else %}
-							Non
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Selon vous, quels sont les avantages du regroupement ?
-					</td>
-					<td>
-						{% if agriculteur.avantageRegroupement == 1 %}
-							1.Il est plus facile de résoudre les problèmes dans le processus de production
-						{% elseif agriculteur.avantageRegroupement == 2 %}
-							2. Cela facilite la demande de services et l’intervention des prestataires
-						{% elseif agriculteur.avantageRegroupement == 3 %}
-							3. Intéressant économiquement (obtention de meilleurs prix à l’achat des intrants et à la vente de la production)
-						{% elseif agriculteur.avantageRegroupement == 4 %}
-							4. Le producteur ne comprend pas encore les avantages du regroupement
-						{% endif %}
-					</td>
-				</tr>
-				<tr>
-					<td>Accès à l'eau potable
-					</td>
+					<th>Nombre de soudure en mois :
+					</th>
+					<td>{{ agriculteur.nbrMoisSoudure }}</td>
+					<th>Accès à l'eau potable
+					</th>
 					<td>
 						{% if agriculteur.accesEauPotable == true %}
 							Oui
@@ -445,9 +261,11 @@
 						{% endif %}
 					</td>
 				</tr>
+			{# </table>
+			<table class="table table-hover table-list"> #}
 				<tr>
-					<td>Toilettes
-					</td>
+					<th>Toilettes
+					</th>
 					<td>
 						{% if agriculteur.toilette == 1 %}
 							1. Aucun
@@ -459,10 +277,8 @@
 							4. Bas
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Douche
-					</td>
+					<th>Douche
+					</th>
 					<td>
 						{% if agriculteur.douche == 1 %}
 							1. Aucun
@@ -476,8 +292,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Assainissement
-					</td>
+					<th>Assainissement
+					</th>
 					<td>
 						{% if agriculteur.assainissement == 1 %}
 							1. Aucun
@@ -489,10 +305,8 @@
 							4. Bas
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Accès à l'éducation
-					</td>
+					<th>Accès à l'éducation
+					</th>
 					<td>
 						{% if agriculteur.accesEducation == 1 %}
 							1. Aucun
@@ -506,8 +320,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Utilisation de la médecine traditionnelle
-					</td>
+					<th>Utilisation de la médecine traditionnelle
+					</th>
 					<td>
 						{% if agriculteur.medecinTraditionnel == true %}
 							Oui
@@ -515,10 +329,8 @@
 							Non
 						{% endif %}
 					</td>
-				</tr>
-				<tr>
-					<td>Utilisation de la médecine conventionnelle
-					</td>
+					<th>Utilisation de la médecine conventionnelle
+					</th>
 					<td>
 						{% if agriculteur.medecinConventionnel == true %}
 							Oui
@@ -528,14 +340,189 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Latitude
-					</td>
+					<th>Longitude
+					</th>
+					<td>{{ agriculteur.longitude }}</td>
+					<th>Latitude
+					</th>
 					<td>{{ agriculteur.latitude }}</td>
 				</tr>
+			</table>
+			<table class="table table-hover table-list table-limit table-cell-righ">
 				<tr>
-					<td>Longitude
+					<th>Comment vous planifiez vos activités de production ?
+					</th>
+					<td>
+						{% if agriculteur.calendrier == 1 %}
+							1. Sur la base des pratiques ancestrales
+						{% elseif agriculteur.calendrier == 2 %}
+							2. Sur la base de la perception des conditions météorologiques
+						{% elseif agriculteur.calendrier == 3 %}
+							3. Sur la base du calendrier agricole
+						{% endif %}
 					</td>
-					<td>{{ agriculteur.longitude }}</td>
+				</tr>
+				<tr>
+					<th>Comment mesurez-vous vos parcelles et les intrants nécessaires à votre exploitation ?
+					</th>
+					<td>
+						{% if agriculteur.outilAmeliore == 1 %}
+							1. Utilisation de décamètre pour mesurer la surface et de balance pour le dosage des intrants
+						{% elseif agriculteur.outilAmeliore == 2 %}
+							2. Utilisation de corde avec un étalon de mesure et utilisation de boîte de lait concentré ou gobelet pour le dosage d’engrais
+						{% elseif agriculteur.outilAmeliore == 3 %}
+							3. Technique de mesure traditionnel, avec estimation par pas et dosage d’engrais par poignée de main
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Selon vous, les besoins en alimentation sont-ils les mêmes pour chaque membre du ménage ?
+					</th>
+					<td>
+						{% if agriculteur.differenceBesoinsAlimentaire == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Si non, connaissez-vous cette différence de besoin ?
+					</th>
+					<td>
+						{% if agriculteur.connaissanceDifferenceBesoinsAlimentaire == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Votre régime alimentaire est-il varié ?
+					</th>
+					<td>
+						{% if agriculteur.regimeAlimentaireVariee == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Comment assurez-vous la disponibilité des produits nécessaires à l’alimentation tout au long de l’année ?
+					</th>
+					<td>
+						{% if agriculteur.assuranceProduitNecessaireAlimentation == 1 %}
+							1. Le producteur garde une partie de sa production agricole pour assurer la disponibilité d’une nourriture variée tout au long de l’année
+						{% elseif agriculteur.assuranceProduitNecessaireAlimentation == 2 %}
+							2. Le producteur vend la totalité de sa production sur un produit et achète le même produit à une période ultérieure pour satisfaire les besoins nutritionnels
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Vous enregistrez vos entrées et sorties d’argent ?
+					</th>
+					<td>
+						{% if agriculteur.enregistrementMouvementArgent == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Si oui, pourquoi faire ?
+					</th>
+					<td>
+						{% if agriculteur.enregistrementMouvementArgentWhy == 1 %}
+							1. Pour évaluer le profit ou la perte
+						{% elseif agriculteur.enregistrementMouvementArgentWhy == 2 %}
+							2. Pour justifier les recettes et les dépenses
+						{% elseif agriculteur.enregistrementMouvementArgentWhy == 3 %}
+							3. Pour gérer la trésorerie
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Comment vous épargnez votre argent ?
+					</th>
+					<td>
+						{% if agriculteur.epargne == 1 %}
+							1. Le producteur garde son argent à la maison
+						{% elseif agriculteur.epargne == 2 %}
+							2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Vous connaissez la demande et le cours des produits agricoles sur le marché ?
+					</th>
+					<td>
+						{% if agriculteur.connaissanceDemandeCoursProduitAgricole == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Pourquoi faire ?
+					</th>
+					<td>
+						{% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 1 %}
+							1. Le prix et la demande conditionnent l’orientation vers une spéculation compte tenu des dépenses et des risques encourus
+						{% elseif agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 2 %}
+							2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Selon vous, est-il important d’améliorer la qualité de vos produits ?
+					</th>
+					<td>
+						{% if agriculteur.ameliorerQualiteProduit == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Si oui, pourquoi ? :
+					</th>
+					<td>
+						{% if agriculteur.ameliorerQualiteProduitWhy == 1 %}
+							1. Parce que la valeur marchande du produit peut augmenter en fonction de la qualité et de la même manière le revenu du producteur
+						{% elseif agriculteur.ameliorerQualiteProduitWhy == 2 %}
+							2. Le défaut de qualité entraine des pertes lors de la commercialisation
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Vous faites partie d’un groupement ou d’une coopérative ?
+					</th>
+					<td>
+						{% if agriculteur.groupement == true %}
+							Oui
+						{% else %}
+							Non
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th>Selon vous, quels sont les avantages du regroupement ?
+					</th>
+					<td>
+						{% if agriculteur.avantageRegroupement == 1 %}
+							1.Il est plus facile de résoudre les problèmes dans le processus de production
+						{% elseif agriculteur.avantageRegroupement == 2 %}
+							2. Cela facilite la demande de services et l’intervention des prestataires
+						{% elseif agriculteur.avantageRegroupement == 3 %}
+							3. Intéressant économiquement (obtention de meilleurs prix à l’achat des intrants et à la vente de la production)
+						{% elseif agriculteur.avantageRegroupement == 4 %}
+							4. Le producteur ne comprend pas encore les avantages du regroupement
+						{% endif %}
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -635,6 +622,13 @@
 							<td>
 								<a class="btn btn-default" title="Modifier" href="{{ path('update_parcelle', {'id': parcelle.id}) }}">
 									<i class="fas fa-edit"></i>
+								</a>
+							</td>
+							<td>
+								<a href="#" class="btn btn-danger" title="Supprimer" 
+										data-toggle="modal" data-target="#delete-modal"
+										onclick="del('{{ path('delete_parcelle', {'id': parcelle.id}) }}')">
+									<i class="fas fa-trash"></i>
 								</a>
 							</td>
 						{% endif %}

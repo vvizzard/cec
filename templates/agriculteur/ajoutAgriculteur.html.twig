@@ -16,186 +16,240 @@
         <div class="card-body">
 
             {{ form_start(form_agriculteur) }}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
 
-            <div class="form-group">
-                <label for="form_nom" class="required">Nom</label>
-                {{ form_widget(form_agriculteur.nom, {'attr': {'placeholder': 'Taper ici le nom de l\'agriculteur'}}) }}
-            </div>
+                        <div class="form-group col-md-12">
+                            <label for="form_nom" class="required">Nom</label>
+                            {{ form_widget(form_agriculteur.nom, {'attr': {'placeholder': 'Taper ici le nom de l\'agriculteur'}}) }}
+                        </div>
 
-            {{ form_row(form_agriculteur.prenom) }}
+                        <div class="form-group col-md-12">
+                            <label for="form_prenom" class="required">Prénom</label>
+                            {{ form_widget(form_agriculteur.prenom, {'attr': {'placeholder': 'Taper ici le prénom de l\'agriculteur'}}) }}
+                        </div>
 
-            <label for="typologie">Type d'agriculteur:</label>
-            <select name="typologie" id="typologie" class="form-control">
-                {% for typologie in typologies %}
-                    <option {% if agriculteur.typologie is not null and agriculteur.typologie.id == typologie.id %}selected{% endif %} value="{{ typologie.id }}">{{ typologie.nom }}</option>
-                {% endfor %}
-            </select>
+                        {# {{ form_row(form_agriculteur.prenom) }} #}
 
-            <label for="genre">Genre:</label>
-            <select name="genre" id="genre" class="form-control">
-                <option {% if agriculteur.genre == 0 %}selected{% endif %} value="0">Femme</option>
-                <option {% if agriculteur.genre == 1 %}selected{% endif %} value="1">Homme</option>
-            </select>
+                        <div class="form-group col-md-12">
+                            <label for="typologie">Type d'agriculteur:</label>
+                            <select name="typologie" id="typologie" class="form-control">
+                                {% for typologie in typologies %}
+                                    <option {% if agriculteur.typologie is not null and agriculteur.typologie.id == typologie.id %}selected{% endif %} value="{{ typologie.id }}">{{ typologie.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-            {{ form_row(form_agriculteur.age) }}
+                        <div class="form-group col-md-6">
+                            <label for="genre">Genre:</label>
+                            <select name="genre" id="genre" class="form-control">
+                                <option {% if agriculteur.genre == 0 %}selected{% endif %} value="0">Femme</option>
+                                <option {% if agriculteur.genre == 1 %}selected{% endif %} value="1">Homme</option>
+                            </select>
+                        </div>
 
-            <div class="form-group">
-                <label for="form_statutFamille" class="required">Statut au niveau de la famille:</label>
-                {{ form_widget(form_agriculteur.statutFamille) }}
-            </div>
+                        <div class="form-group col-md-6">
+                            <label for="form_age" class="required">Age</label>
+                            {{ form_widget(form_agriculteur.age) }}
+                        </div>
+                        {# {{ form_row(form_agriculteur.age) }} #}
 
-            <div class="form-group">
-                <label for="form_nbrMenage" class="required">Taille de ménage:</label>
-                {{ form_widget(form_agriculteur.nbrMenage) }}
+                        <div class="form-group col-md-12">
+                            <label for="form_statutFamille" class="required">Statut au niveau de la famille:</label>
+                            {{ form_widget(form_agriculteur.statutFamille) }}
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="form_nbrMenage" class="required">Taille de ménage:</label>
+                            {{ form_widget(form_agriculteur.nbrMenage) }}
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <label for="form_nbrActif" class="required">Nombre d'actif:</label>
+                            {{ form_widget(form_agriculteur.nbrActif) }}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label for="sousRegion">District:
+                            </label>
+                            <select name="sousRegion" id="sousRegion" class="form-control">
+                                <option></option>
+                                {% for sousRegion in sousRegions %}
+                                    <option {% if agriculteur.sousRegion is not null and agriculteur.sousRegion.id == sousRegion.id %}selected{% endif %} value="{{ sousRegion.id }}">{{ sousRegion.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="commune">Commune:
+                            </label>
+                            <select name="commune" id="commune" class="form-control">
+                                <option></option>
+                                {% for commune in communes %}
+                                    <option {% if agriculteur.commune is not null and agriculteur.commune.id == commune.id %}selected{% endif %} value="{{ commune.id }}">{{ commune.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="terroir">Fokontany:
+                            </label>
+                            <select name="terroir" id="terroir" class="form-control">
+                                <option></option>
+                                {% for terroir in terroirs %}
+                                    <option {% if agriculteur.terroir is not null and agriculteur.terroir.id == terroir.id %}selected{% endif %} value="{{ terroir.id }}">{{ terroir.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="village">Village:
+                            </label>
+                            <select name="village" id="village" class="form-control">
+                                <option></option>
+                                {% for village in villages %}
+                                    <option {% if agriculteur.village is not null and agriculteur.village.id == village.id %}selected{% endif %} value="{{ village.id }}">{{ village.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="ce">Champ ecole:
+                            </label>
+                            <select name="ce" id="ce" class="form-control">
+                                {% for ce in ces %}
+                                    <option {% if agriculteur.ce is not null and agriculteur.ce.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="crente">Culture de rente prioritaire:
+                            </label>
+                            <select name="culture" id="crente" class="form-control">
+                                {% for ce in cultures %}
+                                    <option {% if agriculteur.culture is not null and agriculteur.culture.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-12"></div>
+                        <div class="form-control form-group col-md-12 form-group-bottom">
+                            {{ form_widget(form_agriculteur.pratiqueElevageRente) }}
+                        </div>
+                        <br>
+
+                        <div class="form-group col-md-12">
+                            <label for="typeElevage">Type d'élevage prioritaire:
+                            </label>
+                            <select name="typeElevage" id="typeElevage" class="form-control">
+                                {% for ce in typeElevages %}
+                                    <option {% if agriculteur.typeElevage is not null and agriculteur.typeElevage.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div class="form-group">
-                <label for="form_nbrActif" class="required">Nombre d'actif:</label>
-                {{ form_widget(form_agriculteur.nbrActif) }}
-            </div>
+            <div class="row">
 
-            <label for="sousRegion">District:
-            </label>
-            <select name="sousRegion" id="sousRegion" class="form-control">
-                <option></option>
-                {% for sousRegion in sousRegions %}
-                    <option {% if agriculteur.sousRegion is not null and agriculteur.sousRegion.id == sousRegion.id %}selected{% endif %} value="{{ sousRegion.id }}">{{ sousRegion.nom }}</option>
-                {% endfor %}
-            </select>
+                <div class="col-md-6">
+                    <div class="form-group form-control">
+                        {{ form_widget(form_agriculteur.accesAuRiziere) }}
+                    </div>
+                    <div class="form-group form-control">
+                        {{ form_widget(form_agriculteur.pratiqueActiviteNonAgricole) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-control">
+                        {{ form_widget(form_agriculteur.opBoolean) }}
+                    </div>
+                    <div class="form-group form-control">
+                        {{ form_widget(form_agriculteur.pratiquePeche) }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group form-control form-group-bottom">
+                        {{ form_widget(form_agriculteur.autreProgramme) }}
+                    </div>
 
-            <label for="commune">Commune:
-            </label>
-            <select name="commune" id="commune" class="form-control">
-                <option></option>
-                {% for commune in communes %}
-                    <option {% if agriculteur.commune is not null and agriculteur.commune.id == commune.id %}selected{% endif %} value="{{ commune.id }}">{{ commune.nom }}</option>
-                {% endfor %}
-            </select>
+                    <div class="row">
+                    
+                        <div class="form-group col-md-12">
+                            <label for="form_surfaceTotaleExploitee" class="required">Surface totale exploitée (ha):</label>
+                            {{ form_widget(form_agriculteur.surfaceTotaleExploitee) }}
+                        </div>
 
-            <label for="terroir">Fokontany:
-            </label>
-            <select name="terroir" id="terroir" class="form-control">
-                <option></option>
-                {% for terroir in terroirs %}
-                    <option {% if agriculteur.terroir is not null and agriculteur.terroir.id == terroir.id %}selected{% endif %} value="{{ terroir.id }}">{{ terroir.nom }}</option>
-                {% endfor %}
-            </select>
+                        <div class="form-group col-md-4">
+                            <label for="form_surfaceTotaleRiziere" class="required">Surface totale rizière (ha):</label>
+                            {{ form_widget(form_agriculteur.surfaceTotaleRiziere) }}
+                        </div>
 
-            <label for="village">Village:
-            </label>
-            <select name="village" id="village" class="form-control">
-                <option></option>
-                {% for village in villages %}
-                    <option {% if agriculteur.village is not null and agriculteur.village.id == village.id %}selected{% endif %} value="{{ village.id }}">{{ village.nom }}</option>
-                {% endfor %}
-            </select>
+                        <div class="form-group col-md-4">
+                            <label for="form_surfaceParcelleLouee" class="required">Surface de parcelle louée (ha):</label>
+                            {{ form_widget(form_agriculteur.surfaceParcelleLouee) }}
+                        </div>
 
-            <label for="ce">Champ ecole:
-            </label>
-            <select name="ce" id="ce" class="form-control">
-                {% for ce in ces %}
-                    <option {% if agriculteur.ce is not null and agriculteur.ce.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="crente">Culture de rente prioritaire:
-            </label>
-            <select name="culture" id="crente" class="form-control">
-                {% for ce in cultures %}
-                    <option {% if agriculteur.culture is not null and agriculteur.culture.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
-                {% endfor %}
-            </select>
-
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.pratiqueElevageRente) }}
-            </div>
-
-            <label for="typeElevage">Type d'élevage prioritaire:
-            </label>
-            <select name="typeElevage" id="typeElevage" class="form-control">
-                {% for ce in typeElevages %}
-                    <option {% if agriculteur.typeElevage is not null and agriculteur.typeElevage.id == ce.id %}selected{% endif %} value="{{ ce.id }}">{{ ce.nom }}</option>
-                {% endfor %}
-            </select>
-
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.accesAuRiziere) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.opBoolean) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.pratiqueActiviteNonAgricole) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.pratiquePeche) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.autreProgramme) }}
-            </div>
+                        <div class="form-group col-md-4">
+                            <label for="form_surfaceParcelleEnLocation" class="required">Surface parcelle location (ha):</label>
+                            {{ form_widget(form_agriculteur.surfaceParcelleEnLocation) }}
+                        </div>
 
 
+                        {% for culture in cultures %}
+                            {% set add = true %}
+                            <div class="form-group col-md-3">    
+                                <label for="nbr_{{ culture.nom }}">Nbr de pieds
+                                    {{ culture.nom }}
+                                </label>
+                                {% for nbr in agriculteur.nbrCultureAgriculteur %}
+                                    {% if nbr.culture.id == culture.id %}
+                                        {% set add = false %}
+                                        <input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" value="{{ nbr.nbr }}" class="form-control">
+                                    {% endif %}
+                                {% endfor %}
+                                {% if add == true %}
+                                    <input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" class="form-control">
+                                {% endif %}
+                            </div>
+                        {% endfor %}
 
-            <div class="form-group">
-                <label for="form_surfaceTotaleExploitee" class="required">Surface totale exploitée (ha):</label>
-                {{ form_widget(form_agriculteur.surfaceTotaleExploitee) }}
-            </div>
+                        {% for equipement in equipements %}
+                            {% set add = true %}
+                            <div class="form-group col-md-3">  
+                                <label for="nbr_{{ equipement.nom }}">Nbr de
+                                    {{ equipement.nom }}
+                                </label>
+                                {% for nbr in agriculteur.nbrEquipementAgricoleAgriculteur %}
+                                    {% if nbr.equipementAgricole.id == equipement.id %}
+                                        {% set add = false %}
+                                        <input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" value="{{ nbr.nbr }}" class="form-control">
+                                    {% endif %}
+                                {% endfor %}
+                                {% if add == true %}
+                                    <input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" class="form-control">
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="form-group col-md-6">
+                            <label for="form_nbrMoisSoudure" class="required">Nombre de mois de soudure:</label>
+                            {{ form_widget(form_agriculteur.nbrMoisSoudure) }}
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group form-control form-group-bottom">
+                                {{ form_widget(form_agriculteur.accesEauPotable) }}
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label for="form_surfaceTotaleRiziere" class="required">Surface totale rizière (ha):</label>
-                {{ form_widget(form_agriculteur.surfaceTotaleRiziere) }}
-            </div>
-
-            <div class="form-group">
-                <label for="form_surfaceParcelleLouee" class="required">Surface de parcelle louée (ha):</label>
-                {{ form_widget(form_agriculteur.surfaceParcelleLouee) }}
-            </div>
-
-            <div class="form-group">
-                <label for="form_surfaceParcelleEnLocation" class="required">Surface de parcelle en location (ha):</label>
-                {{ form_widget(form_agriculteur.surfaceParcelleEnLocation) }}
-            </div>
-
-
-            {% for culture in cultures %}
-                {% set add = true %}
-                <label for="nbr_{{ culture.nom }}">Nbr de pieds
-                    {{ culture.nom }}
-                </label>
-                {% for nbr in agriculteur.nbrCultureAgriculteur %}
-                    {% if nbr.culture.id == culture.id %}
-                        {% set add = false %}
-                        <input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" value="{{ nbr.nbr }}" class="form-control">
-                    {% endif %}
-                {% endfor %}
-                {% if add == true %}
-                    <input type="number" name="culture_{{ culture.id }}" id="nbr_{{ culture.nom }}" class="form-control">
-                {% endif %}
-            {% endfor %}
-
-            {% for equipement in equipements %}
-                {% set add = true %}
-                <label for="nbr_{{ equipement.nom }}">Nbr de
-                    {{ equipement.nom }}
-                </label>
-                {% for nbr in agriculteur.nbrEquipementAgricoleAgriculteur %}
-                    {% if nbr.equipementAgricole.id == equipement.id %}
-                        {% set add = false %}
-                        <input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" value="{{ nbr.nbr }}" class="form-control">
-                    {% endif %}
-                {% endfor %}
-                {% if add == true %}
-                    <input type="number" name="equipement_{{ equipement.id }}" id="nbr_{{ equipement.nom }}" class="form-control">
-                {% endif %}
-            {% endfor %}
-
-            <div class="form-group">
-                <label for="form_nbrMoisSoudure" class="required">Nombre de mois de soudure:</label>
-                {{ form_widget(form_agriculteur.nbrMoisSoudure) }}
+                    </div>
+                </div>
             </div>
 
             <hr>
@@ -328,41 +382,44 @@
 
             <hr>
 
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.accesEauPotable) }}
-            </div>
+            {# <h5>Condition d'hygienne</h5> #}
+            <div class="col-md-12">
+                <div class="row">
+                
+                    <div class="form-group col-md-4">
+                        <label for="toilette">Toilette</label>
+                        <select class="form-control" name="toilette" id="toilette">
+                            <option {% if agriculteur.toilette == 1 %}selected{% endif %} value="1">Aucun</option>
+                            <option {% if agriculteur.toilette == 2 %}selected{% endif %} value="2">Haut</option>
+                            <option {% if agriculteur.toilette == 3 %}selected{% endif %} value="3">Moyen</option>
+                            <option {% if agriculteur.toilette == 4 %}selected{% endif %} value="4">Bas</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="douche">Douche</label>
+                        <select class="form-control" name="douche" id="douche">
+                            <option {% if agriculteur.douche == 1 %}selected{% endif %} value="1">Aucun</option>
+                            <option {% if agriculteur.douche == 2 %}selected{% endif %} value="2">Haut</option>
+                            <option {% if agriculteur.douche == 3 %}selected{% endif %} value="3">Moyen</option>
+                            <option {% if agriculteur.douche == 4 %}selected{% endif %} value="4">Bas</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="assainissement">Autre assainissement</label>
+                        <select class="form-control" name="assainissement" id="assainissement">
+                            <option {% if agriculteur.assainissement == 1 %}selected{% endif %} value="1">Aucun</option>
+                            <option {% if agriculteur.assainissement == 2 %}selected{% endif %} value="2">Haut</option>
+                            <option {% if agriculteur.assainissement == 3 %}selected{% endif %} value="3">Moyen</option>
+                            <option {% if agriculteur.assainissement == 4 %}selected{% endif %} value="4">Bas</option>
+                        </select>
+                    </div>
 
-            <h4>Condition d'hygienne</h4>
-            <div class="form-group">
-                <label for="toilette">Toilette</label>
-                <select class="form-control" name="toilette" id="toilette">
-                    <option {% if agriculteur.toilette == 1 %}selected{% endif %} value="1">Aucun</option>
-                    <option {% if agriculteur.toilette == 2 %}selected{% endif %} value="2">Haut</option>
-                    <option {% if agriculteur.toilette == 3 %}selected{% endif %} value="3">Moyen</option>
-                    <option {% if agriculteur.toilette == 4 %}selected{% endif %} value="4">Bas</option>
-                </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="douche">Douche</label>
-                <select class="form-control" name="douche" id="douche">
-                    <option {% if agriculteur.douche == 1 %}selected{% endif %} value="1">Aucun</option>
-                    <option {% if agriculteur.douche == 2 %}selected{% endif %} value="2">Haut</option>
-                    <option {% if agriculteur.douche == 3 %}selected{% endif %} value="3">Moyen</option>
-                    <option {% if agriculteur.douche == 4 %}selected{% endif %} value="4">Bas</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="assainissement">Autre assainissement</label>
-                <select class="form-control" name="assainissement" id="assainissement">
-                    <option {% if agriculteur.assainissement == 1 %}selected{% endif %} value="1">Aucun</option>
-                    <option {% if agriculteur.assainissement == 2 %}selected{% endif %} value="2">Haut</option>
-                    <option {% if agriculteur.assainissement == 3 %}selected{% endif %} value="3">Moyen</option>
-                    <option {% if agriculteur.assainissement == 4 %}selected{% endif %} value="4">Bas</option>
-                </select>
-            </div>
+            
 
-            <h4>Accès à l'éducation</h4>
-            <div class="form-group">
+            {# <h5>Accès à l'éducation</h5> #}
+            <div class="form-group col-md-12">
                 <label for="accesEducation">Accès à l'éducation</label>
                 <select class="form-control" name="accesEducation" id="accesEducation">
                     <option {% if agriculteur.accesEducation == 1 %}selected{% endif %} value="1">Aucun</option>
@@ -372,25 +429,37 @@
                 </select>
             </div>
 
-            <h4>Système de santée</h4>
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.medecinTraditionnel) }}
+            {# <h5>Système de santée</h5> #}
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-control form-group-bottom">
+                            {{ form_widget(form_agriculteur.medecinTraditionnel) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-control form-group-bottom">
+                            {{ form_widget(form_agriculteur.medecinConventionnel) }}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                {{ form_widget(form_agriculteur.medecinConventionnel) }}
+            
+            {# <h5>Localisation</h5> #}
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="form_longitude" class="required">Longitude:</label>
+                        {{ form_widget(form_agriculteur.longitude) }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="form_latitude" class="required">Latitude:</label>
+                        {{ form_widget(form_agriculteur.latitude) }}
+                    </div>
+                </div>
             </div>
 
-            <h4>Localisation</h4>
-            <div class="form-group">
-                <label for="form_longitude" class="required">Longitude:</label>
-                {{ form_widget(form_agriculteur.longitude) }}
-            </div>
-            <div class="form-group">
-                <label for="form_latitude" class="required">Latitude:</label>
-                {{ form_widget(form_agriculteur.latitude) }}
-            </div>
-
-            <h4>Consommation alimentaire</h4>
+            <h5>Consommation alimentaire</h5>
             <div class="form-group">
                 <label for="form_cereale" class="required">Nombre de jours de consommation de céréales et tubercules / semaine:</label>
                 {{ form_widget(form_agriculteur.cereale) }}

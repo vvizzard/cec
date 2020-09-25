@@ -26,7 +26,7 @@
         {% endif %}
     </div>
     <div class="card-body">
-        <table class="table">
+        <table class="table table-list">
             <tr>
                 <th>Id</th>
                 <th>Nouvelle plantation</th>
@@ -90,7 +90,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-fit table-hover">
+        <table class="table table-fit table-hover table-form">
             <tr>
                 <th>Plante</th>
                 <th>Variété</th>
@@ -140,7 +140,7 @@
                         {% endfor %}
                         </select>
                     </td>
-                    <td style="min-width: 231px;">
+                    <td style="min-width: 160px;">
                         {{ form_widget(form.datePlantation) }}
                     </td>
                     <td>
@@ -174,93 +174,96 @@
     <div class="card-body">
         <table class="table table-hover table-fit">
             <tr>
-                <td>MO Preparation Sol</td>
+                <th>MO Preparation Sol</th>
                 <td>{{ culture.moPreparationSol }}</td>
-            </tr>
-            <tr>
-                <td>MO Installation Culture</td>
+                <th>MO Installation Culture</th>
                 <td>{{ culture.moInstallationCulture }}</td>
-            </tr>
-            <tr>
-                <td>MO Entretien 1</td>
+                <th>MO Entretien 1</th>
                 <td>{{ culture.moEntretien1 }}</td>
             </tr>
             <tr>
-                <td>MO Entretien 2</td>
+                <th>MO Entretien 2</th>
                 <td>{{ culture.moEntretien2 }}</td>
-            </tr>
-            <tr>
-                <td>MO Entretien 3</td>
+                <th>MO Entretien 3</th>
                 <td>{{ culture.moEntretien3 }}</td>
-            </tr>
-            <tr>
-                <td>MO Recolte</td>
+                <th>MO Recolte</th>
                 <td>{{ culture.moRecolte }}</td>
             </tr>
             <tr>
-                <td>MO Ext Preparation Sol</td>
+                <th>MO Ext Preparation Sol</th>
                 <td>{{ culture.moExtPreparationSol }}</td>
-            </tr>
-            <tr>
-                <td>MO ExtInstallation Culture</td>
+                <th>MO ExtInstallation Culture</th>
                 <td>{{ culture.moExtInstallationCulture }}</td>
-            </tr>
-            <tr>
-                <td>MO Ext Entretien 1</td>
+                <th>MO Ext Entretien 1</th>
                 <td>{{ culture.moExtEntretien1 }}</td>
             </tr>
             <tr>
-                <td>MO Ext Entretien 2</td>
+                <th>MO Ext Entretien 2</th>
                 <td>{{ culture.moExtEntretien2 }}</td>
-            </tr>
-            <tr>
-                <td>MO Ext Entretien 3</td>
+                <th>MO Ext Entretien 3</th>
                 <td>{{ culture.moExtEntretien3 }}</td>
-            </tr>
-            <tr>
-                <td>MO Ext Recolte</td>
+                <th>MO Ext Recolte</th>
                 <td>{{ culture.moExtRecolte }}</td>
             </tr>
             <tr>
-                <td>Tarif pour les mains d'oeuvre</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Tarif pour les mains d'oeuvre</th>
                 <td>{{ culture.tarifMO }}</td>
+                <th>Date de Plantation</th>
+                <td></td>
+                <td>{{ culture.datePlantation | date("d/m/Y")  }}</td>
+                <td></td>
             </tr>
             
             <tr>
-                <td>Date de Plantation</td>
-                <td>{{ culture.datePlantation | date("d/m/Y")  }}</td>
-            </tr>
-
-            <tr>
-                <td>Age Plantation : </td>
+                <th>Age Plantation : </th>
                 <td>{{ culture.agePlantation }}</td>
-            </tr>
-
-            <tr>
-                <td>Qte Fumure Organique</td>
+                <th>Qte Fumure Organique</th>
+                <td></td>
                 <td>{{ culture.qteFumureOrganique }}</td>
+                <td></td>
             </tr>
 
             {% for fumure in culture.nbrFumureCultureMs %}
-                <tr>
-                    <td>{{ fumure.fumure.nom }} : </td>
+                {% if loop.index0 is divisible by(2) %}
+                    <tr>
+                {% endif %}
+                    <th>{{ fumure.fumure.nom }} : </th>
+                    {% if loop.index0 is not divisible by(2) %}
+                        <td></td>
+                    {% endif %}
                     <td>{{ fumure.nbr }}</td>
-                </tr>
+                {% if loop.index0 is not divisible by(2) %}
+                    </tr>
+                {% endif %}
             {% endfor %}
 
             <tr>
-                <td>Qte Insecticide</td>
+                <th>Qte Insecticide</th>
                 <td>{{ culture.qteInsecticide }}</td>
-            </tr>
             {% for insecticide in culture.nbrInsecticideCultureMs %}
-                <tr>
-                    <td>{{ insecticide.insecticide.nom }} : </td>
+                {% if loop.index is divisible by(2) %}
+                    <tr>
+                {% endif %}
+                    <th>{{ insecticide.insecticide.nom }} : </th>
+                    {% if loop.index is not divisible by(2) %}
+                        <td></td>
+                    {% endif %}
                     <td>{{ insecticide.nbr }}</td>
-                </tr>
+                {% if loop.index is not divisible by(2) %}
+                    </tr>
+                {% endif %}
             {% endfor %}
             
             <tr>
-                <td>Mis en Culture</td>
+                <th>Mis en Culture</th>
                 <td>
                     {% if culture.misEnCloture == true %}
                         Oui
