@@ -211,6 +211,7 @@ class ParcelleController extends AbstractController
             'localisations' => $localisations,
             'milieux' => $milieux,
             'idAgriculteur'=> $idAgriculteur,
+            'agriculteur'=>$agriculteurRepository->find($idAgriculteur),
             'parcelle'=> null,
         ]);
     }

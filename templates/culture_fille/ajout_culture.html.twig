@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajout d'une nouvelle culture | CEC{% endblock %}
+{% block title %}Modification de la culture | CEC{% endblock %}
 
-{% block h1 %}Ajout d'une nouvelle agriculture{% endblock %}
+{% block h1 %}Modification de la culture{% endblock %}
 
 {% block history %}
     <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-    <li class="breadcrumb-item active">Ajout d'une nouvelle culture</li>
+    <li class="breadcrumb-item active">Modification de la culture</li>
 {% endblock %}
 
 {% block body %}
@@ -17,20 +17,24 @@
         <label for="plante">Plante: </label>
         <select name="plante" id="plante" class="form-control">
         {% for plante in plantes %}
-            <option value="{{ plante.id }}">{{ plante.nom }}</option>
+            <option {% if culture is not null and plante.id == culture.plante.id %}selected{% endif %} value="{{ plante.id }}">
+                {{ plante.nom }}
+            </option>
         {% endfor %}
         </select>
         <label for="variete">Variete: </label>
         <select name="variete" id="variete" class="form-control">
             <option></option>
         {% for variete in varietes %}
-            <option value="{{ variete.id }}">{{ variete.nom }}</option>
+            <option {% if culture is not null and variete.id == culture.variete.id %}selected{% endif %} value="{{ variete.id }}">
+                {{ variete.nom }}
+            </option>
         {% endfor %}
         </select>
 
         {{ form_widget(base_form) }}
 
-        <button type="submit" class="btn btn-success">Ajout</button>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
 
         {{ form_end(base_form) }}
         

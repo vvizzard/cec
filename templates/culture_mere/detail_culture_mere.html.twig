@@ -83,24 +83,29 @@
         </h3>
 
         <div class="card-tools">
-            <a type="button" class="btn btn-tool" title="Ajouter une nouvelle culture" 
+            {# <a type="button" class="btn btn-tool" title="Ajouter une nouvelle culture" 
                     href="{{ path('ajout_culture_fille_from_mere', {'idCultureMere': culture.id}) }}">
                 <i class="fas fa-plus"></i>
-            </a>
+            </a> #}
         </div>
     </div>
     <div class="card-body">
         <table class="table table-fit table-hover table-form">
             <tr>
-                <th>Plante</th>
+                <th>Espèce</th>
                 <th>Variété</th>
-                <th>Date de plantation</th>
-                <th class="text-right">Qté de semence</th>
+                <th>Date de plantation/semis</th>
+                <th class="text-right">Qté de semence/nbr plant</th>
                 <th class="text-right">Prix unitaire</th>
                 <th class="text-right">Prix total</th>
+                <th class="text-center">Date récolte</th>
                 <th class="text-right">Production</th>
                 <th class="text-right">Prix unitaire</th>
                 <th class="text-right">Prix total</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th></th>
+                    <th></th>
+                {% endif %}
             </tr>
             {% for cle in culture.cultureFilles %}
             <tr>
@@ -114,13 +119,28 @@
                         {{ cle.variete.nom }}
                     {% endif %}
                 </td>
-                <td>{{ cle.datePlantation | date("d/m/Y") }}</td>
+                <td class="text-center">{% if cle.datePlantation is not null %}{{ cle.datePlantation | date("d/m/Y") }}{% endif %}</td>
                 <td class="text-right">{{ cle.QteSemence }}</td>
                 <td class="text-right">{{ cle.prixUnitaireSemence }}</td>
                 <td class="text-right">{{ cle.prixUnitaireSemence * cle.QteSemence }}</td>
+                <td class="text-center">{% if cle.dateRecolte is not null %}{{ cle.dateRecolte | date("d/m/Y") }}{% endif %}</td>
                 <td class="text-right">{{ cle.production }}</td>
                 <td class="text-right">{{ cle.prixUnitaireProduit }}</td>
                 <td class="text-right">{{ cle.prixUnitaireProduit * cle.production }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td>
+                        <a class="btn btn-default" title="Modifier" href="{{ path('update_culture_fille', {'id': cle.id}) }}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-danger" title="Supprimer" 
+                                data-toggle="modal" data-target="#delete-modal"
+                                onclick="del('{{ path('delete_culture_fille', {'id': cle.id}) }}')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                {% endif %}
             </tr>
             {% endfor %}
             {{ form_start(form) }}
@@ -148,6 +168,9 @@
                     </td>
                     <td>{{ form_widget(form.prixUnitaireSemence) }}</td>
                     <td id="prixTotalSemence" class="text-right">0</td>
+                    <td style="min-width: 160px;">
+                        {{ form_widget(form.dateRecolte) }}
+                    </td>
                     <td>
                         {{ form_widget(form.production, {'attr': {'placeholder': 'Taper ici la production en (kg) ...'}}) }}
                     </td>

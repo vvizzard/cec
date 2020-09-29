@@ -41,7 +41,7 @@
             </div>
 
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">Surface cultivée (ha)</label>
+                <label for="form_surfaceCultive" class="required">Surface cultivée (ha)</label>
                 {{ form_widget(base_form.surfaceCultive, {'attr': {'placeholder': 'Taper ici la surface cultivé en ha'}}) }}
             </div>
 
@@ -85,70 +85,70 @@
             </div>
 
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO préparation du sol</label>
+                <label for="form_moPreparationSol" class="required">MO préparation du sol</label>
                 {{ form_widget(base_form.moPreparationSol, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO installation culture</label>
+                <label for="form_moInstallationCulture" class="required">MO installation culture</label>
                 {{ form_widget(base_form.moInstallationCulture, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO entretien 1</label>
+                <label for="form_moEntretien1" class="required">MO entretien 1</label>
                 {{ form_widget(base_form.moEntretien1, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO entretien 2</label>
+                <label for="form_moEntretien2" class="required">MO entretien 2</label>
                 {{ form_widget(base_form.moEntretien2, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO entretien 3</label>
+                <label for="form_moEntretien3" class="required">MO entretien 3</label>
                 {{ form_widget(base_form.moEntretien3, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO récolte</label>
+                <label for="form_moRecolte" class="required">MO récolte</label>
                 {{ form_widget(base_form.moRecolte, {'attr': {'placeholder': ''}}) }}
             </div>
 
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO Exté préparation du sol</label>
+                <label for="form_moExtPreparationSol" class="required">MO Exté préparation du sol</label>
                 {{ form_widget(base_form.moExtPreparationSol, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO Exté installation culture</label>
+                <label for="form_moExtInstallationCulture" class="required">MO Exté installation culture</label>
                 {{ form_widget(base_form.moExtInstallationCulture, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO Exté entretien 1</label>
+                <label for="form_moExtEntretien1" class="required">MO Exté entretien 1</label>
                 {{ form_widget(base_form.moExtEntretien1, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO Exté entretien 2</label>
+                <label for="form_moExtEntretien2" class="required">MO Exté entretien 2</label>
                 {{ form_widget(base_form.moExtEntretien2, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO Exté entretien 3</label>
+                <label for="form_moExtEntretien3" class="required">MO Exté entretien 3</label>
                 {{ form_widget(base_form.moExtEntretien3, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">MO Exté récolte</label>
+                <label for="form_moExtRecolte" class="required">MO Exté récolte</label>
                 {{ form_widget(base_form.moExtRecolte, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">Tarif main oeuvre (Ar)</label>
+                <label for="form_tarifMO" class="required">Tarif main oeuvre (Ar)</label>
                 {{ form_widget(base_form.tarifMO, {'attr': {'placeholder': ''}}) }}
             </div>
 
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">Date de plantation</label>
+                <label for="form_datePlantation" class="required">Date de plantation</label>
                 {{ form_widget(base_form.datePlantation, {'attr': {'placeholder': ''}}) }}
             </div>
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">Age de plantation</label>
+                <label for="form_agePlantation" class="required">Age de plantation</label>
                 {{ form_widget(base_form.agePlantation, {'attr': {'placeholder': ''}}) }}
             </div>
 
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">Qté fumure organique</label>
+                <label for="form_qteFumureOrganique" class="required">Qté fumure organique</label>
                 {{ form_widget(base_form.qteFumureOrganique, {'attr': {'placeholder': ''}}) }}
             </div>
 
@@ -160,7 +160,7 @@
             {% endfor %}
 
             <div class="form-group col-md-4">
-                <label for="form_nom" class="required">Qté insecticides</label>
+                <label for="form_qteInsecticide" class="required">Qté insecticides</label>
                 {{ form_widget(base_form.qteInsecticide, {'attr': {'placeholder': ''}}) }}
             </div>
 
@@ -188,4 +188,34 @@
 
 </div>
 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+    $(function () {
+        $('#form_surfaceCultive').change(function () {
+            checkSurface();
+        });
+    });
+
+    function checkSurface() {
+        {% if parcelle is not null %}
+            var limite = 0;
+            limite = {{ parcelle.surface }}
+            {% if parcelle.cultureMeres is not null %}
+                {% for mere in parcelle.cultureMeres %}
+                    limite -= {{ mere.surfaceCultive }};
+                {% endfor %}
+            {% endif %}
+
+            var current = $('#form_surfaceCultive').val();
+            
+            if (limite != 0) {
+                current > limite ? alert('la valeur doit être inférieur ou égale à ' + limite) : console.log(limite);
+            }
+
+        {% endif %}
+    }
+</script>
 {% endblock %}

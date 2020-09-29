@@ -129,3 +129,35 @@
 </div>
 
 {% endblock %}
+
+{% block javascripts %}
+<script>
+
+    $(function () {
+        $('#form_surface').change(function () {
+            checkSurface();
+        });
+    });
+
+    function checkSurface() {
+        {% if agriculteur is not null %}
+            {% if agriculteur.surfaceTotaleExploitee is not null %}
+                var limite = 0;
+                limite = {{ agriculteur.surfaceTotaleExploitee }}
+                {% if agriculteur.parcelles is not null %}
+                    {% for parcelle in agriculteur.parcelles %}
+                        limite -= {{ parcelle.surface }};
+                    {% endfor %}
+                {% endif %}
+
+                var current = $('#form_surface').val();
+                
+                if (limite != 0) {
+                    current > limite ? alert('la valeur doit être inférieur ou égale à ' + limite) : console.log(limite);
+                }
+
+            {% endif %}
+        {% endif %}
+    }
+</script>
+{% endblock %}

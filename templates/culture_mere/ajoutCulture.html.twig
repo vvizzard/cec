@@ -218,3 +218,36 @@
 </div>
 
 {% endblock %}
+
+{% block javascripts %}
+<script>
+
+    $(function () {
+        $('#form_surfaceCultive').change(function () {
+            checkSurface();
+        });
+    });
+
+    function checkSurface() {
+        {% if culture is not null %}
+            {% if culture.parcelle is not null %}
+                var limite = 0;
+                limite = {{ culture.parcelle.surface }}
+                {% if culture.parcelle.cultureMeres is not null %}
+                    {% for mere in culture.parcelle.cultureMeres %}
+                        limite -= {{ mere.surfaceCultive }};
+                    {% endfor %}
+                    limite += {{ culture.surfaceCultive }}
+                {% endif %}
+
+                var current = $('#form_surfaceCultive').val();
+                
+                if (limite != 0) {
+                    current > limite ? alert('la valeur doit être inférieur ou égale à ' + limite) : console.log(limite);
+                }
+
+            {% endif %}
+        {% endif %}
+    }
+</script>
+{% endblock %}

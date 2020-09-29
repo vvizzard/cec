@@ -136,3 +136,36 @@
 </div>
 
 {% endblock %}
+
+{% block javascripts %}
+<script>
+
+    $(function () {
+        $('#form_surface').change(function () {
+            checkSurface();
+        });
+    });
+
+    function checkSurface() {
+        {% if parcelle is not null %}
+            {% if parcelle.agriculteur is not null %}
+                var limite = 0;
+                limite = {{ parcelle.agriculteur.surfaceTotaleExploitee }}
+                {% if parcelle.agriculteur.parcelles is not null %}
+                    {% for parcelle in parcelle.agriculteur.parcelles %}
+                        limite -= {{ parcelle.surface }};
+                    {% endfor %}
+                    limite += {{ parcelle.surface }}
+                {% endif %}
+
+                var current = $('#form_surface').val();
+                
+                if (limite != 0) {
+                    current > limite ? alert('la valeur doit être inférieur ou égale à ' + limite) : console.log(limite);
+                }
+
+            {% endif %}
+        {% endif %}
+    }
+</script>
+{% endblock %}

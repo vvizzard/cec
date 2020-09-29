@@ -69,8 +69,8 @@
             <!-- small box -->
             <div class="small-box">
                 <div class="inner">
-                    <h3>{{ reboisement }}</h3>
-                    <p>Reboisement</p>
+                    <h3>{{ reboisement.produit | round(1) }} <small>(sur {{ reboisement.nbr | round(1) }})</small></h3>
+                    <p>Plants pour reboisement</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-leaf"></i>

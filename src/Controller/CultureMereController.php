@@ -6,6 +6,7 @@ use App\Entity\CultureFille;
 use App\Entity\CultureMere;
 use App\Entity\NbrFumureCultureM;
 use App\Entity\NbrInsecticideCultureM;
+use App\Entity\Parcelle;
 use App\Repository\CultureMereRepository;
 use App\Repository\CultureRepository;
 use App\Repository\CycleAgricoleRepository;
@@ -183,7 +184,7 @@ class CultureMereController extends AbstractController
     }
 
     /**
-     * @Route("/culture_mere/add/{parcelleId}", name="culture_mere_add_from_parcelle")
+     * @Route("/culture_mere/add/{id}", name="culture_mere_add_from_parcelle")
      */
     public function addFromParcelle(
         HttpFoundationRequest $request,
@@ -195,7 +196,7 @@ class CultureMereController extends AbstractController
         FumureOrganiqueRepository $fumureOrganiqueRepository,
         ParcelleRepository $parcelleRepository,
         InsecticideRepository $insecticideRepository,
-        $parcelleId
+        Parcelle $parcelle
     ) {
         $cultureMere = new CultureMere();
 
@@ -242,7 +243,7 @@ class CultureMereController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $cultureMere->setParcelle($parcelleRepository->find($parcelleId));
+            $cultureMere->setParcelle($parcelleRepository->find($parcelle->getId()));
 
             if ($request->request->get('cycleAgricole')) {
                 $cultureMere->setCycleAgricole($cycleAgricoleRepository->find(
@@ -293,7 +294,7 @@ class CultureMereController extends AbstractController
 
             $objectManager->flush();
 
-            return $this->redirectToRoute('detail_parcelle', ['id' => $parcelleId]);
+            return $this->redirectToRoute('detail_parcelle', ['id' => $parcelle->getId()]);
         }
 
         return $this->render('culture_mere/ajoutCultureFromParcelle.html.twig', [
@@ -303,8 +304,9 @@ class CultureMereController extends AbstractController
             'itineraireCulturals' => $itineraireCulturals,
             'fumures' => $fumures,
             'insecticides' => $insecticides,
-            'parcelleId' => $parcelleId,
+            'parcelleId' => $parcelle->getId(),
             'culture' => null,
+            'parcelle' => $parcelle,
             'base_form' => $form->createView(),
         ]);
     }
@@ -331,6 +333,10 @@ class CultureMereController extends AbstractController
             ))
             ->add('QteSemence')
             ->add('prixUnitaireSemence')
+            ->add('dateRecolte', DateType::class, array(
+                'widget' => 'choice',
+                'format' => 'dd MM yyyy'
+            ))
             ->add('production')
             ->add('prixUnitaireProduit')
             ->getForm();

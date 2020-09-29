@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
         
         $nbrAgriculteur = $nbrFemme + $nbrHomme;
         $nbrParcelle = sizeof($parcelleRepository->findAll());
-        $reboisement = $systemeCulturalRepository->nbrSemence('foresterie');
+        $reboisement = $systemeCulturalRepository->nbrSemence('foresterie')[0];
 
         // SCA
         $sca = $agriculteurRepository->getSCA();

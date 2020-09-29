@@ -41,7 +41,7 @@
                 </td>
             </tr>
             <tr>
-                <th>Surface</th>
+                <th>Surface(ha)</th>
                 <td>{{ parcelle.surface }}</td>
                 <th>Type : </th>
                 <td>
@@ -143,7 +143,7 @@
                 <th>Culture_id</th>
                 <th>Nouvelle plantation</th>
                 <th>Cycle agricole</th>
-                <th>Surface cultivée</th>
+                <th>Surface cultivée(ha)</th>
                 <th>Précédent cultural</th>
                 <th>Système cultural</th>
                 <th>Itinéraire cultural</th>
@@ -275,7 +275,7 @@
     </div>
 </div>
 <div class="row">
-    <a class="" href="{{ path('culture_mere_add_from_parcelle', {'parcelleId': parcelle.id}) }}">
+    <a class="" href="{{ path('culture_mere_add_from_parcelle', {'id': parcelle.id}) }}">
         <button class="btn btn-primary">Ajouter une culture</button>
     </a>
 

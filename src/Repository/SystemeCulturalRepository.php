@@ -55,15 +55,19 @@ class SystemeCulturalRepository extends ServiceEntityRepository
 
         $res = new ResultSetMapping();
         $res->addScalarResult('nbr', 'nbr');
+        $res->addScalarResult('produit', 'produit');
 
-        $query = $this->getEntityManager()->createNativeQuery('SELECT SUM(fille.qte_semence) AS nbr FROM culture_fille AS fille
-        JOIN culture_mere AS mere ON fille.culture_mere_id = mere.id
-        JOIN systeme_cultural AS systeme ON systeme.id = mere.systeme_cultural_id
-        WHERE systeme.nom = ?', $res);
+        $query = $this->getEntityManager()->createNativeQuery(
+            'SELECT SUM(fille.qte_semence) AS nbr, SUM(fille.production) AS produit 
+            FROM culture_fille AS fille
+            JOIN culture_mere AS mere ON fille.culture_mere_id = mere.id
+            JOIN systeme_cultural AS systeme ON systeme.id = mere.systeme_cultural_id
+            WHERE systeme.nom = ?', $res
+        );
 
         $query->setParameter(1, $nomSystemeCultural);
 
-        $result = $query->getSingleScalarResult();
+        $result = $query->getScalarResult();
 
         return $result;
     }

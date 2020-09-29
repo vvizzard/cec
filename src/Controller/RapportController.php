@@ -102,10 +102,10 @@ class RapportController extends AbstractController
      */
     public function index(ParcelleRepository $parcelleRepository)
     {
-        $productivite = $parcelleRepository->zoneErodibles();
+        $zes = $parcelleRepository->zoneErodibles();
 
-        return $this->render('rapport/productivite.html.twig', [
-            'productivites' => $productivite,
+        return $this->render('rapport/ze.html.twig', [
+            'zes' => $zes,
         ]);
     }
 

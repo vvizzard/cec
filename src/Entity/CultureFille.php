@@ -69,6 +69,11 @@ class CultureFille
      */
     private $prixUnitaireProduit;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateRecolte;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -209,6 +214,18 @@ class CultureFille
     public function setPrixUnitaireProduit(?int $prixUnitaireProduit): self
     {
         $this->prixUnitaireProduit = $prixUnitaireProduit;
+
+        return $this;
+    }
+
+    public function getDateRecolte(): ?\DateTimeInterface
+    {
+        return $this->dateRecolte;
+    }
+
+    public function setDateRecolte(?\DateTimeInterface $dateRecolte): self
+    {
+        $this->dateRecolte = $dateRecolte;
 
         return $this;
     }

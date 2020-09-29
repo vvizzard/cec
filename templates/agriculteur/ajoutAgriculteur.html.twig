@@ -507,3 +507,35 @@
 	</div>
 
 {% endblock %}
+
+{% block javascripts %}
+<script>
+
+    $(function () {
+        $('#form_surfaceTotaleRiziere').change(function () {
+            checkSurface();
+        });
+        $('#form_surfaceParcelleLouee').change(function () {
+            checkSurface();
+        });
+        $('#form_surfaceParcelleEnLocation').change(function () {
+            checkSurface();
+        });
+    });
+
+    function checkSurface() {
+
+        var limite = $('#form_surfaceTotaleExploitee').val();
+
+        var riziere = 0;
+        parseInt($('#form_surfaceTotaleRiziere').val())>0 ? riziere = parseInt($('#form_surfaceTotaleRiziere').val()) : riziere = 0;
+        var louee = 0;
+        parseInt($('#form_surfaceParcelleLouee').val())>0 ? louee = parseInt($('#form_surfaceParcelleLouee').val()) : louee = 0;
+        var location = 0
+        parseInt($('#form_surfaceParcelleEnLocation').val())>0 ? location = parseInt($('#form_surfaceParcelleEnLocation').val()) : location = 0;
+        
+        var current =  riziere + louee + location;
+        current > limite ? alert('la somme des surfaces spécifiques doit être inférieur ou égale à la surface total exploitée : ' + limite) : console.log('max:' + limite);
+    }
+</script>
+{% endblock %}

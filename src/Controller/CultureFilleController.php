@@ -68,17 +68,15 @@ class CultureFilleController extends AbstractController
     }
 
     /**
-     * @Route("/culture_fille/add/{idCultureMere}", name="ajout_culture_fille_from_mere")
+     * @Route("/culture_fille/update/{id}", name="update_culture_fille")
      */
-    public function add(
+    public function update(
         HttpFoundationRequest $request,
         ObjectManager $objectManager,
         VarieteRepository $varieteRepository,
         CultureRepository $cultureRepository,
-        $idCultureMere,
-        CultureMereRepository $cultureMereRepository
+        CultureFille $cultureFille
     ) {
-        $cultureFille = new CultureFille();
 
         $varietes = $varieteRepository->findAll();
         $plantes = $cultureRepository->findAll();
@@ -87,6 +85,8 @@ class CultureFilleController extends AbstractController
             ->add('datePlantation', DateType::class, [
                 'label'    => 'Date de plantation',
                 'required' => false,
+                'widget' => 'choice',
+                'format' => 'dd MM yyyy'
             ])
             ->add('QteSemence', TextType::class, [
                 'label'    => 'Qté de semence',
@@ -95,6 +95,12 @@ class CultureFilleController extends AbstractController
             ->add('prixUnitaireSemence', TextType::class, [
                 'label'    => 'Prix unitaire des semences',
                 'required' => false,
+            ])
+            ->add('dateRecolte', DateType::class, [
+                'label'    => 'Date de récolte',
+                'required' => false,
+                'widget' => 'choice',
+                'format' => 'dd MM yyyy'
             ])
             ->add('production', TextType::class, [
                 'label'    => 'Production',
@@ -110,7 +116,7 @@ class CultureFilleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $cultureFille->setCultureMere($cultureMereRepository->find($idCultureMere));
+            // $cultureFille->setCultureMere($cultureMereRepository->find($idCultureMere));
 
             if ($request->request->get('variete')) {
                 $cultureFille->setVariete($varieteRepository->find($request->request->get('variete')));
@@ -122,13 +128,26 @@ class CultureFilleController extends AbstractController
             $objectManager->persist($cultureFille);
             $objectManager->flush();
 
-            return $this->redirectToRoute('detail_culture_mere', ['id' => $idCultureMere]);
+            return $this->redirectToRoute('detail_culture_mere', ['id' => $cultureFille->getCultureMere()->getId()]);
         }
 
         return $this->render('culture_fille/ajout_culture.html.twig', [
             'plantes' => $plantes,
             'varietes' => $varietes,
+            'culture' => $cultureFille,
             'base_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/culture_fille/delete/{id}", name="delete_culture_fille")
+     */
+    public function delete(CultureFille $cultureFille, ObjectManager $objectManager)
+    {
+        $mereId = $cultureFille->getCultureMere()->getId();
+        $objectManager->remove($cultureFille);
+        $objectManager->flush();
+
+        return $this->redirectToRoute('detail_culture_mere', ['id' => $mereId]);
     }
 }
