@@ -1069,9 +1069,9 @@ class CultureMere
         $this->setTarifMO(floatval($table[20]));
         $this->setDatePlantationString($table[21]);
         $this->setAgePlantation(intval($table[22]));
-        $this->setQteFumureOrganique(floatval($table[37]));
-        $this->setQteInsecticide(floatval($table[41]));
-        $this->setMisEnCloture($table[45]);
+        $this->setQteFumureOrganique(floatval($table[39]));
+        $this->setQteInsecticide(floatval($table[43]));
+        $this->setMisEnCloture($table[47]);
 
         return $this;
     }

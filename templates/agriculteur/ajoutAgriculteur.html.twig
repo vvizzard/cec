@@ -342,7 +342,8 @@
                 <select class="form-control" name="connaissanceDemandeCoursProduitAgricoleWhy" id="connaissanceDemandeCoursProduitAgricoleWhy">
                     <option value=""></option>
                     <option {% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 1 %}selected{% endif %} value="1">1. Le prix et la demande conditionnent l’orientation vers une spéculation compte tenu des dépenses et des risques encourus</option>
-                    <option {% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 2 %}selected{% endif %} value="2">2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière</option>
+                    <option {% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 2 %}selected{% endif %} value="2">2. La disponibilité de la demande garantie le marché pour la commercialisation de la production</option>
+                    <option {% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 3 %}selected{% endif %} value="3">3. La connaissance du prix permet de détecter la bonne période pour la vente de la production</option>
                 </select>
             </div>
             <div class="form-group">

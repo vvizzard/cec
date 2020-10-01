@@ -281,6 +281,7 @@ class ExcelService
             'Date de plantation/semis 1',
             'Qté de semence/plant 1',
             'Prix unitaire de semence/plant 1',
+            'Date de récolte 1',
             'Production 1',
             'Prix unitaire des produits',
             'Culture 2',
@@ -288,6 +289,7 @@ class ExcelService
             'Date de plantation/semis 2',
             'Qté de semence/plant 2',
             'Prix unitaire de semence/plant 2',
+            'Date de récolte 2',
             'Production 2',
             'Prix unitaire des produits 2',
             'Qté fumure organique',
@@ -342,6 +344,7 @@ class ExcelService
                     $columnValues[$index][] = $cf->getDatePlantation();
                     $columnValues[$index][] = $cf->getQteSemence();
                     $columnValues[$index][] = $cf->getPrixUnitaireSemence();
+                    $columnValues[$index][] = $cf->getDateRecolte();
                     $columnValues[$index][] = $cf->getProduction();
                     $columnValues[$index][] = $cf->getPrixUnitaireProduit();
                 }
@@ -351,6 +354,7 @@ class ExcelService
                     $columnValues[$index][] = $culture->getCultureFilles()[1]->getDatePlantation();
                     $columnValues[$index][] = $culture->getCultureFilles()[1]->getQteSemence();
                     $columnValues[$index][] = $culture->getCultureFilles()[1]->getPrixUnitaireSemence();
+                    $columnValues[$index][] = $culture->getCultureFilles()[1]->getDateRecolte();
                     $columnValues[$index][] = $culture->getCultureFilles()[1]->getProduction();
                     $columnValues[$index][] = $culture->getCultureFilles()[1]->getPrixUnitaireProduit();
                 } else {

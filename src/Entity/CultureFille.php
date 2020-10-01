@@ -229,4 +229,14 @@ class CultureFille
 
         return $this;
     }
+
+    public function setDateRecolteString($dateRecolte): self
+    {
+        if ($dateRecolte != null) {
+            $this->dateRecolte = \DateTime::createFromFormat('Y-m-d H:i:s', $dateRecolte);
+        }
+
+        return $this;
+    }
+    
 }

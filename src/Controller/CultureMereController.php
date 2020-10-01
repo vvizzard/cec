@@ -640,17 +640,19 @@ class CultureMereController extends AbstractController
                     }
 
                     $r[25] = $excelService->formatDate($r[25]);
+                    $r[28] = $excelService->formatDate($r[28]);
                     $principalFille->setDatePlantationString($r[25]);
                     $principalFille->setQteSemence(floatval($r[26]));
                     $principalFille->setPrixUnitaireSemence(intVal($r[27]));
-                    $principalFille->setProduction(floatVal($r[28]));
-                    $principalFille->setPrixUnitaireProduit(intval($r[29]));
+                    $principalFille->setDateRecolteString($r[28]);
+                    $principalFille->setProduction(floatVal($r[29]));
+                    $principalFille->setPrixUnitaireProduit(intval($r[30]));
 
                     $objectManager->persist($principalFille);
                 }
 
-                if ($r[30] != null) {
-                    $plante = $cultureRepository->findOneByNom($r[30]);
+                if ($r[31] != null) {
+                    $plante = $cultureRepository->findOneByNom($r[31]);
 
                     $secondaireFille = new CultureFille();
 
@@ -662,17 +664,19 @@ class CultureMereController extends AbstractController
 
                     $secondaireFille->setPlante($plante);
 
-                    if ($r[31] != null) {
+                    if ($r[32] != null) {
                         $variete = $varieteRepository->findOneByNom($r[31]);
                         $secondaireFille->setVariete($variete);
                     }
 
-                    $r[32] = $excelService->formatDate($r[32]);
-                    $secondaireFille->setDatePlantationString($r[32]);
-                    $secondaireFille->setQteSemence(floatval($r[33]));
-                    $secondaireFille->setPrixUnitaireSemence(intval($r[34]));
-                    $secondaireFille->setProduction(floatVal($r[35]));
-                    $secondaireFille->setPrixUnitaireProduit(intval($r[36]));
+                    $r[33] = $excelService->formatDate($r[33]);
+                    $r[36] = $excelService->formatDate($r[36]);
+                    $secondaireFille->setDatePlantationString($r[33]);
+                    $secondaireFille->setQteSemence(floatval($r[34]));
+                    $secondaireFille->setPrixUnitaireSemence(intval($r[35]));
+                    $secondaireFille->setDateRecolteString($r[36]);
+                    $secondaireFille->setProduction(floatVal($r[37]));
+                    $secondaireFille->setPrixUnitaireProduit(intval($r[38]));
 
                     $objectManager->persist($secondaireFille);
                 }
@@ -693,7 +697,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[38] != null ? $nbr->setNbr(floatval($r[38])) : $nbr->setNbr(0);
+                        $r[40] != null ? $nbr->setNbr(floatval($r[40])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($fumure->getNom(), 'Uree') == 0 || strcasecmp($fumure->getNom(), 'Urée') == 0) {
                         $nbr = new NbrFumureCultureM();
@@ -710,7 +714,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[39] != null ? $nbr->setNbr(floatval($r[39])) : $nbr->setNbr(0);
+                        $r[41] != null ? $nbr->setNbr(floatval($r[41])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (
                         strcasecmp($fumure->getNom(), 'Autre') == 0 || strcasecmp($fumure->getNom(), 'Autre fumure') == 0
@@ -731,7 +735,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[40] != null ? $nbr->setNbr(floatval($r[40])) : $nbr->setNbr(0);
+                        $r[42] != null ? $nbr->setNbr(floatval($r[42])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     }
                 }
@@ -751,7 +755,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[42] != null ? $nbr->setNbr(floatval($r[42])) : $nbr->setNbr(0);
+                        $r[44] != null ? $nbr->setNbr(floatval($r[44])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($insecticide->getNom(), 'fongicide') == 0) {
                         $nbr = new NbrInsecticideCultureM();
@@ -765,7 +769,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[43] != null ? $nbr->setNbr(floatval($r[43])) : $nbr->setNbr(0);
+                        $r[45] != null ? $nbr->setNbr(floatval($r[45])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (
                         strcasecmp($insecticide->getNom(), 'Autre') == 0 
@@ -787,7 +791,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[44] != null ? $nbr->setNbr(floatval($r[44])) : $nbr->setNbr(0);
+                        $r[46] != null ? $nbr->setNbr(floatval($r[46])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     }
                 }

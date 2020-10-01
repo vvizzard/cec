@@ -268,26 +268,26 @@
 					</th>
 					<td>
 						{% if agriculteur.toilette == 1 %}
-							1. Aucun
+							Aucun
 						{% elseif agriculteur.toilette == 2 %}
-							2. Haut
+							Haut
 						{% elseif agriculteur.toilette == 3 %}
-							3. Moyen
+							Moyen
 						{% elseif agriculteur.toilette == 4 %}
-							4. Bas
+							Bas
 						{% endif %}
 					</td>
 					<th>Douche
 					</th>
 					<td>
 						{% if agriculteur.douche == 1 %}
-							1. Aucun
+							Aucun
 						{% elseif agriculteur.douche == 2 %}
-							2. Haut
+							Haut
 						{% elseif agriculteur.douche == 3 %}
-							3. Moyen
+							Moyen
 						{% elseif agriculteur.douche == 4 %}
-							4. Bas
+							Bas
 						{% endif %}
 					</td>
 				</tr>
@@ -296,26 +296,26 @@
 					</th>
 					<td>
 						{% if agriculteur.assainissement == 1 %}
-							1. Aucun
+							Aucun
 						{% elseif agriculteur.assainissement == 2 %}
-							2. Haut
+							Haut
 						{% elseif agriculteur.assainissement == 3 %}
-							3. Moyen
+							Moyen
 						{% elseif agriculteur.assainissement == 4 %}
-							4. Bas
+							Bas
 						{% endif %}
 					</td>
 					<th>Accès à l'éducation
 					</th>
 					<td>
 						{% if agriculteur.accesEducation == 1 %}
-							1. Aucun
+							Aucun
 						{% elseif agriculteur.accesEducation == 2 %}
-							2. Base
+							Base
 						{% elseif agriculteur.accesEducation == 3 %}
-							3. Secondaire
+							Secondaire
 						{% elseif agriculteur.accesEducation == 4 %}
-							4. Universitaire
+							Universitaire
 						{% endif %}
 					</td>
 				</tr>
@@ -472,7 +472,9 @@
 						{% if agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 1 %}
 							1. Le prix et la demande conditionnent l’orientation vers une spéculation compte tenu des dépenses et des risques encourus
 						{% elseif agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 2 %}
-							2. Le producteur dispose d’un compte bancaire ou d’un compte auprès d’une institution financière
+							2. La disponibilité de la demande garantie le marché pour la commercialisation de la production
+						{% elseif agriculteur.connaissanceDemandeCoursProduitAgricoleWhy == 3 %}
+							3. La connaissance du prix permet de détecter la bonne période pour la vente de la production
 						{% endif %}
 					</td>
 				</tr>
@@ -522,6 +524,68 @@
 						{% elseif agriculteur.avantageRegroupement == 4 %}
 							4. Le producteur ne comprend pas encore les avantages du regroupement
 						{% endif %}
+					</td>
+				</tr>
+			</table>
+			<table class="table table-hover table-list table-cell-righ">
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>Nombre de jours de consommation de céréales et tubercules / semaine
+					</th>
+					<td>
+						{{ agriculteur.cereale }}
+					</td>
+				</tr>
+				<tr>
+					<th>Nombre de jours de consommation de légumes secs / semaine
+					</th>
+					<td>
+						{{ agriculteur.legumeSec }}
+					</td>
+				</tr>
+				<tr>
+					<th>Nombre de jours de consommation de légumes / semaine
+					</th>
+					<td>
+						{{ agriculteur.legume }}
+					</td>
+				</tr>
+				<tr>
+					<th>Nombre de jours de consommation de fruits / semaine
+					</th>
+					<td>
+						{{ agriculteur.fruit }}
+					</td>
+				</tr>
+				<tr>
+					<th>Nombre de jours de consommation de viande et poisson / semaine
+					</th>
+					<td>
+						{{ agriculteur.viande }}
+					</td>
+				</tr>
+				<tr>
+					<th>Nombre de jours de consommation de lait / semaine
+					</th>
+					<td>
+						{{ agriculteur.lait }}
+					</td>
+				</tr>
+				<tr>
+					<th>Nombre de jours de consommation de sucre / semaine
+					</th>
+					<td>
+						{{ agriculteur.sucre }}
+					</td>
+				</tr>
+				<tr>
+					<th>Nombre de jours de consommation de huile / semaine
+					</th>
+					<td>
+						{{ agriculteur.huile }}
 					</td>
 				</tr>
 			</table>

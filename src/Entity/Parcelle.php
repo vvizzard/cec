@@ -434,8 +434,8 @@ class Parcelle
         $this->setCompaction($table[9]);
         $this->setContreSaison($table[10]);
         $this->setZoneErodible($table[11]);
-        $this->setLongitude($table[12]);
-        $this->setLatitude($table[13]);
+        $this->setLongitude($table[13]);
+        $this->setLatitude($table[12]);
         $this->setObservation($table[14]);
         
         return $this;
