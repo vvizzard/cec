@@ -30,62 +30,62 @@ class CultureMere
     private $surfaceCultive;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moPreparationSol;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moInstallationCulture;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moEntretien1;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moEntretien2;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moEntretien3;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moRecolte;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moExtPreparationSol;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moExtInstallationCulture;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moExtEntretien1;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moExtEntretien2;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moExtEntretien3;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
      */
     private $moExtRecolte;
 
@@ -306,144 +306,144 @@ class CultureMere
         return $this;
     }
 
-    public function getMoPreparationSol(): ?int
+    public function getMoPreparationSol(): ?string
     {
         return $this->moPreparationSol;
     }
 
-    public function setMoPreparationSol(?int $moPreparationSol): self
+    public function setMoPreparationSol(?string $moPreparationSol): self
     {
         $this->moPreparationSol = $moPreparationSol;
 
         return $this;
     }
 
-    public function getMoInstallationCulture(): ?int
+    public function getMoInstallationCulture(): ?string
     {
         return $this->moInstallationCulture;
     }
 
-    public function setMoInstallationCulture(?int $moInstallationCulture): self
+    public function setMoInstallationCulture(?string $moInstallationCulture): self
     {
         $this->moInstallationCulture = $moInstallationCulture;
 
         return $this;
     }
 
-    public function getMoEntretien1(): ?int
+    public function getMoEntretien1(): ?string
     {
         return $this->moEntretien1;
     }
 
-    public function setMoEntretien1(?int $moEntretien1): self
+    public function setMoEntretien1(?string $moEntretien1): self
     {
         $this->moEntretien1 = $moEntretien1;
 
         return $this;
     }
 
-    public function getMoEntretien2(): ?int
+    public function getMoEntretien2(): ?string
     {
         return $this->moEntretien2;
     }
 
-    public function setMoEntretien2(?int $moEntretien2): self
+    public function setMoEntretien2(?string $moEntretien2): self
     {
         $this->moEntretien2 = $moEntretien2;
 
         return $this;
     }
 
-    public function getMoEntretien3(): ?int
+    public function getMoEntretien3(): ?string
     {
         return $this->moEntretien3;
     }
 
-    public function setMoEntretien3(?int $moEntretien3): self
+    public function setMoEntretien3(?string $moEntretien3): self
     {
         $this->moEntretien3 = $moEntretien3;
 
         return $this;
     }
 
-    public function getMoRecolte(): ?int
+    public function getMoRecolte(): ?string
     {
         return $this->moRecolte;
     }
 
-    public function setMoRecolte(?int $moRecolte): self
+    public function setMoRecolte(?string $moRecolte): self
     {
         $this->moRecolte = $moRecolte;
 
         return $this;
     }
 
-    public function getMoExtPreparationSol(): ?int
+    public function getMoExtPreparationSol(): ?string
     {
         return $this->moExtPreparationSol;
     }
 
-    public function setMoExtPreparationSol(?int $moExtPreparationSol): self
+    public function setMoExtPreparationSol(?string $moExtPreparationSol): self
     {
         $this->moExtPreparationSol = $moExtPreparationSol;
 
         return $this;
     }
 
-    public function getMoExtInstallationCulture(): ?int
+    public function getMoExtInstallationCulture(): ?string
     {
         return $this->moExtInstallationCulture;
     }
 
-    public function setMoExtInstallationCulture(?int $moExtInstallationCulture): self
+    public function setMoExtInstallationCulture(?string $moExtInstallationCulture): self
     {
         $this->moExtInstallationCulture = $moExtInstallationCulture;
 
         return $this;
     }
 
-    public function getMoExtEntretien1(): ?int
+    public function getMoExtEntretien1(): ?string
     {
         return $this->moExtEntretien1;
     }
 
-    public function setMoExtEntretien1(?int $moExtEntretien1): self
+    public function setMoExtEntretien1(?string $moExtEntretien1): self
     {
         $this->moExtEntretien1 = $moExtEntretien1;
 
         return $this;
     }
 
-    public function getMoExtEntretien2(): ?int
+    public function getMoExtEntretien2(): ?string
     {
         return $this->moExtEntretien2;
     }
 
-    public function setMoExtEntretien2(?int $moExtEntretien2): self
+    public function setMoExtEntretien2(?string $moExtEntretien2): self
     {
         $this->moExtEntretien2 = $moExtEntretien2;
 
         return $this;
     }
 
-    public function getMoExtEntretien3(): ?int
+    public function getMoExtEntretien3(): ?string
     {
         return $this->moExtEntretien3;
     }
 
-    public function setMoExtEntretien3(?int $moExtEntretien3): self
+    public function setMoExtEntretien3(?string $moExtEntretien3): self
     {
         $this->moExtEntretien3 = $moExtEntretien3;
 
         return $this;
     }
 
-    public function getMoExtRecolte(): ?int
+    public function getMoExtRecolte(): ?string
     {
         return $this->moExtRecolte;
     }
 
-    public function setMoExtRecolte(?int $moExtRecolte): self
+    public function setMoExtRecolte(?string $moExtRecolte): self
     {
         $this->moExtRecolte = $moExtRecolte;
 
@@ -1050,27 +1050,27 @@ class CultureMere
         // $this->setParcelleString();1
         $this->setNouvellePlantation($table[2]);
         // $this->setCycleAgricoleString();3
-        $this->setSurfaceCultive(intval($table[4]));
+        $this->setSurfaceCultive(floatval($table[4]));
         // $this->setPrecedentCulturalString();5
         // $this->setSystemeCulturalString();6
         // $this->setItineraireCulturalString();7
-        $this->setMoPreparationSol(intval($table[8]));
-        $this->setMoInstallationCulture(intval($table[9]));
-        $this->setMoEntretien1(intval($table[10]));
-        $this->setMoEntretien2(intval($table[11]));
-        $this->setMoEntretien3(intval($table[12]));
-        $this->setMoRecolte(intval($table[13]));
-        $this->setMoExtPreparationSol(intval($table[14]));
-        $this->setMoExtInstallationCulture(intval($table[15]));
-        $this->setMoExtEntretien1(intval($table[16]));
-        $this->setMoExtEntretien2(intval($table[17]));
-        $this->setMoExtEntretien3(intval($table[18]));
-        $this->setMoExtRecolte(intval($table[19]));
-        $this->setTarifMO(intval($table[20]));
+        $this->setMoPreparationSol(floatval($table[8]));
+        $this->setMoInstallationCulture(floatval($table[9]));
+        $this->setMoEntretien1(floatval($table[10]));
+        $this->setMoEntretien2(floatval($table[11]));
+        $this->setMoEntretien3(floatval($table[12]));
+        $this->setMoRecolte(floatval($table[13]));
+        $this->setMoExtPreparationSol(floatval($table[14]));
+        $this->setMoExtInstallationCulture(floatval($table[15]));
+        $this->setMoExtEntretien1(floatval($table[16]));
+        $this->setMoExtEntretien2(floatval($table[17]));
+        $this->setMoExtEntretien3(floatval($table[18]));
+        $this->setMoExtRecolte(floatval($table[19]));
+        $this->setTarifMO(floatval($table[20]));
         $this->setDatePlantationString($table[21]);
         $this->setAgePlantation(intval($table[22]));
-        $this->setQteFumureOrganique(intval($table[37]));
-        $this->setQteInsecticide(intval($table[41]));
+        $this->setQteFumureOrganique(floatval($table[37]));
+        $this->setQteInsecticide(floatval($table[41]));
         $this->setMisEnCloture($table[45]);
 
         return $this;

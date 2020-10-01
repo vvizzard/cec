@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Services\ExcelService;
+use Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
@@ -573,6 +574,8 @@ class CultureMereController extends AbstractController
 
             $row = $excelService->upload($spreadSheet);
 
+            $flush = true;
+
             foreach ($row as $r) {
                 $culture = new CultureMere();
                 try {
@@ -583,7 +586,7 @@ class CultureMereController extends AbstractController
                         $culture = $cultureMereRepository->find(intval($r[0]));
                     }
                     if (strpos($r[1], 'PL_') !== false) {
-                        $r[1] = substr($r[0], 3);
+                        $r[1] = substr($r[1], 3);
                     }
                 } catch (\Throwable $th) {
                     //$r[0] is not an int so we add a new instance
@@ -595,8 +598,11 @@ class CultureMereController extends AbstractController
 
                 $culture->complete($r);
 
+                $parcelle = null;
+
                 if ($r[1] != null) {
-                    $culture->setParcelle($parcelleRepository->find(intVal($r[1])));
+                    $parcelle = $parcelleRepository->find(intVal($r[1]));
+                    $culture->setParcelle($parcelle);
                 }
                 if ($r[3] != null) {
                     $culture->setCycleAgricole($cycleAgricoleRepository->findOneByNom($r[3]));
@@ -635,7 +641,7 @@ class CultureMereController extends AbstractController
 
                     $r[25] = $excelService->formatDate($r[25]);
                     $principalFille->setDatePlantationString($r[25]);
-                    $principalFille->setQteSemence(intval($r[26]));
+                    $principalFille->setQteSemence(floatval($r[26]));
                     $principalFille->setPrixUnitaireSemence(intVal($r[27]));
                     $principalFille->setProduction(floatVal($r[28]));
                     $principalFille->setPrixUnitaireProduit(intval($r[29]));
@@ -663,7 +669,7 @@ class CultureMereController extends AbstractController
 
                     $r[32] = $excelService->formatDate($r[32]);
                     $secondaireFille->setDatePlantationString($r[32]);
-                    $secondaireFille->setQteSemence(intval($r[33]));
+                    $secondaireFille->setQteSemence(floatval($r[33]));
                     $secondaireFille->setPrixUnitaireSemence(intval($r[34]));
                     $secondaireFille->setProduction(floatVal($r[35]));
                     $secondaireFille->setPrixUnitaireProduit(intval($r[36]));
@@ -687,7 +693,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[38] != null ? $nbr->setNbr(intval($r[38])) : $nbr->setNbr(0);
+                        $r[38] != null ? $nbr->setNbr(floatval($r[38])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($fumure->getNom(), 'Uree') == 0 || strcasecmp($fumure->getNom(), 'Urée') == 0) {
                         $nbr = new NbrFumureCultureM();
@@ -704,7 +710,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[39] != null ? $nbr->setNbr(intval($r[39])) : $nbr->setNbr(0);
+                        $r[39] != null ? $nbr->setNbr(floatval($r[39])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (
                         strcasecmp($fumure->getNom(), 'Autre') == 0 || strcasecmp($fumure->getNom(), 'Autre fumure') == 0
@@ -725,7 +731,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[40] != null ? $nbr->setNbr(intval($r[40])) : $nbr->setNbr(0);
+                        $r[40] != null ? $nbr->setNbr(floatval($r[40])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     }
                 }
@@ -745,7 +751,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[42] != null ? $nbr->setNbr(intval($r[42])) : $nbr->setNbr(0);
+                        $r[42] != null ? $nbr->setNbr(floatval($r[42])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($insecticide->getNom(), 'fongicide') == 0) {
                         $nbr = new NbrInsecticideCultureM();
@@ -759,7 +765,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[43] != null ? $nbr->setNbr(intval($r[43])) : $nbr->setNbr(0);
+                        $r[43] != null ? $nbr->setNbr(floatval($r[43])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (
                         strcasecmp($insecticide->getNom(), 'Autre') == 0 
@@ -781,15 +787,17 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[44] != null ? $nbr->setNbr(intval($r[44])) : $nbr->setNbr(0);
+                        $r[44] != null ? $nbr->setNbr(floatval($r[44])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     }
                 }
 
-                $objectManager->flush();
+                $parcelle == null ? $flush = false : 1;
             }
 
-        } catch (FileException $e) {
+            $flush ? $objectManager->flush() : $this->exception();
+
+        } catch (Exception $e) {
             return $this->redirectToRoute('upload_culture_form');
         }
 
@@ -801,8 +809,12 @@ class CultureMereController extends AbstractController
 
     }
 
+    private function exception() {
+        throw new Exception("Certains données ne sont pas acceptable. ex: ID_Parcelle manquante ou inexistante");
+    }
+
     /**
-     * @Route("/upload/parcelle_form", name="upload_culture_form")
+     * @Route("/upload/culture_form", name="upload_culture_form")
      */
     public function uploads()
     {

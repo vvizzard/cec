@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Services\ExcelService;
+use Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
@@ -382,6 +383,8 @@ class ParcelleController extends AbstractController
 
             $row = $excelService->upload($spreadSheet);
 
+            $flush = true;
+
             foreach ($row as $r) {
                 $parcelle = new Parcelle();
                 try {
@@ -392,7 +395,7 @@ class ParcelleController extends AbstractController
                         $parcelle = $parcelleRepository->find(intval($r[0]));
                     }
                     if( strpos($r[1], 'AG_') !== false ) {
-                        $r[1] = substr($r[0], 3);
+                        $r[1] = substr($r[1], 3);
                     }
                 } catch (\Throwable $th) {
                     //$r[0] is not an int so we add a new instance
@@ -400,8 +403,11 @@ class ParcelleController extends AbstractController
 
                 $parcelle->complete($r);
 
+                $agriculteur = null;
+
                 if ($r[1] != null) {
-                    $parcelle->setAgriculteur($agriculteurRepository->find(intVal($r[1])));
+                    $agriculteur = $agriculteurRepository->find(intVal($r[1]));
+                    $parcelle->setAgriculteur($agriculteur);
                 }
                 if ($r[3] != null) {
                     $parcelle->setType($typeRepository->findOneByNom($r[3]));
@@ -424,9 +430,12 @@ class ParcelleController extends AbstractController
 
                 $objectManager->persist($parcelle);
 
-                $objectManager->flush();
+                $agriculteur == null ? $flush = false : 1;
             }
-        } catch (FileException $e) {
+            
+            $flush ? $objectManager->flush() : $this->exception();
+            
+        } catch (Exception $e) {
             return $this->redirectToRoute('upload_parcelle_form');
         }
 
@@ -436,6 +445,10 @@ class ParcelleController extends AbstractController
 
         // return $this->redirectToRoute('detail_parcelle', ['id' => $row[2][0]]);
 
+    }
+
+    private function exception() {
+        throw new Exception("Certains données ne sont pas acceptable. ex: ID_Agriculteur manquante ou inexistante");
     }
 
     /**

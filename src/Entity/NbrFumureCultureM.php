@@ -30,7 +30,7 @@ class NbrFumureCultureM
     private $culture;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     private $nbr;
 
@@ -63,12 +63,12 @@ class NbrFumureCultureM
         return $this;
     }
 
-    public function getNbr(): ?int
+    public function getNbr(): ?string
     {
         return $this->nbr;
     }
 
-    public function setNbr(int $nbr): self
+    public function setNbr(string $nbr): self
     {
         $this->nbr = $nbr;
 
