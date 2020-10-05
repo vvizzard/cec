@@ -19,12 +19,7 @@
 
 /* Left navbar */
 
-.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-    background-color: #8c572b3b;
-    color: #fff;
-}
-
-[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover {
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active {
     background-color: #494e53;
     color: white;
 }
