@@ -1,26 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Précédent cultural | CEC{% endblock %}
+{% block title %}Système cultural | CEC{% endblock %}
 
-{% block h1 %}Précédent cultural{% endblock %}
+{% block h1 %}Système cultural{% endblock %}
 
 {% block history %}
     <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-    <li class="breadcrumb-item active">Précédent cultural</li>
+    <li class="breadcrumb-item active">Système cultural</li>
 {% endblock %}
 
 {% block body %}
 <div class="card">
     <div class="card-body">
         {{ form_start(base_form) }}
-
-        <label for="foreign">Milieu: </label>
-        <select name="foreign" id="foreign" class="form-control">
-            <option></option>
-        {% for foreign in foreigns %}
-            <option {% if base.milieu is not null and base.milieu.id == foreign.id %}selected{% endif %} value="{{ foreign.id }}">{{ foreign.nom }}</option>
-        {% endfor %}
-        </select>
 
         {{ form_widget(base_form) }}
 
@@ -36,8 +28,6 @@
     <table class="table table-fit table-cec table-hover">
         <tr>
             <th>Nom</th>
-            <th>Milieu</th>
-            <th>systemeCulturalExport</th>
             <th>Description</th>
             {% if is_granted('ROLE_ADMIN') %}
                 <th></th>
@@ -47,12 +37,6 @@
         {% for base in bases %}
         <tr>
             <td>{{ base.nom }}</td>
-            <td>
-                {% if base.milieu is not null %}
-                    {{ base.milieu.nom }}
-                {% endif %}
-            </td>
-            <td>{{ base.systemeCulturalExport }}</td>
             <td>{{ base.description }}</td>
             {% if is_granted('ROLE_ADMIN') %}
                 <td>

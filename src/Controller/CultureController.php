@@ -6,6 +6,7 @@ use App\Entity\Culture;
 use App\Repository\CultureRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +21,10 @@ class CultureController extends AbstractController
 
         $form = $this->createFormBuilder($culture)
             ->add('nom')
-            ->add('rente')
+            ->add('rente', CheckboxType::class, [
+                'label'    => 'Culture rente',
+                'required' => false,
+            ])
             ->add('description')
             ->getForm();
 
@@ -52,7 +56,10 @@ class CultureController extends AbstractController
 
         $form = $this->createFormBuilder($culture)
             ->add('nom')
-            ->add('rente')
+            ->add('rente', CheckboxType::class, [
+                'label'    => 'Culture rente',
+                'required' => false,
+            ])
             ->add('description')
             ->getForm();
 

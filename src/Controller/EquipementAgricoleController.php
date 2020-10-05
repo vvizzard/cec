@@ -71,7 +71,7 @@ class EquipementAgricoleController extends AbstractController
     }
 
     /**
-     * @Route("/admin/culture/delete/{id}", name="delete_equipement_agricole")
+     * @Route("/admin/equipement_agricole/delete/{id}", name="delete_equipement_agricole")
      */
     public function delete(EquipementAgricole $equipementAgricole, ObjectManager $objectManager)
     {

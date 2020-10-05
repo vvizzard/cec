@@ -1,18 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Plantes | CEC{% endblock %}
+{% block title %}Espèces | CEC{% endblock %}
 
-{% block h1 %}Plantes{% endblock %}
+{% block h1 %}Espèces{% endblock %}
 
 {% block history %}
     <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-    <li class="breadcrumb-item active">Plantes</li>
+    <li class="breadcrumb-item active">Espèces</li>
 {% endblock %}
 
 {% block body %}
 <div class="card">
     <div class="card-body">
         {{ form_start(culture_form) }}
+
+        <div class="form-group form-control form-group-bottom">
+            {{ form_widget(culture_form.rente) }}
+        </div>
 
         {{ form_widget(culture_form) }}
 
@@ -38,7 +42,13 @@
         {% for culture in cultures %}
         <tr>
             <td>{{ culture.nom }}</td>
-            <td>{{ culture.rente }}</td>
+            <td>
+                {% if culture.rente == true %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+            </td>
             <td>{{ culture.description }}</td>
             {% if is_granted('ROLE_ADMIN') %}
                 <td>

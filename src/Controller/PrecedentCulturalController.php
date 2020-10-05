@@ -6,6 +6,7 @@ use App\Entity\PrecedentCultural;
 use App\Repository\PrecedentCulturalRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,7 +24,10 @@ class PrecedentCulturalController extends AbstractController
 
         $form = $this->createFormBuilder($precedentCultural)
             ->add('nom')
-            ->add('installeSurPDT')
+            ->add('installeSurPDT', CheckboxType::class, [
+                'label'    => 'Installé sur PDT',
+                'required' => false,
+            ])
             ->add('description')
             ->getForm();
 
@@ -55,7 +59,10 @@ class PrecedentCulturalController extends AbstractController
 
         $form = $this->createFormBuilder($precedentCultural)
             ->add('nom')
-            ->add('installeSurPDT')
+            ->add('installeSurPDT', CheckboxType::class, [
+                'label'    => 'Installé sur PDT',
+                'required' => false,
+            ])
             ->add('description')
             ->getForm();
 

@@ -14,6 +14,10 @@
     <div class="card-body">
         {{ form_start(precedentCultural_form) }}
 
+        <div class="form-group form-control">
+            {{ form_widget(precedentCultural_form.installeSurPDT) }}
+        </div>
+        
         {{ form_widget(precedentCultural_form) }}
 
         <button type="submit" class="btn btn-success">Ajout</button>
@@ -28,7 +32,7 @@
     <table class="table table-fit table-cec table-hover">
         <tr>
             <th>Nom</th>
-            <th>Installe sur pdt</th>
+            <th>Installe sur PDT</th>
             <th>Description</th>
             {% if is_granted('ROLE_ADMIN') %}
                 <th></th>
@@ -38,7 +42,13 @@
         {% for precedentCultural in precedentCulturals %}
         <tr>
             <td>{{ precedentCultural.nom }}</td>
-            <td>{{ precedentCultural.installeSurPDT }}</td>
+            <td>
+                {% if precedentCultural.installeSurPDT == true %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+            </td>
             <td>{{ precedentCultural.description }}</td>
             {% if is_granted('ROLE_ADMIN') %}
                 <td>

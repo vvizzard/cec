@@ -59,7 +59,7 @@ class TerroirController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->persist($terroir);
             $objectManager->flush();
-            return $this->redirectToRoute('terroirs');
+            return $this->redirectToRoute('terroir');
         }
 
         $terroirs = $terroirRepository->findAll();
@@ -78,6 +78,6 @@ class TerroirController extends AbstractController
     {
         $objectManager->remove($fokontany);
         $objectManager->flush();
-        return $this->redirectToRoute('terroirs');
+        return $this->redirectToRoute('terroir');
     }
 }

@@ -27,24 +27,16 @@ class ItineraireCulturalController extends AbstractController
 
         $form = $this->createFormBuilder($itineraireCultural)
             ->add('nom')
-            ->add('riz')
-            ->add('vivrierHors')
-            ->add('rmme')
-            ->add('pcEnPure')
-            ->add('couvertureCultureRente')
-            ->add('reforestation')
-            ->add('cultureRente')
-            ->add('pcAssocie')
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($request->request->get('foreign')) {
-                $itineraireCultural->setSysteme($systemeCulturalRepository
-                    ->find($request->request->get('foreign')));
-            }
+            // if ($request->request->get('foreign')) {
+            //     $itineraireCultural->setSysteme($systemeCulturalRepository
+            //         ->find($request->request->get('foreign')));
+            // }
 
             $objectManager->persist($itineraireCultural);
             $objectManager->flush();
@@ -77,24 +69,16 @@ class ItineraireCulturalController extends AbstractController
 
         $form = $this->createFormBuilder($itineraireCultural)
             ->add('nom')
-            ->add('riz')
-            ->add('vivrierHors')
-            ->add('rmme')
-            ->add('pcEnPure')
-            ->add('couvertureCultureRente')
-            ->add('reforestation')
-            ->add('cultureRente')
-            ->add('pcAssocie')
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($request->request->get('foreign')) {
-                $itineraireCultural->setSysteme($systemeCulturalRepository
-                    ->find($request->request->get('foreign')));
-            }
+            // if ($request->request->get('foreign')) {
+            //     $itineraireCultural->setSysteme($systemeCulturalRepository
+            //         ->find($request->request->get('foreign')));
+            // }
 
             $objectManager->persist($itineraireCultural);
             $objectManager->flush();

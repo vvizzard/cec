@@ -27,7 +27,6 @@ class SystemeCulturalController extends AbstractController
 
         $form = $this->createFormBuilder($systemeCultural)
             ->add('nom')
-            ->add('systemeCulturalExport')
             ->add('description')
             ->getForm();
 
@@ -35,9 +34,9 @@ class SystemeCulturalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($request->request->get('foreign')) {
-                $systemeCultural->setMilieu($milieuRepository->find($request->request->get('foreign')));
-            }
+            // if ($request->request->get('foreign')) {
+            //     $systemeCultural->setMilieu($milieuRepository->find($request->request->get('foreign')));
+            // }
 
             $objectManager->persist($systemeCultural);
             $objectManager->flush();
@@ -70,7 +69,6 @@ class SystemeCulturalController extends AbstractController
 
         $form = $this->createFormBuilder($systemeCultural)
             ->add('nom')
-            ->add('systemeCulturalExport')
             ->add('description')
             ->getForm();
 
@@ -78,9 +76,9 @@ class SystemeCulturalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($request->request->get('foreign')) {
-                $systemeCultural->setMilieu($milieuRepository->find($request->request->get('foreign')));
-            }
+            // if ($request->request->get('foreign')) {
+            //     $systemeCultural->setMilieu($milieuRepository->find($request->request->get('foreign')));
+            // }
 
             $objectManager->persist($systemeCultural);
             $objectManager->flush();
