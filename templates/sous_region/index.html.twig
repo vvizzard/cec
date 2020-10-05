@@ -14,16 +14,6 @@
     <div class="card-body">
         {{ form_start(sousRegion_form) }}
 
-        <label for="region">Region: </label>
-        <select name="region" id="region" class="form-control">
-            <option></option>
-        {% for region in regions %}
-            <option {% if sousRegion.region is not null and region.id == sousRegion.region.id %}selected{% endif %} value="{{ region.id }}">
-                {{ region.nom }}
-            </option>
-        {% endfor %}
-        </select>
-
         {{ form_widget(sousRegion_form) }}
 
         <button type="submit" class="btn btn-success">Ajout</button>
@@ -38,7 +28,6 @@
     <table class="table table-fit table-cec table-hover">
         <tr>
             <th>Nom</th>
-            <th>Region</th>
             <th>Description</th>
             {% if is_granted('ROLE_ADMIN') %}
                 <th></th>
@@ -48,11 +37,6 @@
         {% for sousRegion in sousRegions %}
         <tr>
             <td>{{ sousRegion.nom }}</td>
-            <td>
-                {% if sousRegion.region is not null %}
-                    {{ sousRegion.region.nom }}
-                {% endif %}
-            </td>
             <td>{{ sousRegion.description }}</td>
             {% if is_granted('ROLE_ADMIN') %}
                 <td>

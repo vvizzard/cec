@@ -83,7 +83,7 @@ class SousRegionController extends AbstractController
             $objectManager->persist($sousRegion);
             $objectManager->flush();
 
-            return $this->redirectToRoute('sous_Regions');
+            return $this->redirectToRoute('sous_Region');
         }
 
         $sousRegions = $sousRegionRepository->findAll();
@@ -103,6 +103,6 @@ class SousRegionController extends AbstractController
     {
         $objectManager->remove($sousRegion);
         $objectManager->flush();
-        return $this->redirectToRoute('sous_Regions');
+        return $this->redirectToRoute('sous_Region');
     }
 }
