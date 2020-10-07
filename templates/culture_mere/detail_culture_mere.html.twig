@@ -146,7 +146,7 @@
             {{ form_start(form) }}
                 <tr>
                     <td>
-                        <select name="plante" id="plante" class="form-control">
+                        <select name="plante" id="plante" class="form-control" onchange="filter()">
                         {% for plante in plantes %}
                             <option value="{{ plante.id }}">{{ plante.nom }}</option>
                         {% endfor %}
@@ -156,7 +156,8 @@
                         <select name="variete" id="variete" class="form-control">
                             <option></option>
                         {% for variete in varietes %}
-                            <option value="{{ variete.id }}">{{ variete.nom }}</option>
+                            <option class="varietes {% if variete.culture is not null %}variete_{{ variete.culture.id }}{% endif %}" 
+                                    value="{{ variete.id }}">{{ variete.nom }}</option>
                         {% endfor %}
                         </select>
                     </td>
@@ -304,6 +305,13 @@
 
 {% block javascripts %}
     <script>
+
+        function filter() {
+            $('.varietes').hide();
+            $('.variete_'+$('#plante').val()).show();
+            console.log("to show : ");
+            console.log('.variete_'+$('#plante').val());
+        }
 
         function setTotal(a, b, idDomResult) {
             if (a && b) {
