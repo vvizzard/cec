@@ -34,7 +34,7 @@
             <th>Nom</th>
             <th>Installe sur PDT</th>
             <th>Description</th>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <th></th>
                 <th></th>
             {% endif %}
@@ -50,7 +50,7 @@
                 {% endif %}
             </td>
             <td>{{ precedentCultural.description }}</td>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <td>
                     <a class="btn btn-default" title="Modifier" 
                             href="{{ path('udpate_precedent_cultural', {'id': precedentCultural.id}) }}">
@@ -58,11 +58,13 @@
                     </a>
                 </td>
                 <td>
+                {% if is_granted('ROLE_ADMIN') %}
                     <a href="#" class="btn btn-danger" title="Supprimer" 
                             data-toggle="modal" data-target="#delete-modal"
                             onclick="del('{{ path('delete_precedent_cultural', {'id': precedentCultural.id}) }}')">
                         <i class="fas fa-trash"></i>
                     </a>
+                {% endif %}
                 </td>
             {% endif %}
         </tr>

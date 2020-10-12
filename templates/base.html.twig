@@ -108,24 +108,28 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ path('add_agriculteur') }}" class="nav-link {% if current_path == 'add_agriculteur' %}active{% endif %}">
-                            <i class=""></i>
-                            <p>Ajouter un agriculteur</p>
-                            </a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
+                            <li class="nav-item">
+                                <a href="{{ path('add_agriculteur') }}" class="nav-link {% if current_path == 'add_agriculteur' %}active{% endif %}">
+                                <i class=""></i>
+                                <p>Ajouter un agriculteur</p>
+                                </a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a href="{{ path('agriculteurs') }}" class="nav-link {% if current_path == 'agriculteurs' %}active{% endif %}">
                             <i class=""></i>
                             <p>Liste des agriculteurs</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ path('upload_agriculteur_form') }}" class="nav-link {% if current_path == 'upload_agriculteur_form' %}active{% endif %}">
-                            <i class=""></i>
-                            <p>Ajout depuis Excel</p>
-                            </a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
+                            <li class="nav-item">
+                                <a href="{{ path('upload_agriculteur_form') }}" class="nav-link {% if current_path == 'upload_agriculteur_form' %}active{% endif %}">
+                                <i class=""></i>
+                                <p>Ajout depuis Excel</p>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="nav-item has-treeview {% if 'ParcelleController' in current_controller %}menu-open{% endif %}">
@@ -137,24 +141,28 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ path('add_parcelle') }}" class="nav-link {% if current_path == 'add_parcelle' %}active{% endif %}">
-                            <i class=""></i>
-                            <p>Ajouter un nouveau parcelle</p>
-                            </a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
+                            <li class="nav-item">
+                                <a href="{{ path('add_parcelle') }}" class="nav-link {% if current_path == 'add_parcelle' %}active{% endif %}">
+                                <i class=""></i>
+                                <p>Ajouter un nouveau parcelle</p>
+                                </a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a href="{{ path('parcelles') }}" class="nav-link {% if current_path == 'parcelles' %}active{% endif %}">
                             <i class=""></i>
                             <p>Liste des parcelles</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ path('upload_parcelle_form') }}" class="nav-link {% if current_path == 'upload_parcelle_form' %}active{% endif %}">
-                            <i class=""></i>
-                            <p>Ajout depuis Excel</p>
-                            </a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
+                            <li class="nav-item">
+                                <a href="{{ path('upload_parcelle_form') }}" class="nav-link {% if current_path == 'upload_parcelle_form' %}active{% endif %}">
+                                <i class=""></i>
+                                <p>Ajout depuis Excel</p>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="nav-item has-treeview {% if 'CultureMereController' in current_controller or 'CultureFilleController' in current_controller %}menu-open{% endif %}">
@@ -166,24 +174,28 @@
                     </p>
                     </a>
                     <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ path('culture_mere_add') }}" class="nav-link {% if current_path == 'culture_mere_add' %}active{% endif %}">
-                        <i class=""></i>
-                        <p>Ajouter une nouvelle culture</p>
-                        </a>
-                    </li>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
+                        <li class="nav-item">
+                            <a href="{{ path('culture_mere_add') }}" class="nav-link {% if current_path == 'culture_mere_add' %}active{% endif %}">
+                                <i class=""></i>
+                                <p>Ajouter une nouvelle culture</p>
+                            </a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a href="{{ path('culture_meres') }}" class="nav-link {% if current_path == 'culture_meres' %}active{% endif %}">
-                        <i class=""></i>
-                        <p>Liste des cultures</p>
+                            <i class=""></i>
+                            <p>Liste des cultures</p>
                         </a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                         <li class="nav-item">
-                        <a href="{{ path('upload_culture_form') }}" class="nav-link {% if current_path == 'upload_culture_form' %}active{% endif %}">
-                        <i class=""></i>
-                        <p>Ajout depuis Excel</p>
-                        </a>
-                    </li>
-                    </li>
+                            <a href="{{ path('upload_culture_form') }}" class="nav-link {% if current_path == 'upload_culture_form' %}active{% endif %}">
+                                <i class=""></i>
+                                <p>Ajout depuis Excel</p>
+                            </a>
+                        </li>
+                    {% endif %}
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -222,7 +234,7 @@
                         <p>Performance du système</p>
                     </a>
                 </li>
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                     <li class="nav-item has-treeview 
                             {% if 'TypeElevageController' in current_controller 
                                 or 'VillageController' in current_controller 

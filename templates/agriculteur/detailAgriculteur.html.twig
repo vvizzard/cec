@@ -24,11 +24,12 @@
 						onclick="del('{{ path('delete_agriculteur', {'id': agriculteur.id}) }}')">
 					<i class="fas fa-trash"></i>
 				</a>
+			{% endif %}
+			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
 				<a class="" style="float:right;" title="Modifier" href="{{ path('update_agriculteur', {'id': agriculteur.id}) }}">
 					<i class="fas fa-edit"></i>
 				</a>
 			{% endif %}
-			
 		</div>
 		<div class="card-body">
 			<table class="table table-hover table-list">
@@ -617,7 +618,7 @@
 					<th>Longitude</th>
 					<th>Latitude</th>
 					<th>Observation</th>
-					{% if is_granted('ROLE_ADMIN') %}<th></th>{% endif %}
+					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}<th></th>{% endif %}
 				</tr>
 
 				{% for parcelle in agriculteur.parcelles %}
@@ -684,19 +685,21 @@
 						<td>{{ parcelle.longitude }}</td>
 						<td>{{ parcelle.latitude }}</td>
 						<td>{{ parcelle.observation }}</td>
-						{% if is_granted('ROLE_ADMIN') %}
+						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
 							<td>
 								<a class="btn btn-default" title="Modifier" href="{{ path('update_parcelle', {'id': parcelle.id}) }}">
 									<i class="fas fa-edit"></i>
 								</a>
 							</td>
-							<td>
-								<a href="#" class="btn btn-danger" title="Supprimer" 
-										data-toggle="modal" data-target="#delete-modal"
-										onclick="del('{{ path('delete_parcelle', {'id': parcelle.id}) }}')">
-									<i class="fas fa-trash"></i>
-								</a>
-							</td>
+							{% if is_granted('ROLE_ADMIN') %}
+								<td>
+									<a href="#" class="btn btn-danger" title="Supprimer" 
+											data-toggle="modal" data-target="#delete-modal"
+											onclick="del('{{ path('delete_parcelle', {'id': parcelle.id}) }}')">
+										<i class="fas fa-trash"></i>
+									</a>
+								</td>
+							{% endif %}
 						{% endif %}
 					</tr>
 				{% endfor %}

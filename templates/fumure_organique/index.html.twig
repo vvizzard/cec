@@ -30,7 +30,7 @@
             <th>Nom</th>
             <th>Rente</th>
             <th>Description</th>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <th></th>
                 <th></th>
             {% endif %}
@@ -40,7 +40,7 @@
             <td>{{ base.nom }}</td>
             <td>{{ base.prix }}</td>
             <td>{{ base.description }}</td>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <td>
                     <a class="btn btn-default" title="Modifier" 
                             href="{{ path('update_fumure', {'id': base.id}) }}">
@@ -48,11 +48,13 @@
                     </a>
                 </td>
                 <td>
+                {% if is_granted('ROLE_ADMIN') %}
                     <a href="#" class="btn btn-danger" title="Supprimer" 
                             data-toggle="modal" data-target="#delete-modal"
                             onclick="del('{{ path('delete_fumure', {'id': base.id}) }}')">
                         <i class="fas fa-trash"></i>
                     </a>
+                {% endif %}
                 </td>
             {% endif %}
         </tr>

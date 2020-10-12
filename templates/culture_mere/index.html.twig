@@ -44,7 +44,7 @@
                 <th>{{ insecticide.nom }}</th>
             {% endfor %}
             <th>Mis en culture</th>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <th></th>
                 <th></th>
             {% endif %}
@@ -135,18 +135,20 @@
                     Non
                 {% endif %}
             </td>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <td>
                     <a class="btn btn-default" title="Modifier" href="{{ path('update_culture_mere', {'id': culture.id}) }}">
                         <i class="fas fa-edit"></i>
                     </a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-danger" title="Supprimer" 
-                            data-toggle="modal" data-target="#delete-modal"
-                            onclick="del('{{ path('delete_culture_mere', {'id': culture.id}) }}')">
-                        <i class="fas fa-trash"></i>
-                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="#" class="btn btn-danger" title="Supprimer" 
+                                data-toggle="modal" data-target="#delete-modal"
+                                onclick="del('{{ path('delete_culture_mere', {'id': culture.id}) }}')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    {% endif %}
                 </td>
             {% endif %}
         </tr>

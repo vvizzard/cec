@@ -16,9 +16,10 @@
 {{ form_widget(base_form) }}
 
 <div class="form-group">
-    <label for="role">Role :</label>
+    <label for="role">Accès :</label>
     <select name="role" id="role" class="form-control">
-        <option value="ROLE_USER">Utilisateur normal</option>
+        <option value="ROLE_USER">Lecture seulement</option>
+        <option value="ROLE_WRITE">Lecture et modification</option>
         <option value="ROLE_ADMIN">Administrateur</option>
     </select>
 </div>

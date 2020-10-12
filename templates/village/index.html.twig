@@ -29,7 +29,7 @@
         <tr class="table-cec-header">
             <th>Nom</th>
             <th>Description</th>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <th></th>
                 <th></th>
             {% endif %}
@@ -38,18 +38,20 @@
         <tr>
             <td>{{ village.nom }}</td>
             <td>{{ village.description }}</td>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <td>
                     <a class="btn btn-default" title="Modifier" href="{{ path('update_village', {'id': village.id}) }}">
                         <i class="fas fa-edit"></i>
                     </a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-danger" title="Supprimer" 
-                            data-toggle="modal" data-target="#delete-modal"
-                            onclick="del('{{ path('delete_village', {'id': village.id}) }}')">
-                        <i class="fas fa-trash"></i>
-                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="#" class="btn btn-danger" title="Supprimer" 
+                                data-toggle="modal" data-target="#delete-modal"
+                                onclick="del('{{ path('delete_village', {'id': village.id}) }}')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    {% endif %}
                 </td>
             {% endif %}
         </tr>

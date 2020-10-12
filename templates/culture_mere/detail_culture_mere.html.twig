@@ -20,6 +20,8 @@
                     onclick="del('{{ path('delete_culture_mere', {'id': culture.id}) }}')">
                 <i class="fas fa-trash"></i>
             </a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
             <a style="float:right;" title="Modifier" href="{{ path('update_culture_mere', {'id': culture.id}) }}">
                 <i class="fas fa-edit"></i>
             </a>
@@ -102,7 +104,7 @@
                 <th class="text-right">Production</th>
                 <th class="text-right">Prix unitaire</th>
                 <th class="text-right">Prix total</th>
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                     <th></th>
                     <th></th>
                 {% endif %}
@@ -127,19 +129,21 @@
                 <td class="text-right">{{ cle.production }}</td>
                 <td class="text-right">{{ cle.prixUnitaireProduit }}</td>
                 <td class="text-right">{{ cle.prixUnitaireProduit * cle.production }}</td>
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                     <td>
                         <a class="btn btn-default" title="Modifier" href="{{ path('update_culture_fille', {'id': cle.id}) }}">
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>
-                    <td>
-                        <a href="#" class="btn btn-danger" title="Supprimer" 
-                                data-toggle="modal" data-target="#delete-modal"
-                                onclick="del('{{ path('delete_culture_fille', {'id': cle.id}) }}')">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>
+                            <a href="#" class="btn btn-danger" title="Supprimer" 
+                                    data-toggle="modal" data-target="#delete-modal"
+                                    onclick="del('{{ path('delete_culture_fille', {'id': cle.id}) }}')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    {% endif %}
                 {% endif %}
             </tr>
             {% endfor %}

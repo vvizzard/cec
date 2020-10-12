@@ -37,7 +37,7 @@
         <tr>
             <th>Nom</th>
             {# <th>Culture</th> #}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <th></th>
                 <th></th>
             {% endif %}
@@ -51,7 +51,7 @@
                 {% endif %}
             </td> #}
             {# <td>{{ base.description }}</td> #}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <td>
                     <a class="btn btn-default" title="Modifier" 
                             href="{{ path('update_itineraire_cultural', {'id': base.id}) }}">
@@ -59,11 +59,13 @@
                     </a>
                 </td>
                 <td>
+                {% if is_granted('ROLE_ADMIN') %}
                     <a href="#" class="btn btn-danger" title="Supprimer" 
                             data-toggle="modal" data-target="#delete-modal"
                             onclick="del('{{ path('delete_itineraire_cultural', {'id': base.id}) }}')">
                         <i class="fas fa-trash"></i>
                     </a>
+                {% endif %}
                 </td>
             {% endif %}
         </tr>

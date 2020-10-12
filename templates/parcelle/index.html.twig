@@ -20,7 +20,7 @@
             <th>TypeSol</th>
             <th>Mode de faire valoir</th>
             <th>Observation</th>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                 <th></th>
                 <th></th>
             {% endif %}
@@ -49,18 +49,20 @@
                     {% endif %}
                 </td>
                 <td>{{ parcelle.observation }}</td>
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                     <td>
                         <a class="btn btn-default" title="Modifier" href="{{ path('update_parcelle', {'id': parcelle.id}) }}">
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-danger" title="Supprimer" 
-                                data-toggle="modal" data-target="#delete-modal"
-                                onclick="del('{{ path('delete_parcelle', {'id': parcelle.id}) }}')">
-                            <i class="fas fa-trash"></i>
-                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="#" class="btn btn-danger" title="Supprimer" 
+                                    data-toggle="modal" data-target="#delete-modal"
+                                    onclick="del('{{ path('delete_parcelle', {'id': parcelle.id}) }}')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        {% endif %}
                     </td>
                 {% endif %}
             </tr>
