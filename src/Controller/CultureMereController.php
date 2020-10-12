@@ -685,11 +685,11 @@ class CultureMereController extends AbstractController
                 $fumures = $fumureOrganiqueRepository->findAll();
 
                 foreach ($fumures as $fumure) {
-                    if (strcasecmp($fumure->getNom(), 'NPK') == 0) {
+                    if (strcasecmp($fumure->getNom(), 'NPK (kg/ha)') == 0) {
                         $nbr = new NbrFumureCultureM();
                         if (sizeof($culture->getNbrFumureCultureMs()) > 0) {
                             foreach ($culture->getNbrFumureCultureMs() as $fumureCulture) {
-                                if (strcasecmp($fumureCulture->getFumure()->getNom(), 'NPK') == 0) {
+                                if (strcasecmp($fumureCulture->getFumure()->getNom(), 'NPK (kg/ha)') == 0) {
                                     $nbr = $fumureCulture;
                                     break;
                                 }
@@ -699,13 +699,13 @@ class CultureMereController extends AbstractController
                         $nbr->setCulture($culture);
                         $r[40] != null ? $nbr->setNbr(floatval($r[40])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
-                    } else if (strcasecmp($fumure->getNom(), 'Uree') == 0 || strcasecmp($fumure->getNom(), 'Urée') == 0) {
+                    } else if (strcasecmp($fumure->getNom(), 'Uree (kg/ha)') == 0 || strcasecmp($fumure->getNom(), 'Urée (kg/ha)') == 0) {
                         $nbr = new NbrFumureCultureM();
                         if (sizeof($culture->getNbrFumureCultureMs()) > 0) {
                             foreach ($culture->getNbrFumureCultureMs() as $fumureCulture) {
                                 if (
-                                    strcasecmp($fumureCulture->getFumure()->getNom(), 'Uree') == 0
-                                    || strcasecmp($fumureCulture->getFumure()->getNom(), 'Urée') == 0
+                                    strcasecmp($fumureCulture->getFumure()->getNom(), 'Uree (kg/ha)') == 0
+                                    || strcasecmp($fumureCulture->getFumure()->getNom(), 'Urée (kg/ha)') == 0
                                 ) {
                                     $nbr = $fumureCulture;
                                     break;
@@ -717,7 +717,7 @@ class CultureMereController extends AbstractController
                         $r[41] != null ? $nbr->setNbr(floatval($r[41])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (
-                        strcasecmp($fumure->getNom(), 'Autre') == 0 || strcasecmp($fumure->getNom(), 'Autre fumure') == 0
+                        strcasecmp($fumure->getNom(), 'Autre') == 0 || strcasecmp($fumure->getNom(), 'Autre fumure (kg/ha)') == 0
                         || strcasecmp($fumure->getNom(), 'Autres fumures') == 0
                     ) {
                         $nbr = new NbrFumureCultureM();
@@ -725,7 +725,7 @@ class CultureMereController extends AbstractController
                             foreach ($culture->getNbrFumureCultureMs() as $fumureCulture) {
                                 if (
                                     strcasecmp($fumureCulture->getFumure()->getNom(), 'Autre') == 0
-                                    || strcasecmp($fumureCulture->getFumure()->getNom(), 'Autre fumure') == 0
+                                    || strcasecmp($fumureCulture->getFumure()->getNom(), 'Autre fumure (kg/ha)') == 0
                                     || strcasecmp($fumureCulture->getFumure()->getNom(), 'Autres fumures') == 0
                                 ) {
                                     $nbr = $fumureCulture;
@@ -743,11 +743,11 @@ class CultureMereController extends AbstractController
                 $insecticides = $insecticideRepository->findAll();
 
                 foreach ($insecticides as $insecticide) {
-                    if (strcasecmp($insecticide->getNom(), 'herbicide') == 0) {
+                    if (strcasecmp($insecticide->getNom(), 'Insecticides liquide (l/ha)') == 0) {
                         $nbr = new NbrInsecticideCultureM();
                         if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
                             foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
-                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'herbicide') == 0) {
+                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Insecticides liquide (l/ha)') == 0) {
                                     $nbr = $insecticideCulture;
                                     break;
                                 }
@@ -757,11 +757,11 @@ class CultureMereController extends AbstractController
                         $nbr->setCulture($culture);
                         $r[44] != null ? $nbr->setNbr(floatval($r[44])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
-                    } else if (strcasecmp($insecticide->getNom(), 'fongicide') == 0) {
+                    } else if (strcasecmp($insecticide->getNom(), 'Herbicide poudre (kg/ha)') == 0) {
                         $nbr = new NbrInsecticideCultureM();
                         if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
                             foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
-                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Fongicide') == 0) {
+                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Herbicide poudre (kg/ha)') == 0) {
                                     $nbr = $insecticideCulture;
                                     break;
                                 }
@@ -771,8 +771,64 @@ class CultureMereController extends AbstractController
                         $nbr->setCulture($culture);
                         $r[45] != null ? $nbr->setNbr(floatval($r[45])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
+                    } else if (strcasecmp($insecticide->getNom(), 'Herbicide liquide (l/ha)') == 0) {
+                        $nbr = new NbrInsecticideCultureM();
+                        if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
+                            foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
+                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Herbicide liquide (l/ha)') == 0) {
+                                    $nbr = $insecticideCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setInsecticide($insecticide);
+                        $nbr->setCulture($culture);
+                        $r[46] != null ? $nbr->setNbr(floatval($r[46])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    } else if (strcasecmp($insecticide->getNom(), 'Fongicide poudre (kg/ha)') == 0) {
+                        $nbr = new NbrInsecticideCultureM();
+                        if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
+                            foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
+                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Fongicide poudre (kg/ha)') == 0) {
+                                    $nbr = $insecticideCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setInsecticide($insecticide);
+                        $nbr->setCulture($culture);
+                        $r[47] != null ? $nbr->setNbr(floatval($r[47])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    } else if (strcasecmp($insecticide->getNom(), 'Fongicide liquide (l/ha)') == 0) {
+                        $nbr = new NbrInsecticideCultureM();
+                        if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
+                            foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
+                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Fongicide liquide (l/ha)') == 0) {
+                                    $nbr = $insecticideCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setInsecticide($insecticide);
+                        $nbr->setCulture($culture);
+                        $r[48] != null ? $nbr->setNbr(floatval($r[48])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
+                    } else if (strcasecmp($insecticide->getNom(), 'Autre pesticide poudre (kg/ha)') == 0) {
+                        $nbr = new NbrInsecticideCultureM();
+                        if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
+                            foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
+                                if (strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Autre pesticide poudre (kg/ha)') == 0) {
+                                    $nbr = $insecticideCulture;
+                                    break;
+                                }
+                            }
+                        }
+                        $nbr->setInsecticide($insecticide);
+                        $nbr->setCulture($culture);
+                        $r[49] != null ? $nbr->setNbr(floatval($r[49])) : $nbr->setNbr(0);
+                        $objectManager->persist($nbr);
                     } else if (
-                        strcasecmp($insecticide->getNom(), 'Autre') == 0 
+                        strcasecmp($insecticide->getNom(), 'Autre pesticide liquide (l/ha)') == 0 
                         || strcasecmp($insecticide->getNom(), 'Autre insecticide') == 0
                         || strcasecmp($insecticide->getNom(), 'Autres insecticides') == 0
                     ) {
@@ -780,7 +836,7 @@ class CultureMereController extends AbstractController
                         if (sizeof($culture->getNbrInsecticideCultureMs()) > 0) {
                             foreach ($culture->getNbrInsecticideCultureMs() as $insecticideCulture) {
                                 if (
-                                    strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Autre') == 0
+                                    strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Autre pesticide liquide (l/ha)') == 0
                                     || strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Autre insecticide') == 0
                                     || strcasecmp($insecticideCulture->getInsecticide()->getNom(), 'Autres insecticides') == 0
                                 ) {
@@ -791,7 +847,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[46] != null ? $nbr->setNbr(floatval($r[46])) : $nbr->setNbr(0);
+                        $r[50] != null ? $nbr->setNbr(floatval($r[50])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     }
                 }

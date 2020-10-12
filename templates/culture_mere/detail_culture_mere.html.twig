@@ -33,7 +33,7 @@
                 <th>Id</th>
                 <th>Nouvelle plantation</th>
                 <th>Cycle agricole</th>
-                <th>Surface Cultivée</th>
+                <th>Surface Cultivée (ha)</th>
                 <th>Précédent cultural</th>
                 <th>Système cultural</th>
                 <th>Itinéraire cultural</th>
@@ -97,13 +97,13 @@
                 <th>Espèce</th>
                 <th>Variété</th>
                 <th>Date de plantation/semis</th>
-                <th class="text-right">Qté de semence/nbr plant</th>
-                <th class="text-right">Prix unitaire</th>
-                <th class="text-right">Prix total</th>
+                <th class="text-right">Qté de semence/nbr plant (kg/ha ou unité/ha)</th>
+                <th class="text-right">Prix unitaire (Ar)</th>
+                <th class="text-right">Prix total (Ar)</th>
                 <th class="text-center">Date récolte</th>
-                <th class="text-right">Production</th>
-                <th class="text-right">Prix unitaire</th>
-                <th class="text-right">Prix total</th>
+                <th class="text-right">Production(kg ou unité)</th>
+                <th class="text-right">Prix unitaire (Ar)</th>
+                <th class="text-right">Prix total (Ar)</th>
                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_WRITE') %}
                     <th></th>
                     <th></th>
@@ -169,7 +169,7 @@
                         {{ form_widget(form.datePlantation) }}
                     </td>
                     <td>
-                        {{ form_widget(form.QteSemence, {'attr': {'placeholder': 'Taper ici la qté de semence en (kg) ...'}})  }}
+                        {{ form_widget(form.QteSemence, {'attr': {'placeholder': 'Taper ici la qté de semence en (kg/ha ou unité/ha) ...'}})  }}
                     </td>
                     <td>{{ form_widget(form.prixUnitaireSemence) }}</td>
                     <td id="prixTotalSemence" class="text-right">0</td>
@@ -177,7 +177,7 @@
                         {{ form_widget(form.dateRecolte) }}
                     </td>
                     <td>
-                        {{ form_widget(form.production, {'attr': {'placeholder': 'Taper ici la production en (kg) ...'}}) }}
+                        {{ form_widget(form.production, {'attr': {'placeholder': 'Taper ici la production en (kg ou unité) ...'}}) }}
                     </td>
                     <td>{{ form_widget(form.prixUnitaireProduit) }}</td>
                     <td id="prixTotalProduit" class="text-right">0</td>
@@ -202,35 +202,35 @@
     <div class="card-body">
         <table class="table table-hover table-fit">
             <tr>
-                <th>MO Preparation Sol</th>
+                <th>MO Preparation Sol (hj)</th>
                 <td>{{ culture.moPreparationSol }}</td>
-                <th>MO Installation Culture</th>
+                <th>MO Installation Culture (hj)</th>
                 <td>{{ culture.moInstallationCulture }}</td>
-                <th>MO Entretien 1</th>
+                <th>MO Entretien 1 (hj)</th>
                 <td>{{ culture.moEntretien1 }}</td>
             </tr>
             <tr>
-                <th>MO Entretien 2</th>
+                <th>MO Entretien 2 (hj)</th>
                 <td>{{ culture.moEntretien2 }}</td>
-                <th>MO Entretien 3</th>
+                <th>MO Entretien 3 (hj)</th>
                 <td>{{ culture.moEntretien3 }}</td>
-                <th>MO Recolte</th>
+                <th>MO Recolte (hj)</th>
                 <td>{{ culture.moRecolte }}</td>
             </tr>
             <tr>
-                <th>MO Ext Preparation Sol</th>
+                <th>MO Ext Preparation Sol (hj)</th>
                 <td>{{ culture.moExtPreparationSol }}</td>
-                <th>MO ExtInstallation Culture</th>
+                <th>MO ExtInstallation Culture (hj)</th>
                 <td>{{ culture.moExtInstallationCulture }}</td>
-                <th>MO Ext Entretien 1</th>
+                <th>MO Ext Entretien 1 (hj)</th>
                 <td>{{ culture.moExtEntretien1 }}</td>
             </tr>
             <tr>
-                <th>MO Ext Entretien 2</th>
+                <th>MO Ext Entretien 2 (hj)</th>
                 <td>{{ culture.moExtEntretien2 }}</td>
-                <th>MO Ext Entretien 3</th>
+                <th>MO Ext Entretien 3 (hj)</th>
                 <td>{{ culture.moExtEntretien3 }}</td>
-                <th>MO Ext Recolte</th>
+                <th>MO Ext Recolte (hj)</th>
                 <td>{{ culture.moExtRecolte }}</td>
             </tr>
             <tr>
@@ -242,7 +242,7 @@
                 <td></td>
             </tr>
             <tr>
-                <th>Tarif pour les mains d'oeuvre</th>
+                <th>Tarif pour les mains d'oeuvre (Ar)</th>
                 <td>{{ culture.tarifMO }}</td>
                 <th>Date de Plantation</th>
                 <td></td>
@@ -253,7 +253,7 @@
             <tr>
                 <th>Age Plantation : </th>
                 <td>{{ culture.agePlantation }}</td>
-                <th>Qte Fumure Organique</th>
+                <th>Qte Fumure Organique (kg/ha)</th>
                 <td></td>
                 <td>{{ culture.qteFumureOrganique }}</td>
                 <td></td>
@@ -274,7 +274,7 @@
             {% endfor %}
 
             <tr>
-                <th>Qte Insecticide</th>
+                <th>Qte Insecticides poudres (kg/ha)</th>
                 <td>{{ culture.qteInsecticide }}</td>
             {% for insecticide in culture.nbrInsecticideCultureMs %}
                 {% if loop.index is divisible by(2) %}

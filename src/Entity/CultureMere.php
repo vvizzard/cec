@@ -911,7 +911,7 @@ class CultureMere
     {
         if ($this->nbrFumureCultureMs != null) {
             foreach ($this->nbrFumureCultureMs as $nbrCultureA) {
-                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'NPK')) {
+                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'NPK (kg/ha)')==0) {
                     return $nbrCultureA->getNbr();
                 }
             }
@@ -923,7 +923,7 @@ class CultureMere
     {
         if ($this->nbrFumureCultureMs != null) {
             foreach ($this->nbrFumureCultureMs as $nbrCultureA) {
-                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'Urée') || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Uree')) {
+                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'Uree (kg/ha)') ==0 || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Urée (kg/ha)')==0) {
                     return $nbrCultureA->getNbr();
                 }
             }
@@ -935,7 +935,7 @@ class CultureMere
     {
         if ($this->nbrFumureCultureMs != null) {
             foreach ($this->nbrFumureCultureMs as $nbrCultureA) {
-                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autre') || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autre fumure') || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autres fumures')) {
+                if (strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autre') == 0 || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autre fumure (kg/ha)')==0 || strcasecmp($nbrCultureA->getFumure()->getNom(), 'Autres fumures')==0) {
                     return $nbrCultureA->getNbr();
                 }
             }
@@ -978,7 +978,18 @@ class CultureMere
     {
         if ($this->nbrInsecticideCultureMs != null) {
             foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
-                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'herbicide')) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Herbicide poudre (kg/ha)')==0) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+    public function getNbrHerbicideL()
+    {
+        if ($this->nbrInsecticideCultureMs != null) {
+            foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Herbicide liquide (l/ha)')==0) {
                     return $nbrCultureA->getNbr();
                 }
             }
@@ -989,7 +1000,18 @@ class CultureMere
     {
         if ($this->nbrInsecticideCultureMs != null) {
             foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
-                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'fongicide')) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Fongicide poudre (kg/ha)')==0) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+    public function getNbrFongicideL()
+    {
+        if ($this->nbrInsecticideCultureMs != null) {
+            foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Fongicide liquide (l/ha)')==0) {
                     return $nbrCultureA->getNbr();
                 }
             }
@@ -1001,7 +1023,29 @@ class CultureMere
     {
         if ($this->nbrInsecticideCultureMs != null) {
             foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
-                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autre') || strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autre pesticide') || strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autres pesticides')) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autre pesticide poudre (kg/ha)')==0 || strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autre pesticide')==0 || strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autres pesticides')==0) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+    public function getNbrAutrePesticideL()
+    {
+        if ($this->nbrInsecticideCultureMs != null) {
+            foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autre pesticide liquide (l/ha)')==0 || strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autre pesticide')==0 || strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Autres pesticides')==0) {
+                    return $nbrCultureA->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+    public function getNbrInsecticideL()
+    {
+        if ($this->nbrInsecticideCultureMs != null) {
+            foreach ($this->nbrInsecticideCultureMs as $nbrCultureA) {
+                if (strcasecmp($nbrCultureA->getInsecticide()->getNom(), 'Insecticides liquide (l/ha)')==0) {
                     return $nbrCultureA->getNbr();
                 }
             }
@@ -1071,7 +1115,7 @@ class CultureMere
         $this->setAgePlantation(intval($table[22]));
         $this->setQteFumureOrganique(floatval($table[39]));
         $this->setQteInsecticide(floatval($table[43]));
-        $this->setMisEnCloture($table[47]);
+        $this->setMisEnCloture($table[51]);
 
         return $this;
     }

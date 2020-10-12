@@ -296,10 +296,14 @@ class ExcelService
             'NPK',
             'Urée',
             'autre fumure',
-            'qté insectide',
-            'qté herbicide',
-            'qté fongicide',
-            'qté autres pesticides',
+            'qté insectide poudre',
+            'qté insectide liquide',
+            'qté herbicide poudre',
+            'qté herbicide liquide',
+            'qté fongicide poudre',
+            'qté fongicide liquide',
+            'qté autres pesticides poudres',
+            'qté autres pesticides liquides',
             'Mis en culture (VRAI/FAUX)',
         ];
 
@@ -383,10 +387,14 @@ class ExcelService
                 $columnValues[sizeof($columnValues)-1][] = $culture->getNbrAutreFumure();
 
                 $columnValues[sizeof($columnValues)-1][] = $culture->getQteInsecticide();
+                $columnValues[sizeof($columnValues)-1][] = $culture->getNbrInsecticideL();
 
                 $columnValues[sizeof($columnValues)-1][] = $culture->getNbrHerbicide();
+                $columnValues[sizeof($columnValues)-1][] = $culture->getNbrHerbicideL();
                 $columnValues[sizeof($columnValues)-1][] = $culture->getNbrFongicide();
+                $columnValues[sizeof($columnValues)-1][] = $culture->getNbrFongicideL();
                 $columnValues[sizeof($columnValues)-1][] = $culture->getNbrAutrePesticide();
+                $columnValues[sizeof($columnValues)-1][] = $culture->getNbrAutrePesticideL();
 
                 $columnValues[sizeof($columnValues)-1][] = $culture->getMisEnCloture();
         }
