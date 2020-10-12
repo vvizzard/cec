@@ -123,7 +123,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th>Elevage :
+					<th>Elevage rente :
 					</th>
 					<td>
 						{% if agriculteur.pratiqueElevageRente == true  %}
@@ -148,10 +148,12 @@
 					</th>
 					<!---->
 					<td>
-						{% if agriculteur.accesAuRiziere == true  %}
-							oui
-						{% else %}
-							non
+						{% if agriculteur.accesRiziere == 1 %}
+							Non
+						{% elseif agriculteur.accesRiziere == 2 %}
+							Bas fond
+						{% elseif agriculteur.accesRiziere == 3 %}
+							Périmetre irrigué
 						{% endif %}
 					</td>
 				</tr>

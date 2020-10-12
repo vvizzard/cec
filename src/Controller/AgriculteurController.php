@@ -95,14 +95,14 @@ class AgriculteurController extends AbstractController
             // champ ecole
             // culture de rente prioritaire
             ->add('pratiqueElevageRente', CheckboxType::class, [
-                'label'    => 'Elevage',
+                'label'    => 'Elevage rente',
                 'required' => false,
             ]) // -> Elevage
             // Type d'elevage prioritaire (api, vol, bov)
-            ->add('accesAuRiziere', CheckboxType::class, [
+            /*->add('accesAuRiziere', CheckboxType::class, [
                 'label'    => 'Accès rizière',
                 'required' => false,
-            ]) // acces a des riziere
+            ]) // acces a des riziere */
             ->add('opBoolean', CheckboxType::class, [
                 'label'    => 'OP',
                 'required' => false,
@@ -221,6 +221,9 @@ class AgriculteurController extends AbstractController
             if (!is_null($request->request->get('accesEducation'))) {
                 $agriculteur->setAccesEducation(intval($request->request->get('accesEducation')));
             }
+            if (!is_null($request->request->get('accesRiziere'))) {
+                $agriculteur->setAccesRiziere(intval($request->request->get('accesRiziere')));
+            }
 
             // Complete agriculteur with foreign key
             if ($request->request->get('ce')) {
@@ -338,10 +341,10 @@ class AgriculteurController extends AbstractController
             ->add('nbrMenage')
             ->add('nbrActif')
             ->add('pratiqueElevageRente', CheckboxType::class, [
-                'label'    => 'Elevage',
+                'label'    => 'Elevage rente',
                 'required' => false,
             ])
-            ->add('accesAuRiziere')
+            //->add('accesAuRiziere')
             ->add('opBoolean', CheckboxType::class, [
                 'label'    => 'OP',
                 'required' => false,
@@ -457,6 +460,9 @@ class AgriculteurController extends AbstractController
             }
             if (!is_null($request->request->get('accesEducation'))) {
                 $agriculteur->setAccesEducation(intval($request->request->get('accesEducation')));
+            }
+            if (!is_null($request->request->get('accesRiziere'))) {
+                $agriculteur->setAccesRiziere(intval($request->request->get('accesRiziere')));
             }
 
             // Complete agriculteur with foreign key
@@ -920,9 +926,9 @@ class AgriculteurController extends AbstractController
         if ($request->query->get('elevage') == 'true') {
             $criterya["pratiqueElevageRente"] = true;
         }
-        if ($request->query->get('riziere') == 'true') {
+        /*if ($request->query->get('riziere') == 'true') {
             $criterya["accesAuRiziere"] = true;
-        }
+        }*/
         if ($request->query->get('op') == 'true') {
             $criterya["opBoolean"] = true;
         }

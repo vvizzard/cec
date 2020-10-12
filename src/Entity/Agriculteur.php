@@ -383,6 +383,11 @@ class Agriculteur
      */
     private $huile;
 
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $accesRiziere;
+
     public function __construct()
     {
         $this->nbrElevageAgriculteurs = new ArrayCollection();
@@ -1551,7 +1556,7 @@ class Agriculteur
         // $this->setCultureString($table[13]);
         $this->setPratiqueElevageRente($table[14]);
         // $this->setTypeElevageString($table[15]);
-        $this->setAccesAuRiziere($table[16]);
+        $this->setAccesRiziere($table[16]);
         $this->setOpBoolean($table[17]);
         $this->setPratiqueActiviteNonAgricole($table[18]);
         $this->setPratiquePeche($table[19]);
@@ -1603,6 +1608,18 @@ class Agriculteur
         $this->setLait($table[65]);
         $this->setSucre($table[66]);
         $this->setHuile($table[67]);
+
+        return $this;
+    }
+
+    public function getAccesRiziere(): ?int
+    {
+        return $this->accesRiziere;
+    }
+
+    public function setAccesRiziere(?int $accesRiziere): self
+    {
+        $this->accesRiziere = $accesRiziere;
 
         return $this;
     }
