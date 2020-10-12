@@ -162,9 +162,6 @@ class AgriculteurRepository extends ServiceEntityRepository
                         (mere.mo_preparation_sol * mere.tarif_mo) + (mere.mo_installation_culture * mere.tarif_mo) 
                         + (mere.mo_entretien1 * mere.tarif_mo)  + (mere.mo_entretien2 * mere.tarif_mo)
                         + (mere.mo_entretien3 * mere.tarif_mo) + (mere.mo_recolte * mere.tarif_mo)
-                        + (mere.mo_ext_preparation_sol * mere.tarif_mo) + (mere.mo_ext_installation_culture * mere.tarif_mo) 
-                        + (mere.mo_ext_entretien1 * mere.tarif_mo)  + (mere.mo_ext_entretien2 * mere.tarif_mo)
-                        + (mere.mo_ext_entretien3 * mere.tarif_mo) + (mere.mo_ext_recolte * mere.tarif_mo)
                     ) +
                     SUM( nfumure.nbr * fumure.prix ) +
                     SUM( ninsecticides.nbr * insecticide.prix )
@@ -174,8 +171,7 @@ class AgriculteurRepository extends ServiceEntityRepository
                     SUM(fille.production) /
                     SUM(
                         mere.mo_preparation_sol + mere.mo_installation_culture + mere.mo_entretien1 + 
-                        mere.mo_entretien2 + mere.mo_entretien3 + mere.mo_recolte + mere.mo_ext_preparation_sol + mere.mo_ext_installation_culture + mere.mo_ext_entretien1 +
-                        mere.mo_ext_entretien2 + mere.mo_ext_entretien3 + mere.mo_ext_recolte
+                        mere.mo_entretien2 + mere.mo_entretien3 + mere.mo_recolte
                     ) / 365
                 ) productivite
             FROM culture_fille fille 
