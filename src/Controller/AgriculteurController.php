@@ -845,6 +845,38 @@ class AgriculteurController extends AbstractController
 
                         $objectManager->persist($temp);
 
+                    } else if ($equipement->getNom() == 'Charrue') {
+                        $temp = new NbrEquipementAgricoleAgriculteur();
+                        if (sizeof($agriculteur->getNbrEquipementAgricoleAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrEquipementAgricoleAgriculteur() as $cult) {
+                                if ($cult->getEquipementAgricole()->getId() == $equipement->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setEquipementAgricole($equipement);
+                        $temp->setNbr(intval($r[35]));
+
+                        $objectManager->persist($temp);
+
+                    } else if ($equipement->getNom() == 'Pioche') {
+                        $temp = new NbrEquipementAgricoleAgriculteur();
+                        if (sizeof($agriculteur->getNbrEquipementAgricoleAgriculteur()) > 0) {
+                            foreach ($agriculteur->getNbrEquipementAgricoleAgriculteur() as $cult) {
+                                if ($cult->getEquipementAgricole()->getId() == $equipement->getId()) {
+                                    $temp = $cult;
+                                    break;
+                                }
+                            }
+                        }
+                        $temp->setAgriculteur($agriculteur);
+                        $temp->setEquipementAgricole($equipement);
+                        $temp->setNbr(intval($r[36]));
+
+                        $objectManager->persist($temp);
+
                     }
 
                 }

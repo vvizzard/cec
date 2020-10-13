@@ -966,6 +966,30 @@ class Agriculteur
         return 0;
     }
 
+    public function getNbrCharrue()
+    {
+        if ($this->nbrEquipementAgricoleAgriculteur != null) {
+            foreach ($this->nbrEquipementAgricoleAgriculteur as $equipement) {
+                if ($equipement->getEquipementAgricole()->getNom() == 'Charrue') {
+                    return $equipement->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function getNbrPioche()
+    {
+        if ($this->nbrEquipementAgricoleAgriculteur != null) {
+            foreach ($this->nbrEquipementAgricoleAgriculteur as $equipement) {
+                if ($equipement->getEquipementAgricole()->getNom() == 'Pioche') {
+                    return $equipement->getNbr();
+                }
+            }
+        }
+        return 0;
+    }
+
     /**
      * @return Collection|Parcelle[]
      */
@@ -1575,39 +1599,41 @@ class Agriculteur
         // $this->setNbrHerse(intval($table[32]));
         // $this->setNbrBicyclette(intval($table[33]));
         // $this->setNbrAngady(intval($table[34]));
-        $this->setNbrMoisSoudure(intval($table[35]));
-        $this->setCalendrier(intval($table[36]));
-        $this->setOutilAmeliore(intval($table[37]));
-        $this->setDifferenceBesoinsAlimentaire(intval($table[38]));
-        $this->setConnaissanceDifferenceBesoinsAlimentaire(intval($table[39]));
-        $this->setRegimeAlimentaireVariee(intval($table[40]));
-        $this->setAssuranceProduitNecessaireAlimentation(intval($table[41]));
-        $this->setEnregistrementMouvementArgent(intval($table[42]));
-        $this->setEnregistrementMouvementArgentWhy(intval($table[43]));
-        $this->setEpargne(intval($table[44]));
-        $this->setConnaissanceDemandeCoursProduitAgricole(intval($table[45]));
-        $this->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($table[46]));
-        $this->setAmeliorerQualiteProduit(intval($table[47]));
-        $this->setAmeliorerQualiteProduitWhy(intval($table[48]));
-        $this->setGroupement(intval($table[49]));
-        $this->setAvantageRegroupement(intval($table[50]));
-        $this->setAccesEauPotable(intval($table[51]));
-        $this->setToilette(intval($table[52]));
-        $this->setDouche(intval($table[53]));
-        $this->setAssainissement(intval($table[54]));
-        $this->setAccesEducation(intval($table[55]));
-        $this->setMedecinTraditionnel($table[56]);
-        $this->setMedecinConventionnel($table[57]);
-        $this->setLatitude($table[58]);
-        $this->setLongitude($table[59]);
-        $this->setCereale($table[60]);
-        $this->setLegumeSec($table[61]);
-        $this->setLegume($table[62]);
-        $this->setFruit($table[63]);
-        $this->setViande($table[64]);
-        $this->setLait($table[65]);
-        $this->setSucre($table[66]);
-        $this->setHuile($table[67]);
+        // $this->setNbrCharrue(intval($table[35]));
+        // $this->setNbrPioche(intval($table[36]));
+        $this->setNbrMoisSoudure(intval($table[37]));
+        $this->setCalendrier(intval($table[38]));
+        $this->setOutilAmeliore(intval($table[39]));
+        $this->setDifferenceBesoinsAlimentaire(intval($table[40]));
+        $this->setConnaissanceDifferenceBesoinsAlimentaire(intval($table[41]));
+        $this->setRegimeAlimentaireVariee(intval($table[42]));
+        $this->setAssuranceProduitNecessaireAlimentation(intval($table[43]));
+        $this->setEnregistrementMouvementArgent(intval($table[44]));
+        $this->setEnregistrementMouvementArgentWhy(intval($table[45]));
+        $this->setEpargne(intval($table[46]));
+        $this->setConnaissanceDemandeCoursProduitAgricole(intval($table[47]));
+        $this->setConnaissanceDemandeCoursProduitAgricoleWhy(intval($table[48]));
+        $this->setAmeliorerQualiteProduit(intval($table[49]));
+        $this->setAmeliorerQualiteProduitWhy(intval($table[50]));
+        $this->setGroupement(intval($table[51]));
+        $this->setAvantageRegroupement(intval($table[52]));
+        $this->setAccesEauPotable(intval($table[53]));
+        $this->setToilette(intval($table[54]));
+        $this->setDouche(intval($table[55]));
+        $this->setAssainissement(intval($table[56]));
+        $this->setAccesEducation(intval($table[57]));
+        $this->setMedecinTraditionnel($table[58]);
+        $this->setMedecinConventionnel($table[59]);
+        $this->setLatitude($table[60]);
+        $this->setLongitude($table[61]);
+        $this->setCereale($table[62]);
+        $this->setLegumeSec($table[63]);
+        $this->setLegume($table[64]);
+        $this->setFruit($table[65]);
+        $this->setViande($table[66]);
+        $this->setLait($table[67]);
+        $this->setSucre($table[68]);
+        $this->setHuile($table[69]);
 
         return $this;
     }

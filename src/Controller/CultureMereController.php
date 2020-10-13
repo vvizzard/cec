@@ -665,7 +665,7 @@ class CultureMereController extends AbstractController
                     $secondaireFille->setPlante($plante);
 
                     if ($r[32] != null) {
-                        $variete = $varieteRepository->findOneByNom($r[31]);
+                        $variete = $varieteRepository->findOneByNom($r[32]);
                         $secondaireFille->setVariete($variete);
                     }
 
@@ -677,6 +677,36 @@ class CultureMereController extends AbstractController
                     $secondaireFille->setDateRecolteString($r[36]);
                     $secondaireFille->setProduction(floatVal($r[37]));
                     $secondaireFille->setPrixUnitaireProduit(intval($r[38]));
+
+                    $objectManager->persist($secondaireFille);
+                }
+
+                if ($r[39] != null) {
+                    $plante = $cultureRepository->findOneByNom($r[39]);
+
+                    $secondaireFille = new CultureFille();
+
+                    if (sizeof($culture->getCultureFilles()) > 1) {
+                        $secondaireFille = $culture->getCultureFilles()[1];
+                    } else {
+                        $secondaireFille->setCultureMere($culture);
+                    }
+
+                    $secondaireFille->setPlante($plante);
+
+                    if ($r[40] != null) {
+                        $variete = $varieteRepository->findOneByNom($r[40]);
+                        $secondaireFille->setVariete($variete);
+                    }
+
+                    $r[41] = $excelService->formatDate($r[41]);
+                    $r[44] = $excelService->formatDate($r[44]);
+                    $secondaireFille->setDatePlantationString($r[41]);
+                    $secondaireFille->setQteSemence(floatval($r[42]));
+                    $secondaireFille->setPrixUnitaireSemence(intval($r[43]));
+                    $secondaireFille->setDateRecolteString($r[44]);
+                    $secondaireFille->setProduction(floatVal($r[45]));
+                    $secondaireFille->setPrixUnitaireProduit(intval($r[46]));
 
                     $objectManager->persist($secondaireFille);
                 }
@@ -697,7 +727,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[40] != null ? $nbr->setNbr(floatval($r[40])) : $nbr->setNbr(0);
+                        $r[48] != null ? $nbr->setNbr(floatval($r[48])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($fumure->getNom(), 'Uree (kg/ha)') == 0 || strcasecmp($fumure->getNom(), 'Urée (kg/ha)') == 0) {
                         $nbr = new NbrFumureCultureM();
@@ -714,7 +744,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[41] != null ? $nbr->setNbr(floatval($r[41])) : $nbr->setNbr(0);
+                        $r[49] != null ? $nbr->setNbr(floatval($r[49])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (
                         strcasecmp($fumure->getNom(), 'Autre') == 0 || strcasecmp($fumure->getNom(), 'Autre fumure (kg/ha)') == 0
@@ -735,7 +765,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setFumure($fumure);
                         $nbr->setCulture($culture);
-                        $r[42] != null ? $nbr->setNbr(floatval($r[42])) : $nbr->setNbr(0);
+                        $r[50] != null ? $nbr->setNbr(floatval($r[50])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     }
                 }
@@ -755,7 +785,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[44] != null ? $nbr->setNbr(floatval($r[44])) : $nbr->setNbr(0);
+                        $r[52] != null ? $nbr->setNbr(floatval($r[52])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($insecticide->getNom(), 'Herbicide poudre (kg/ha)') == 0) {
                         $nbr = new NbrInsecticideCultureM();
@@ -769,7 +799,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[45] != null ? $nbr->setNbr(floatval($r[45])) : $nbr->setNbr(0);
+                        $r[53] != null ? $nbr->setNbr(floatval($r[53])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($insecticide->getNom(), 'Herbicide liquide (l/ha)') == 0) {
                         $nbr = new NbrInsecticideCultureM();
@@ -783,7 +813,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[46] != null ? $nbr->setNbr(floatval($r[46])) : $nbr->setNbr(0);
+                        $r[54] != null ? $nbr->setNbr(floatval($r[54])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($insecticide->getNom(), 'Fongicide poudre (kg/ha)') == 0) {
                         $nbr = new NbrInsecticideCultureM();
@@ -797,7 +827,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[47] != null ? $nbr->setNbr(floatval($r[47])) : $nbr->setNbr(0);
+                        $r[55] != null ? $nbr->setNbr(floatval($r[55])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($insecticide->getNom(), 'Fongicide liquide (l/ha)') == 0) {
                         $nbr = new NbrInsecticideCultureM();
@@ -811,7 +841,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[48] != null ? $nbr->setNbr(floatval($r[48])) : $nbr->setNbr(0);
+                        $r[56] != null ? $nbr->setNbr(floatval($r[56])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (strcasecmp($insecticide->getNom(), 'Autre pesticide poudre (kg/ha)') == 0) {
                         $nbr = new NbrInsecticideCultureM();
@@ -825,7 +855,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[49] != null ? $nbr->setNbr(floatval($r[49])) : $nbr->setNbr(0);
+                        $r[57] != null ? $nbr->setNbr(floatval($r[57])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     } else if (
                         strcasecmp($insecticide->getNom(), 'Autre pesticide liquide (l/ha)') == 0 
@@ -847,7 +877,7 @@ class CultureMereController extends AbstractController
                         }
                         $nbr->setInsecticide($insecticide);
                         $nbr->setCulture($culture);
-                        $r[50] != null ? $nbr->setNbr(floatval($r[50])) : $nbr->setNbr(0);
+                        $r[58] != null ? $nbr->setNbr(floatval($r[58])) : $nbr->setNbr(0);
                         $objectManager->persist($nbr);
                     }
                 }

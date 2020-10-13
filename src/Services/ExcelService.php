@@ -86,6 +86,8 @@ class ExcelService
             'herse',
             'Bicyclette',
             'Angady',
+            'Charrue',
+            'Pioche',
             'Nombre de mois de soudur',
             'Calendrier agricole Comment vous planifiez vos activités de production ? (rép1/2/3)',
             'Comment mesurez-vous vos parcelles et les intrants nécessaires à votre exploitation ? (rép1/2/3)',
@@ -162,6 +164,8 @@ class ExcelService
                 $agriculteur->getNbrHerse(),
                 $agriculteur->getNbrBicyclette(),
                 $agriculteur->getNbrAngady(),
+                $agriculteur->getNbrCharrue(),
+                $agriculteur->getNbrPioche(),
                 $agriculteur->getNbrMoisSoudure(),
                 $agriculteur->getCalendrier(),
                 $agriculteur->getOutilAmeliore(),
@@ -292,6 +296,14 @@ class ExcelService
             'Date de récolte 2',
             'Production 2',
             'Prix unitaire des produits 2',
+            'Culture 3',
+            'variété 3',
+            'Date de plantation/semis 3',
+            'Qté de semence/plant 3',
+            'Prix unitaire de semence/plant 3',
+            'Date de récolte 3',
+            'Production 3',
+            'Prix unitaire des produits 3',
             'Qté fumure organique',
             'NPK',
             'Urée',
@@ -369,8 +381,37 @@ class ExcelService
                     $columnValues[$index][] = '';
                     $columnValues[$index][] = '';
                     $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                }
+                if ($fille > 2) {
+                    $columnValues[$index][] = $culture->getCultureFilles()[2]->getPlanteString();
+                    $columnValues[$index][] = $culture->getCultureFilles()[2]->getVarieteString();
+                    $columnValues[$index][] = $culture->getCultureFilles()[2]->getDatePlantation();
+                    $columnValues[$index][] = $culture->getCultureFilles()[2]->getQteSemence();
+                    $columnValues[$index][] = $culture->getCultureFilles()[2]->getPrixUnitaireSemence();
+                    $columnValues[$index][] = $culture->getCultureFilles()[2]->getDateRecolte();
+                    $columnValues[$index][] = $culture->getCultureFilles()[2]->getProduction();
+                    $columnValues[$index][] = $culture->getCultureFilles()[2]->getPrixUnitaireProduit();
+                } else {
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
                 }
                 if($fille == 0) {
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
+                    $columnValues[$index][] = '';
                     $columnValues[$index][] = '';
                     $columnValues[$index][] = '';
                     $columnValues[$index][] = '';

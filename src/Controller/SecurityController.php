@@ -25,15 +25,17 @@ class SecurityController extends AbstractController
     ) {
         $hf = $agriculteurRepository->nbrGenre();
 
-        $nbrFemme = -1;
-        $nbrHomme = -1;
+        $nbrFemme = 0;
+        $nbrHomme = 0;
         
-        if ($hf[0]["genre"] == 0) {
-            $nbrFemme = $hf[0]["nbr"];
-            $nbrHomme = $hf[1]["nbr"];
-        } else {
-            $nbrFemme = $hf[1]["nbr"];
-            $nbrHomme = $hf[0]["nbr"];
+        if ($hf && !empty($hf)) {
+            if ($hf[0]["genre"] == 0) {
+                $nbrFemme = $hf[0]["nbr"];
+                $nbrHomme = $hf[1]["nbr"];
+            } else {
+                $nbrFemme = $hf[1]["nbr"];
+                $nbrHomme = $hf[0]["nbr"];
+            }
         }
         
         $nbrAgriculteur = $nbrFemme + $nbrHomme;
